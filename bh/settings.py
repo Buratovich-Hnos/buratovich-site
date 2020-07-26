@@ -30,6 +30,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ADMINS = [('Luciano Muñoz', 'hola@luciano.im'),]
+MANAGERS = [('Luciano Muñoz', 'hola@luciano.im'),]
 
 # Application definition
 
@@ -111,13 +113,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ar'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Buenos_Aires'
 
 USE_I18N = True
 
 USE_L10N = True
+
+# This work if USE_L10N is set to True
+USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = '.'
+DECIMAL_SEPARATOR = ','
 
 USE_TZ = True
 
@@ -126,3 +133,40 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+
+
+# Redirect to this URL when try to access unauthorized user to extranet URL
+LOGIN_URL = '/login/requerido/'
+
+
+# EMAIL Configuration
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+
+SERVER_EMAIL = 'website@buratovich.com'
+
+
+# REMOTE SERVER
+RS_USER = os.getenv('RS_USER')
+RS_PASS = os.getenv('RS_PASS')
+
+# Extranet files
+EXTRANET_DIR = os.path.join(BASE_DIR, 'FTP')
+
+
+# Security Settings
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_HTTPONLY = True
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+#Token Lifetime
+PASSWORD_RESET_TIMEOUT_DAYS = 360
