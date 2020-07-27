@@ -1,0 +1,212 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+  <title>
+    {% block title %}{% endblock %}
+  </title>
+
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:400i" rel="stylesheet">
+  <link rel="stylesheet" href="{% static "css/styles.css" %}">
+  <link rel="stylesheet" href="{% static "assets/css/font-awesome-4.7.0/css/font-awesome.min.css" %}">
+
+  <!-- <script src="https://use.fontawesome.com/f345cc1188.js"></script> -->
+
+  <link rel="apple-touch-icon" sizes="57x57" href="{% static "img/favicon/apple-icon-57x57.png" %}">
+  <link rel="apple-touch-icon" sizes="60x60" href="{% static "img/favicon/apple-icon-60x60.png" %}">
+  <link rel="apple-touch-icon" sizes="72x72" href="{% static "img/favicon/apple-icon-72x72.png" %}">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static "img/favicon/apple-icon-76x76.png" %}">
+  <link rel="apple-touch-icon" sizes="114x114" href="{% static "img/favicon/apple-icon-114x114.png" %}">
+  <link rel="apple-touch-icon" sizes="120x120" href="{% static "img/favicon/apple-icon-120x120.png" %}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{% static "img/favicon/apple-icon-144x144.png" %}">
+  <link rel="apple-touch-icon" sizes="152x152" href="{% static "img/favicon/apple-icon-152x152.png" %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static "img/favicon/apple-icon-180x180.png" %}">
+  <link rel="icon" type="image/png" sizes="192x192"  href="{% static "img/favicon/android-icon-192x192.png" %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static "img/favicon/favicon-32x32.png" %}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{% static "img/favicon/favicon-96x96.png" %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static "img/favicon/favicon-16x16.png" %}">
+  <link rel="manifest" href="{% static "img/favicon/manifest.json" %}">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="{% static "img/favicon/ms-icon-144x144.png" %}">
+  <meta name="theme-color" content="#ffffff">
+
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header>
+    <div class="maxwidth">
+      <form action="{% url "set_language" %}" method="post" class="form-language">
+        {% csrf_token %}
+        <div>
+            <input name="next" type="hidden" value="{{ redirect_to }}" />
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% for lang in LANGUAGES %}
+              <button type="submit" name="language" value="{{ lang.0 }}" class="{% if lang.0 == LANGUAGE_CODE %}selected{% endif %}">
+                {{ lang.1 }}
+              </button>
+            {% endfor %}
+            {% if user.is_staff %}
+              <a href="{% url 'admin:index' %}" class="admin-login"><span>ADMIN</span><i class="fa fa-cog" aria-hidden="true"></i></a>
+            {% endif %}
+        </div>
+      </form>
+      <a href="/">
+        <div class="logo">
+          <img src="{% static "img/logo_bh_2.png" %}" alt="Buratovich Hnos. S.A.">
+          <h1>
+            <span>buratovich hnos.</span>
+          </h1>
+        </div>
+      </a>
+      <nav class="burger">
+        <ul class="h-list">
+          <li>
+            <a href="#" class="burger-btn"><i class="fa fa-bars" aria-hidden="true"></i></a>
+          </li>
+          {% if user.is_authenticated %}
+            <li>
+              <a href="{% url 'extranet' %}" class="extranet-btn active"><i class="fa fa-th-large" aria-hidden="true"></i> Extranet</a>
+            </li><!--
+            --><li>
+              <a href="{% url 'logout' %}" class="extranet-btn logout active"><i class="fa fa-sign-out" aria-hidden="true"></i> <span class="logout-text">{% trans "Salir" %}</span></a>
+            </li>
+          {% else %}
+            <li>
+              <a href="{% url 'login' %}" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i> {% trans "Clientes" %}</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+      <nav class="main">
+        <ul class="h-list">
+          <li>
+            <a href="/" class="home-btn"><span class="home-text">Home</span><span class="home-icon"><i class="fa fa-home" aria-hidden="true"></i></span><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+          </li><!--
+          --><li>
+            <a href="{% url 'company' %}"><span>{% trans "Institucional" %}</span><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+          </li><!--
+          --><li>
+            <a href="{% url 'units' %}"><span>{% trans "Unidades de Negocio" %}</span><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+          </li><!--
+          --><li>
+            <a href="{% url 'contact' %}"><span>{% trans "Contacto" %}</span><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+          </li>
+          {% if user.is_authenticated %}
+            <li class="extranet">
+              <a href="{% url 'extranet' %}" class="extranet-btn active"><i class="fa fa-th-large" aria-hidden="true"></i> Extranet</a>
+            </li><!--
+            --><li class="extranet">
+              <a href="{% url 'logout' %}" class="extranet-btn logout active"><i class="fa fa-sign-out" aria-hidden="true"></i> <span class="logout-text">{% trans "Salir" %}</span></a>
+            </li>
+          {% else %}
+            <li class="extranet">
+              <a href="{% url 'login' %}" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i> {% trans "Clientes" %}</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+  {% block path %}{% endblock %}
+  {% block content %}{% endblock %}
+  <footer>
+    <div id="top">
+      <a href=""><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+    </div>
+    <div class="maxwidth">
+      <div class="footer-rd-nav">
+        <nav>
+          <ul class="h-list">
+            <li><a href="/">Home</a></li><!--
+            --><li><a href="{% url 'company' %}">{% trans "Institucional" %}</a></li><!--
+            --><li><a href="{% url 'units' %}">{% trans "Unidades de Negocio" %}</a></li><!--
+            --><li><a href="{% url 'contact' %}">{% trans "Contacto" %}</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="logo">
+        <img src="{% static "img/logo_bh_mini_color.png" %}" alt="Buratovich Hnos. S.A.">
+        <p class="name">buratovich hnos.</p>
+      </div>
+      <div class="contact">
+        <p><a href="tel:542478451500"><i class="fa fa-phone" aria-hidden="true"></i>+54 02478 451500</a></p>
+        <p><a href="mailto:buratovich@buratovich.com"><i class="fa fa-paper-plane" aria-hidden="true"></i>buratovich@buratovich.com</a></p>
+        <p><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i>{% trans "Ruta" %} 8 Km 176.5 - Arrecifes, Bs. As.</a></p>
+      </div>
+      <div class="nav">
+        <nav>
+          <ul class="h-list">
+            <li><a href="/">Home</a></li><!--
+            --><li><a href="{% url 'company' %}">{% trans "Institucional" %}</a></li><!--
+            --><li><a href="{% url 'units' %}">{% trans "Unidades de Negocio" %}</a></li><!--
+            --><li><a href="{% url 'contact' %}">{% trans "Contacto" %}</a></li>
+          </ul>
+        </nav>
+        <div class="cv">
+          <div>
+            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <span>
+              <a href="{% url 'cv' %}" class="work">{% trans "Trabajá con nosotros" %}</a>
+              <a href="{% url 'cv' %}" class="send-cv">{% trans "Envíanos tu CV" %}</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <p class="maxwidth"><span>{% trans "OFICINA CENTRAL:" %}</span> {% trans "Ruta 8 Km 176.5 - Arrecifes, Buenos Aires (2740)" %}</p>
+      <p class="maxwidth" style="margin-top:1em;font-style:italic;">{% trans "Desarrollado por" %} <a href="http://www.luciano.im" style="border-right:4px dotted white;color:white;font-weight:bold;padding-right:.5em;" target="_blank">Luciano Muñoz</a></p>
+    </div>
+  </footer>
+  <!-- Init - ScrollingElement/classList compatibility for Internet Explorer -->
+  <script>
+    function detectIE() {
+      var ua = window.navigator.userAgent;
+      var msie = ua.indexOf('MSIE ');
+      if (msie > 0) {
+        // IE 10 or older => return version number
+        return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+      }
+      var trident = ua.indexOf('Trident/');
+      if (trident > 0) {
+        // IE 11 => return version number
+        var rv = ua.indexOf('rv:');
+        return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+      }
+      // var edge = ua.indexOf('Edge/');
+      // if (edge > 0) {
+      // 	// Edge (IE 12+) => return version number
+      // 	return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+      // }
+      // other browser
+      return false;
+    }
+    if (detectIE()) {
+      document.write('<script src="{% static "assets/js/scrollingelement.js" %}" type="text/javascript"><\/script>');
+      document.write('<script src="{% static "assets/js/classList.min.js" %}" type="text/javascript"><\/script>');
+    }
+  </script>
+  <!-- End -->
+  <!--<script src="{% static "assets/js/velocity.min.js" %}"></script>-->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.ui.min.js"></script>
+  <script src="{% static "js/js.js" %}" type="text/javascript"></script>
+  {% block scriptjs %}{% endblock %}
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-75822816-3', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</body>
+</html>

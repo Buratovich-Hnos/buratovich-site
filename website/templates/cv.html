@@ -1,0 +1,81 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Buratovich Hnos. -
+Trabajá con nosotros{% endblock %} {% block path %}
+<div class="path maxwidth">
+  <div class="path-container">
+    {% if user.is_authenticated %}
+    <div class="hi">
+      Bienvenido,
+      <span class="customer-name">{{user.userinfo.company_name}}</span>
+    </div>
+    {% endif %}
+  </div>
+  <div class="path-container">
+    <div class="route">
+      <a href="/">Home</a> <span class="chevron">></span>
+      <span class="current">TRABAJÁ CON NOSOTROS</span>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block content %}
+<section id="cv" class="maxwidth">
+  <h2>TRABAJÁ EN BURATOVICH HNOS.</h2>
+  <div class="data">
+    <p>
+      Formar parte del grupo <span class="bh">Buratovich</span> es crecer y
+      desarrollarse profesionalmente día a día, es integrar un grupo humano
+      capacitado y comprometido para lograr los objetivos de la empresa, es
+      enfrentar desafíos que estimulan la innovación en un excelente ambiente
+      laboral.
+    </p>
+    <p>
+      La eficiencia, profesionalismo y creatividad de las personas hacen de
+      <span class="bh">Buratovich Hnos.</span>
+      <span>una excelente empresa de la cual formar parte</span>.
+    </p>
+    <p>
+      Si estás interesado en formar parte del equipo envíanos tu Curriculum
+      Vitae y lo tendremos en cuenta para nuestras próximas busquedas laborales.
+    </p>
+    <p class="data-contact">
+      Enviá tu CV a:
+      <a href="mailto:buratovich@buratovich.com?subject=Curriculum Vitae"
+        ><i class="fa fa-paper-plane" aria-hidden="true"></i>
+        buratovich@buratovich.com</a
+      >
+    </p>
+  </div>
+  <div class="img">
+    <img src="{% static "img/office_guy.jpg" %}" alt="">
+  </div>
+  <div style="clear: both;"></div>
+  <div class="oportunities">
+    <h2 style="margin-bottom: 1.5em;">OPORTUNIDADES</h2>
+    <div class="box" style="margin-bottom: 3.5em;">
+      <h3 class="title">Personal para Balanza</h3>
+      <h4 class="alted">¿Qué estamos buscando?</h4>
+      <div class="description">
+        <p>
+          Nos encontramos en la búsqueda de personal para el sector de Balanza.
+          Buscamos una persona proactiva, responsable y totalmente orientada a
+          resultados.
+        </p>
+        <p class="alted"><strong>Se requiere:</strong></p>
+        <ul>
+          <li>Manejo de PC (excluyente)</li>
+          <li>Disponibilidad horaria</li>
+          <li>Secundario completo</li>
+        </ul>
+      </div>
+      <p class="email">
+        <strong
+          >Enviar CV a
+          <a href="mailto:buratovich@buratovich.com?subject=Curriculum Vitae"
+            ><i class="fa fa-paper-plane" aria-hidden="true"></i>
+            buratovich@buratovich.com</a
+          ></strong
+        >
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

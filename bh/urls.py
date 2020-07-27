@@ -15,20 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic.base import TemplateView
 
 from website import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', views.index, name='home'),
-    # path('empresa/', views.company, name='company'),
-    # path('galeria/', views.gallery, name='gallery'),
-    # path('contacto/', views.contact, name='contact'),
+    path('', views.IndexView.as_view(), name='home'),
+    path('empresa/', TemplateView.as_view(template_name='company.html'), name='company'),
+    path('galeria/', TemplateView.as_view(template_name='gallery.html'), name='gallery'),
+    path('contacto/', TemplateView.as_view(template_name='contact.html'), name='contact'),
     # path('lluvias-historico/', views.historic_rain, name='historic_rain'),
-    # path('impuestos/', views.taxes, name='taxes'),
-    # path('unidades-de-negocio/', views.units, name='units'),
-    # path('trabaja-con-nosotros/', views.cv, name='cv'),
+    path('impuestos/', TemplateView.as_view(template_name='taxes.html'), name='taxes'),
+    path('unidades-de-negocio/', TemplateView.as_view(template_name='units.html'), name='units'),
+    path('trabaja-con-nosotros/', TemplateView.as_view(template_name='cv.html'), name='cv'),
     # path('cp/', views.cp, name='cp'),
 
     # path('login/', views.auth_login, name='login'),
@@ -51,9 +52,9 @@ urlpatterns = [
     # path('downloadexcel/(?P<module>[0-9A-Za-z_\-]+)(?:/(?P<type_module>[0-9A-Za-z_\-]+))/', views.downloadexcel, name='downloadexcel'),
     # path('download/', views.downloadPDFExtranet, name='downloadPDF'),
 
-    # path('monedas/', views.get_currency, name='currency'),
-    # path('pizarras/', views.get_board, name='board'),
-    # path('lluvias/', views.get_rain, name='rain'),
+    path('monedas/', views.CurrencyView.as_view(), name='currency'),
+    path('pizarras/', views.BoardView.as_view(), name='board'),
+    path('lluvias/', views.RainView.as_view(), name='rain'),
 
     # path('importar/<str:datatype>/', views.importdata, name='importdata'),
 
@@ -65,6 +66,6 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 
-# handler400 = 'website.views.handler404'
-# handler404 = 'website.views.handler404'
-# handler500 = 'website.views.handler500'
+handler400 = 'website.views.handler404'
+handler404 = 'website.views.handler404'
+handler500 = 'website.views.handler500'

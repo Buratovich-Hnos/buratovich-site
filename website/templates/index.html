@@ -1,0 +1,643 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block title %}Buratovich Hnos.{% endblock %}
+
+{% block head %}
+<!--[if IE]>
+<link rel="stylesheet" href="{% static "assets/js/flickity/flickity.min.v1.css" %}">
+<![endif]-->
+<!--[if !IE]><!-->
+<link rel="stylesheet" href="{% static "assets/js/flickity/flickity.min.css" %}">
+<!--<![endif]-->
+{% endblock %}
+
+{% block path %}
+{% if user.is_authenticated %}
+	<div class="path maxwidth">
+		<div class="path-container">
+			<div class="hi">Bienvenido, <span class="customer-name">{{user.userinfo.company_name}}</span></div>
+		</div>
+	</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<section id="home">
+	<section class="business-units">
+		<article class="carousel">
+			<div class="carousel-cell cell1">
+				<img srcset="{% static "img/acopio_320.jpg" %} 320w,
+							 {% static "img/acopio_480.jpg" %} 480w,
+							 {% static "img/acopio_768.jpg" %} 768w,
+							 {% static "img/acopio_1024.jpg" %} 1024w,
+							 {% static "img/acopio_1280.jpg" %} 1280w,
+							 {% static "img/acopio_1440.jpg" %} 1440w,
+							 {% static "img/acopio_1920.jpg" %} 1920w"
+					 src="{% static "img/acopio_1920.jpg" %}" alt="Acopio">
+				<div>
+					<p>{% blocktrans %}Tres plantas de silos altamente calificadas para el <span class="highlight">acopio</span> y <span class="highlight">acondicionamiento</span> de granos al servicio de nuestros clientes.{% endblocktrans %}</p>
+				</div>
+			</div>
+			<div class="carousel-cell cell2">
+				<img srcset="{% static "img/office_320.jpg" %} 320w,
+							 {% static "img/office_480.jpg" %} 480w,
+							 {% static "img/office_768.jpg" %} 768w,
+							 {% static "img/office_1024.jpg" %} 1024w,
+							 {% static "img/office_1280.jpg" %} 1280w,
+							 {% static "img/office_1440.jpg" %} 1440w,
+							 {% static "img/office_1920.jpg" %} 1920w"
+					 src="{% static "img/office_1920.jpg" %}" alt="Comercialización">
+				<div>
+					<p>{% blocktrans %}Mas de <span class="highlight">100 años</span> de experiencia en la comercialización de granos y oleaginosas para ofrecerle diferentes alternativas de <span class="highlight">negocios</span>: acopio, corretaje, asesoramiento, canjes, contratos forward y disponible.{% endblocktrans %}</p>
+				</div>
+			</div>
+			<div class="carousel-cell cell3">
+				<img srcset="{% static "img/agro_320.jpg" %} 320w,
+							 {% static "img/agro_480.jpg" %} 480w,
+							 {% static "img/agro_768.jpg" %} 768w,
+							 {% static "img/agro_1024.jpg" %} 1024w,
+							 {% static "img/agro_1280.jpg" %} 1280w,
+							 {% static "img/agro_1440.jpg" %} 1440w,
+							 {% static "img/agro_1920.jpg" %} 1920w"
+					 src="{% static "img/agro_1920.jpg" %}" alt="Agricultura">
+				<div>
+					<p>{% blocktrans %}Desarrollamos la producción agrícola en distintas regiones de las provincias de Buenos Aires y Chaco. Nuestros principales cultivos son el <span class="highlight">Maíz</span>, <span class="highlight">Girasol</span>, <span class="highlight">Trigo</span>, <span class="highlight">Cebada</span>, <span class="highlight">Arveja</span>, <span class="highlight">Lenteja</span>, <span class="highlight">Soja</span>,
+					<span class="highlight">Sorgo</span> y <span class="highlight">Algodón</span>.{% endblocktrans %}</p>
+				</div>
+			</div>
+			<div class="carousel-cell cell4">
+				<img srcset="{% static "img/cows_320.jpg" %} 320w,
+							 {% static "img/cows_480.jpg" %} 480w,
+							 {% static "img/cows_768.jpg" %} 768w,
+							 {% static "img/cows_1024.jpg" %} 1024w,
+							 {% static "img/cows_1280.jpg" %} 1280w,
+							 {% static "img/cows_1440.jpg" %} 1440w,
+							 {% static "img/cows_1920.jpg" %} 1920w"
+					 src="{% static "img/cows_1920.jpg" %}" alt="Ganadería">
+				<div>
+					<p>{% blocktrans %}Desde hace años practicamos la actividad ganadera en la cuenca del Salado en la provincia de <span class="highlight">Buenos Aires</span>, y en el <span class="highlight">Chaco</span>.{% endblocktrans %}</p>
+				</div>
+			</div>
+			<div class="carousel-cell cell5">
+				<img srcset="{% static "img/expo_320.jpg" %} 320w,
+							 {% static "img/expo_480.jpg" %} 480w,
+							 {% static "img/expo_768.jpg" %} 768w,
+							 {% static "img/expo_1024.jpg" %} 1024w,
+							 {% static "img/expo_1280.jpg" %} 1280w,
+							 {% static "img/expo_1440.jpg" %} 1440w,
+							 {% static "img/expo_1920.jpg" %} 1920w"
+					 src="{% static "img/expo_1920.jpg" %}" alt="Exportación">
+				<div>
+					<p>{% blocktrans %}Una actividad en constante crecimiento que nos ha permitido conformar una fuerte red de contactos <span class="highlight">internacionales</span> a través de la exportación de <span class="highlight">cereales</span>, <span class="highlight">oleaginosas</span> y <span class="highlight">productos derivados</span>.{% endblocktrans %}</p>
+				</div>
+			</div>
+		</article>
+		<article class="unit-names">
+			<ul>
+				<li class="current" data-selector=".cell1">{% trans "Acopio" %}</li>
+				<li data-selector=".cell2">{% trans "Comercialización" %}</li>
+				<li data-selector=".cell3">{% trans "Agricultura" %}</li>
+				<li data-selector=".cell4">{% trans "Ganadería" %}</li>
+				<li data-selector=".cell5">{% trans "Exportación" %}</li>
+			</ul>
+		</article>
+		<article class="units">
+			<ul class="h-list">
+				<li><a href="#" class="slide current" data-selector=".cell1">{% trans "ACOPIO" %}</a></li><!--
+				--><li><a href="#" class="slide" data-selector=".cell2">{% trans "COMERCIALIZACIÓN" %}</a></li><!--
+				--><li><a href="#" class="slide" data-selector=".cell3">{% trans "AGRICULTURA" %}</a></li><!--
+				--><li><a href="#" class="slide" data-selector=".cell4">{% trans "GANADERÍA" %}</a></li><!--
+				--><li><a href="#" class="slide" data-selector=".cell5">{% trans "EXPORTACIÓN" %}</a></li>
+			</ul>
+		</article>
+	</section>
+	<section class="services">
+		<div class="maxwidth">
+			<article class="module">
+				<img src="{% static "img/centenaria.jpg" %}" alt=""><!--
+				--><div class="service-info">
+					<h3>{% trans "Una empresa centenaria" %}</h3>
+					<p>{% blocktrans %}Conoce los valores que nos mantiene en constante crecimiento luego de un siglo de actividad.{% endblocktrans %}</p>
+					<a href="{% url 'company' %}" class="service-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+				</div>
+			</article>
+			<article class="center module">
+				<img src="{% static "img/zonas.jpg" %}" alt=""><!--
+				--><div class="service-info">
+					<h3>{% trans "Contacto y Zonas de Influencia" %}</h3>
+					<p>{% blocktrans %}Operamos en las provincias de Buenos Aires y Chaco. Conoce como podes contactarnos.{% endblocktrans %}</p>
+					<a href="{% url 'contact' %}" class="service-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+				</div>
+			</article>
+			<article class="module">
+				<img src="{% static "img/unidades.jpg" %}" alt=""><!--
+				--><div class="service-info">
+					<h3>{% trans "Unidades de Negocio" %}</h3>
+					<p>{% blocktrans %}Acopio y Acondicionamiento, Comercialización, Producción Agrícola, Exportación, entre otros.{% endblocktrans %}</p>
+					<a href="{% url 'units' %}" class="service-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+				</div>
+			</article>
+		</div>
+	</section>
+	<section class="quote">
+		<p class="maxwidth module">{% blocktrans %}"Nuestro primer <span>objetivo</span> es la realización de un negocio y nuestro mejor resultado, <span>un buen cliente por muchos años.</span>"{% endblocktrans %}</p>
+	</section>
+	<section class="utils">
+		<div class="maxwidth">
+			<article class="pizarras module">
+				<h3 class="utils-title">
+					<span class="title">
+						<span><i class="fa fa-line-chart" aria-hidden="true"></i></span>
+						<span>{% trans "Pizarra" %}</span>
+					</span>
+				</h3>
+				<div class="container">
+					{% for b in board %}
+						<table class="data-table board-ok">
+							<thead>
+								<tr>
+									<th class="board-date">{{b.date|date:"d/m/Y"}}</th>
+									<th>ROS.</th>
+									<th>BS. AS.</th>
+									<th>QQ.</th>
+									<th>B.B.</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{% trans "Trigo" %}</td>
+									<td id="wheat-ros" class="right">{{b.wheat_ros|floatformat:2|intcomma}}</td>
+									<td id="wheat-bas" class="right">{{b.wheat_bas|floatformat:2|intcomma}}</td>
+									<td id="wheat-qq" class="right">{{b.wheat_qq|floatformat:2|intcomma}}</td>
+									<td id="wheat-bb" class="right">{{b.wheat_bb|floatformat:2|intcomma}}</td>
+								</tr>
+								<tr>
+									<td>{% trans "Trigo Art. 12" %}</td>
+									<td id="wheat12-ros" class="right">{{b.wheat12_ros|floatformat:2|intcomma}}</td>
+									<td id="wheat12-bas" class="right">{{b.wheat12_bas|floatformat:2|intcomma}}</td>
+									<td id="wheat12-qq" class="right">{{b.wheat12_qq|floatformat:2|intcomma}}</td>
+									<td id="wheat12-bb" class="right">{{b.wheat12_bb|floatformat:2|intcomma}}</td>
+								</tr>
+								<tr>
+									<td>{% trans "Maíz" %}</td>
+									<td id="corn-ros" class="right">{{b.corn_ros|floatformat:2|intcomma}}</td>
+									<td id="corn-bas" class="right">{{b.corn_bas|floatformat:2|intcomma}}</td>
+									<td id="corn-qq" class="right">{{b.corn_qq|floatformat:2|intcomma}}</td>
+									<td id="corn-bb" class="right">{{b.corn_bb|floatformat:2|intcomma}}</td>
+								</tr>
+								<tr>
+									<td>{% trans "Girasol" %}</td>
+									<td id="sunflower-ros" class="right">{{b.sunflower_ros|floatformat:2|intcomma}}</td>
+									<td id="sunflower-bas" class="right">{{b.sunflower_bas|floatformat:2|intcomma}}</td>
+									<td id="sunflower-qq" class="right">{{b.sunflower_qq|floatformat:2|intcomma}}</td>
+									<td id="sunflower-bb" class="right">{{b.sunflower_bb|floatformat:2|intcomma}}</td>
+								</tr>
+								<tr>
+									<td>{% trans "Soja" %}</td>
+									<td id="soy-ros" class="right">{{b.soy_ros|floatformat:2|intcomma}}</td>
+									<td id="soy-bas" class="right">{{b.soy_bas|floatformat:2|intcomma}}</td>
+									<td id="soy-qq" class="right">{{b.soy_qq|floatformat:2|intcomma}}</td>
+									<td id="soy-bb" class="right">{{b.soy_bb|floatformat:2|intcomma}}</td>
+								</tr>
+								<tr>
+									<td>{% trans "Sorgo" %}</td>
+									<td id="sorghum-ros" class="right">{{b.sorghum_ros|floatformat:2|intcomma}}</td>
+									<td id="sorghum-bas" class="right">{{b.sorghum_bas|floatformat:2|intcomma}}</td>
+									<td id="sorghum-qq" class="right">{{b.sorghum_qq|floatformat:2|intcomma}}</td>
+									<td id="sorghum-bb" class="right">{{b.sorghum_bb|floatformat:2|intcomma}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="data-table board-error">
+							<tr>
+								<th class="board-date"></th>
+								<th>ROS.</th>
+								<th>BS. AS.</th>
+								<th>QQ.</th>
+								<th>B.B.</th>
+							</tr>
+							<tr>
+								<td colspan="5" rowspan="6">{% trans "Sin Pizarra" %}</td>
+							</tr>
+						</table>
+						<span class="data">+ {% trans "Precios del día" %} <span id="b-data-date">{{b.date|date:"d/m/Y"}}</span></span>
+					{% endfor %}
+					<form id="board">
+					{% csrf_token %}
+						<fieldset>
+							<legend>{% trans "Ver pizarra del:" %} </legend>
+							<div class="input">
+								<input id="date" name="board" type="date" placeholder="dd/mm/aaaa">
+								<span class="icon">
+									<i class="fa fa-calendar-o" aria-hidden="true"></i>
+								</span>
+							</div>
+							<button type="submit" class="submit">
+								<i class="fa fa-search" aria-hidden="true"></i>
+							</button>
+						</fieldset>
+					</form>
+				</div>
+			</article>
+			<article class="currencies module">
+				<h3 class="utils-title">
+					<span class="title">
+						<span><i class="fa fa-database" aria-hidden="true"></i></span>
+						<span>{% trans "Monedas" %}</span>
+					</span>
+				</h3>
+				<div class="container">
+					{% for c in currency %}
+						<table class="data-table currency-ok">
+							<tr>
+								<th class="currency-date">{{c.date|date:"d/m/Y"}}</th>
+								<th>{% trans "Compra" %}</th>
+								<th>{% trans "Venta" %}</th>
+							</tr>
+							<tr>
+								<td>DOLAR NACIÓN</td>
+								<td id="dn-buy" class="right">{{c.dn_buy|floatformat:2|intcomma}}</td>
+								<td id="dn-sell" class="right">{{c.dn_sell|floatformat:2|intcomma}}</td>
+							</tr>
+							<tr>
+								<td>DOLAR LIBRE</td>
+								<td id="dl-buy" class="right">{{c.dl_buy|floatformat:2|intcomma}}</td>
+								<td id="dl-sell" class="right">{{c.dl_sell|floatformat:2|intcomma}}</td>
+							</tr>
+						</table>
+						<table class="data-table currency-error">
+							<tr>
+								<th class="currency-date"></th>
+								<th>{% trans "Compra" %}</th>
+								<th>{% trans "Venta" %}</th>
+							</tr>
+							<tr>
+								<td colspan="3" rowspan="2">{% trans "Sin Cotización" %}</td>
+							</tr>
+						</table>
+						<span class="data">+ {% trans "Cotización del día" %} <span id="c-data-date">{{c.date|date:"d/m/Y"}}</span></span>
+					{% endfor %}
+					<form id="currency">
+					{% csrf_token %}
+						<fieldset>
+							<legend>{% trans "Ver dolar del:" %} </legend>
+							<div class="input">
+								<input id="usd" name="usd" type="date" placeholder="dd/mm/aaaa">
+								<span class="icon">
+									<i class="fa fa-calendar-o" aria-hidden="true"></i>
+								</span>
+							</div>
+							<button type="submit" class="submit">
+								<i class="fa fa-search" aria-hidden="true"></i>
+							</button>
+						</fieldset>
+					</form>
+				</div>
+			</article>
+			<article class="rain-weather module">
+				<ul class="tab-title h-list utils-title">
+					<li>
+						<a href="#" class="rwlinks rcontent active">
+							<h3>
+								<span class="title">
+									<span><i class="fa fa-tint" aria-hidden="true"></i></span>
+									<span>{% trans "Lluvias" %}</span>
+								</span>
+							</h3>
+						</a>
+					</li><!--
+					--><li>
+						<a href="#" class="rwlinks wcontent">
+							<h3>
+								<span class="title">
+									<span><i class="fa fa-cloud" aria-hidden="true"></i></span>
+									<span>{% trans "Clima" %}</span>
+								</span>
+							</h3>
+						</a>
+					</li>
+				</ul>
+				<article id="rcontent" class="rain rwcontent">
+					<div class="container">
+						<table class="data-table rain-ok">
+							<tr>
+								<th class="rain-date">{{rain.0.rain.date|date:"d/m/Y"}}</th>
+								<th>{% trans "Milímetros" %}</th>
+							</tr>
+							{% for r in rain %}
+								<tr>
+									<td>{{r.city}}</td>
+									<td class="right">{{r.mm|floatformat:0|intcomma}}</td>
+								</tr>
+							{% endfor %}
+						</table>
+						<table class="data-table rain-error">
+							<tr>
+								<th class="rain-date"></th>
+								<th>{% trans "Milímetros" %}</th>
+							</tr>
+							<tr>
+								<td colspan="2" rowspan="2">{% trans "Sin Lluvias" %}</td>
+							</tr>
+						</table>
+						<span class="data">+ {% trans "Lluvias del día" %} <span id="r-data-date">{{rain.0.rain.date|date:"d/m/Y"}}</span></span>
+						<form id="rain">
+						{% csrf_token %}
+							<fieldset>
+								<legend>{% trans "Ver lluvias del:" %} </legend>
+								<div class="input">
+									<input id="rain-date" name="rain-date" type="date" placeholder="dd/mm/aaaa">
+									<span class="icon">
+										<i class="fa fa-calendar-o" aria-hidden="true"></i>
+									</span>
+								</div>
+								<button type="submit" class="submit">
+									<i class="fa fa-search" aria-hidden="true"></i>
+								</button>
+							</fieldset>
+						</form>
+						<div class="historic-rain">
+							<a href="{% url 'historic_rain' %}"><i class="fa fa-history" aria-hidden="true"></i> {% trans "Ver registro histórico" %}</a>
+						</div>
+					</div>
+				</article>
+				<article id="wcontent" class="weather rwcontent">
+					<div class="container">
+						<ul class="tab h-list">
+							<li><a href="#" class="tablinks arrecifes active">Arrecifes</a></li><!--
+							--><li><a href="#" class="tablinks pinedo">Gral. Pinedo</a></li><!--
+							--><li><a href="#" class="tablinks lobos">Lobos</a></li>
+						</ul>
+						<div id="arrecifes" class="tabcontent">
+							<div id="cont_6a42ac026df37ca04fe779cb2f1def70"><script type="text/javascript" async src="https://www.meteored.com.ar/wid_loader/6a42ac026df37ca04fe779cb2f1def70"></script></div>
+						</div>
+						<div id="pinedo" class="tabcontent">
+							<div id="cont_203f9864594f9f354d6242dbad7b366f"><script type="text/javascript" async src="https://www.meteored.com.ar/wid_loader/203f9864594f9f354d6242dbad7b366f"></script></div>
+						</div>
+						<div id="lobos" class="tabcontent">
+							<div id="cont_32c73aacee8cd6cb959ca93018134fbc"><script type="text/javascript" async src="https://www.meteored.com.ar/wid_loader/32c73aacee8cd6cb959ca93018134fbc"></script></div>
+						</div>
+					</div>
+				</article>
+			</article>
+		</div>
+	</section>
+	<section class="misc">
+		<div>
+			<div class="cponline module">
+				<div>
+					<span class="misc-icon"><i class="fa fa-file-text" aria-hidden="true"></i></span>
+					<span class="misc-link">
+						<a href="{% url 'cp' %}" class="work">{% trans "Carta de Porte Online" %}</a>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="tax module">
+				<div>
+					<span class="misc-icon"><i class="fa fa-folder-open" aria-hidden="true"></i></span>
+					<span class="misc-link">
+						<a href="{% url 'taxes' %}" class="work">{% trans "Información Impositiva" %}</a>
+					</span>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>
+{% endblock %}
+
+{% block scriptjs %}
+
+<script>
+	var dateBoard = document.getElementById('date');
+	var dateUsd = document.getElementById('usd');
+	var dateRain = document.getElementById('rain-date');
+	if(dateBoard.type === 'text') {
+		document.write('<link rel="stylesheet" href="{% static "assets/js/pikaday/css/pikaday.css" %}">');
+		document.write('<script src="{% static "assets/js/moment.min.js" %}" type="text/javascript"><\/script>');
+		document.write('<script src="{% static "assets/js/pikaday/pikaday.js" %}" type="text/javascript"><\/script>');
+	}
+</script>
+<script>
+	if(dateBoard.type === 'text') {
+		var pikDateBoard = new Pikaday({field: dateBoard, format: 'DD/MM/YYYY'});
+		var pikDateUsd = new Pikaday({field: dateUsd, format: 'DD/MM/YYYY'});
+		var pikDateRain = new Pikaday({field: dateRain, format: 'DD/MM/YYYY'});
+	}
+</script>
+
+<!--[if IE]>
+<script src="{% static "assets/js/flickity/flickity.pkgd.min.v1.js" %}"></script>
+<![endif]-->
+<!--[if !IE]><!-->
+<script src="{% static "assets/js/flickity/flickity.pkgd.min.js" %}"></script>
+<!--<![endif]-->
+<script>
+	var carousel = document.querySelector('.carousel');
+	var flkty = new Flickity(carousel, {
+		cellSelector: '.carousel-cell',
+		contain: true,
+		autoPlay: 15000,
+		//pageDots: false,
+		imagesLoaded: true,
+		selectedAttraction: 0.01,
+		friction: 0.15
+		// percentPosition: false,
+	});
+</script>
+<!--[if !IE]><!-->
+<script>
+	// parallax effect
+	var imgs = carousel.querySelectorAll('.carousel-cell img');
+	var docStyle = document.documentElement.style;
+	var transformProp = typeof docStyle.transform == 'string' ?
+		'transform' : 'WebkitTransform';
+	flkty.on('scroll', function() {
+		flkty.slides.forEach(function(slide, i) {
+			var img = imgs[i];
+			var x = (slide.target + flkty.x) * -1/3;
+			img.style[transformProp] = 'translateX(' + x + 'px)';
+		});
+	});
+</script>
+<!--<![endif]-->
+
+<script src="{% static "assets/js/js.cookie.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fdaciuk-ajax/2.1.2/ajax.min.js"></script>
+<script>
+	var csrftoken = Cookies.get('csrftoken');
+
+	var request = ajax({
+		headers: {
+			'X-CSRFToken': csrftoken
+		}
+	});
+
+	var currency = document.getElementById('currency');
+	currency.addEventListener('submit', function(event) {
+		event.preventDefault();
+		var date = document.getElementById('usd').value;
+		getCurrencyAjax(date);
+	});
+
+	var board = document.getElementById('board');
+	board.addEventListener('submit', function(event) {
+		event.preventDefault();
+		var date = document.getElementById('date').value;
+		getBoardAjax(date);
+	});
+
+	var rain = document.getElementById('rain');
+	rain.addEventListener('submit', function(event) {
+		event.preventDefault();
+		var date = document.getElementById('rain-date').value;
+		getRainAjax(date);
+	});
+
+	function getCurrencyAjax(date) {
+		// If date have '-' then is using input type="date" else is using input type="text"
+		if (date.indexOf('-') === -1) {
+			// format date to YYYY-MM-DD
+			date = moment(date).format('YYYY-MM-DD');
+		}
+		request.post("{% url 'currency' %}", {cDate:date}).then(function(response, xhr){
+			var obj = JSON.parse(response.data);
+			if(obj) {
+				if(document.getElementsByClassName('currency-ok')[0].style.display == 'none') {
+					document.getElementsByClassName('currency-error')[0].style.display= 'none';
+					document.getElementsByClassName('currency-ok')[0].style.display= 'table';
+				}
+				document.getElementById('dn-buy').innerHTML = floatToString(obj[0].fields.dn_buy);
+				document.getElementById('dl-buy').innerHTML = floatToString(obj[0].fields.dl_buy);
+				document.getElementById('dn-sell').innerHTML = floatToString(obj[0].fields.dn_sell);
+				document.getElementById('dl-sell').innerHTML = floatToString(obj[0].fields.dl_sell);
+			} else {
+				document.getElementsByClassName('currency-ok')[0].style.display= 'none';
+				document.getElementsByClassName('currency-error')[0].style.display= 'table';
+			}
+			var formatDate = getDateWithFormat(date);
+			currencyDate = document.getElementsByClassName('currency-date');
+			for(var i = 0; i < currencyDate.length; i++) {
+				currencyDate[i].innerHTML = formatDate;
+			}
+			document.getElementById('c-data-date').innerHTML = formatDate;
+		}).catch(function (response, xhr) {
+			console.log('Error: ' + response);
+		});
+	}
+
+	function getBoardAjax(date) {
+		// If date have '-' then is using input type="date" else is using input type="text"
+		if (date.indexOf('-') === -1) {
+			// format date to YYYY-MM-DD
+			date = moment(date).format('YYYY-MM-DD');
+		}
+		request.post("{% url 'board' %}", {bDate:date}).then(function(response, xhr){
+			var obj = JSON.parse(response.data);
+			if(obj) {
+				if(document.getElementsByClassName('board-ok')[0].style.display == 'none') {
+					document.getElementsByClassName('board-error')[0].style.display= 'none';
+					document.getElementsByClassName('board-ok')[0].style.display= 'table';
+				}
+				document.getElementById('corn-bas').innerHTML = floatToString(obj[0].fields.corn_bas);
+				document.getElementById('corn-bb').innerHTML = floatToString(obj[0].fields.corn_bb);
+				document.getElementById('corn-qq').innerHTML = floatToString(obj[0].fields.corn_qq);
+				document.getElementById('corn-ros').innerHTML = floatToString(obj[0].fields.corn_ros);
+				document.getElementById('sorghum-bas').innerHTML = floatToString(obj[0].fields.sorghum_bas);
+				document.getElementById('sorghum-bb').innerHTML = floatToString(obj[0].fields.sorghum_bb);
+				document.getElementById('sorghum-qq').innerHTML = floatToString(obj[0].fields.sorghum_qq);
+				document.getElementById('sorghum-ros').innerHTML = floatToString(obj[0].fields.sorghum_ros);
+				document.getElementById('soy-bas').innerHTML = floatToString(obj[0].fields.soy_bas);
+				document.getElementById('soy-bb').innerHTML = floatToString(obj[0].fields.soy_bb);
+				document.getElementById('soy-qq').innerHTML = floatToString(obj[0].fields.soy_qq);
+				document.getElementById('soy-ros').innerHTML = floatToString(obj[0].fields.soy_ros);
+				document.getElementById('sunflower-bas').innerHTML = floatToString(obj[0].fields.sunflower_bas);
+				document.getElementById('sunflower-bb').innerHTML = floatToString(obj[0].fields.sunflower_bb);
+				document.getElementById('sunflower-qq').innerHTML = floatToString(obj[0].fields.sunflower_qq);
+				document.getElementById('sunflower-ros').innerHTML = floatToString(obj[0].fields.sunflower_ros);
+				document.getElementById('wheat12-bas').innerHTML = floatToString(obj[0].fields.wheat12_bas);
+				document.getElementById('wheat12-bb').innerHTML = floatToString(obj[0].fields.wheat12_bb);
+				document.getElementById('wheat12-qq').innerHTML = floatToString(obj[0].fields.wheat12_qq);
+				document.getElementById('wheat12-ros').innerHTML = floatToString(obj[0].fields.wheat12_ros);
+				document.getElementById('wheat-bas').innerHTML = floatToString(obj[0].fields.wheat_bas);
+				document.getElementById('wheat-bb').innerHTML = floatToString(obj[0].fields.wheat_bb);
+				document.getElementById('wheat-qq').innerHTML = floatToString(obj[0].fields.wheat_qq);
+				document.getElementById('wheat-ros').innerHTML = floatToString(obj[0].fields.wheat_ros);
+			} else {
+				document.getElementsByClassName('board-ok')[0].style.display= 'none';
+				document.getElementsByClassName('board-error')[0].style.display= 'table';
+			}
+			var formatDate = getDateWithFormat(date);
+			boardDate = document.getElementsByClassName('board-date');
+			for(var i = 0; i < boardDate.length; i++) {
+				boardDate[i].innerHTML = formatDate;
+			}
+			document.getElementById('b-data-date').innerHTML = formatDate;
+		}).catch(function (response, xhr) {
+			console.log('Error: ' + response);
+		});
+	}
+
+	function getRainAjax(date) {
+		// If date have '-' then is using input type="date" else is using input type="text"
+		if (date.indexOf('-') === -1) {
+			// format date to YYYY-MM-DD
+			date = moment(date).format('YYYY-MM-DD');
+		}
+		request.post("{% url 'rain' %}", {rDate:date}).then(function(response, xhr){
+			var obj = JSON.parse(response.data);
+			if(obj) {
+				if(document.getElementsByClassName('rain-ok')[0].style.display == 'none') {
+					document.getElementsByClassName('rain-error')[0].style.display= 'none';
+					document.getElementsByClassName('rain-ok')[0].style.display= 'table';
+				}
+				var rainOk = document.getElementsByClassName('rain-ok')[0];
+				for(var i = 1; i <= rainOk.rows.length; i++) {
+					rainOk.deleteRow(1);
+				}
+				for(var i = 0; i < obj.length; i++) {
+					var row = rainOk.insertRow(rainOk.rows.length);
+					var cellCity = row.insertCell(0);
+					var cellMm = row.insertCell(1);
+					cellCity.innerHTML = obj[i].city;
+					cellMm.innerHTML = obj[i].mm;
+				}
+			} else {
+				document.getElementsByClassName('rain-ok')[0].style.display= 'none';
+				document.getElementsByClassName('rain-error')[0].style.display= 'table';
+			}
+			var formatDate = getDateWithFormat(date);
+			rainDate = document.getElementsByClassName('rain-date');
+			for(var i = 0; i < rainDate.length; i++) {
+				rainDate[i].innerHTML = formatDate;
+			}
+			document.getElementById('r-data-date').innerHTML = formatDate;
+		}).catch(function (response, xhr) {
+			console.log('Error: ' + response);
+		});
+	}
+
+	function getDateWithFormat(date) {
+		var d = new Date(date);
+		var month = d.getUTCMonth() + 1; //months from 1-12
+		var day = d.getUTCDate();
+		var year = d.getUTCFullYear();
+		return ('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year
+	}
+
+	function floatToString(num) {
+		if(num) {
+			num = parseFloat(num).toFixed(2);
+			var numStr = num.toString();
+			numStr = numStr.replace('.', ',');
+			return numStr;
+		} else {
+			return null;
+		}
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buratovich Hnos. - Información Impositiva{% endblock %}
+
+{% block path %}
+<div class="path maxwidth">
+	<div class="path-container">
+		{% if user.is_authenticated %}
+			<div class="hi">Bienvenido, <span class="customer-name">{{user.userinfo.company_name}}</span></div>
+		{% endif %}
+	</div>
+	<div class="path-container">
+		<div class="route"><a href="/">Home</a> <span class="chevron">></span> <span class="current">Información Impositiva</span></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section id="taxes" class="maxwidth">
+	<p class="data-contact"><i class="fa fa-ellipsis-v" aria-hidden="true"></i> Ante cualquier consulta o sugerencia puede comunicarse via correo electrónico a la dirección: <a href="mailto:buratovich@buratovich.com?subject=Información Impositiva"><i class="fa fa-paper-plane" aria-hidden="true"></i> buratovich@buratovich.com</a></p>
+
+	<article class="tax-data">
+		<h2>INFORMACIÓN IMPOSITIVA</h2>
+		<p class="data-description">En esta sección vas a encontrar toda nuestra información impositiva y las constancias vigentes de cada impuesto para que puedas tener nuestro legajo actualizado.</p>
+		<div class="col-1">
+			<div class="block">
+				<h3 class="company-name">BURATOVICH HNOS SA C A F Y F</h3>
+				<p class="address"><span>Domicilio Fiscal:</span> Ruta 8 y Leandro N. Alem - Arrecifes (2740) - Buenos Aires</p>
+			</div>
+			<div class="block">
+				<h3 class="data-fiscal">Datos Fiscales</h3>
+				<p class="cuit"><span>CUIT:</span> 30-51170725-7</p>
+				<p class="data-gral"><span>Nro. Inscripción IIBB:</span> 911-440143-8</p>
+				<p class="data-gral"><span>Actividad principal:</span> Venta al por mayor en comisión o consignación de cereales (incluye arroz), oleaginosas y forrajeras excepto semillas (461011).</p>
+				<p class="data-gral rfog"><span>Inscripta en el Registro Fiscal de Operadores de Granos.</span></p>
+			</div>
+			<div class="block">
+				<h4 class="data-public-title">Consulta Pública de Información</h4>
+				<ul class="data-public">
+					<li><i class="fa fa-chevron-right" aria-hidden="true"></i> Está inscripto en IVA.</li>
+					<li><i class="fa fa-chevron-right" aria-hidden="true"></i> Tiene presentadas su/s declaración/es jurada/s de IVA</li>
+					<li><i class="fa fa-chevron-right" aria-hidden="true"></i> Está inscripto en el Impuesto a las Ganancias</li>
+					<li><i class="fa fa-chevron-right" aria-hidden="true"></i> Tiene presentada/s su/s declaración/es jurada/s de Ganancias</li>
+					<li><i class="fa fa-chevron-right" aria-hidden="true"></i> Tiene presentada/s su/s declaración/es jurada/s como empleador</li>
+				</ul>
+			</div>
+		</div>
+		<div class="data-public-qr col-2">
+			<a href="http://qr.afip.gob.ar/?qr=KwoqzGxyiHJVjifTaVrVHQ,," target="_F960AFIPInfo"><img src="http://www.afip.gob.ar/images/f960/DATAWEB.jpg" border="0"></a>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="data-download">
+			<div class="col-1">
+				<h4>Constancias y Documentación</h4>
+				<ul>
+					<li><a href="{% static "taxes/BH_CM05_2015.pdf" %}" target="_blank"><img src="{% static "img/pdf.png" %}" alt=""> CM05</a></li>
+					<li><a href="{% static "taxes/BH_Acuse_CM05_2015.pdf" %}" target="_blank"><img src="{% static "img/pdf.png" %}" alt=""> Acuse CM05</a></li>
+					<li><a href="{% static "taxes/BH_Constancia_Inscripcion_AFIP_2017.pdf" %}" target="_blank"><img src="{% static "img/pdf.png" %}" alt=""> Constancia de Inscripción AFIP</a></li>
+					<li><a href="{% static "taxes/Constancia_IIBB_2017.pdf" %}" target="_blank"><img src="{% static "img/pdf.png" %}" alt=""> Constancia de Inscripción IIBB</a></li>
+					<li><a href="{% static "taxes/Certificado_No_Ret_Santa_Fe_2017.pdf" %}" target="_blank"><img src="{% static "img/pdf.png" %}" alt=""> Certificado no Retención IIBB Santa Fe</a></li>
+					<li><a href="{% static "taxes/Agente_Recaudacion_ARBA_2017.pdf" %}" target="_blank"><img src="{% static "img/pdf.png" %}" alt=""> Agentes Recaudación Provincia Buenos Aires</a></li>
+					<li><a href="{% static "taxes/Agente_Retencion_RG18.pdf" %}" target="_blank"><img src="{% static "img/pdf.png" %}" alt=""> Agente de Retención RG 18</a></li>
+					<li><a href="{% static "taxes/RFOG_2017.pdf" %}" target="_blank"><img src="{% static "img/pdf.png" %}" alt=""> Inscripción Registro de Operadores de Granos</a></li>
+				</ul>
+				<h5>Apertura de Cuenta</h5>
+				<ul>
+					<li><a href="{% static "taxes/Documentacion_Proveedores.pdf" %}" target="_blank"><img src="{% static "img/pdf2.png" %}" alt=""> Documentación a Presentar - Proveedores</a></li>
+					<li><a href="{% static "taxes/Documentacion_Clientes.pdf" %}" target="_blank"><img src="{% static "img/pdf2.png" %}" alt=""> Documentación a Presentar - Clientes/Productores</a></li>
+				</ul>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+	</article>
+</section>
+{% endblock %}
+
+{% block scriptjs %}
+
+{% endblock %}
