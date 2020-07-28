@@ -143,6 +143,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 # Redirect to this URL when try to access unauthorized user to extranet URL
 LOGIN_URL = '/login/requerido/'
+# Redirect to this URL after login
+LOGIN_REDIRECT_URL = '/extranet/'
+# Redirect to this URL after logout
+LOGOUT_REDIRECT_URL = '/'
 
 
 # EMAIL Configuration

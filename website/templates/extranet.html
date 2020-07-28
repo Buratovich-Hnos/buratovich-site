@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buratovich Hnos. - Extranet de Clientes{% endblock %}
+
+{% block path %}
+<div class="path maxwidth">
+	<div class="path-container">
+		{% if user.is_authenticated %}
+			<div class="hi">Bienvenido, <span class="customer-name">{{user.userinfo.company_name}}</span></div>
+		{% endif %}
+	</div>
+	<div class="path-container">
+		<div class="route"><a href="/">Home</a> <span class="chevron">></span> <span class="current">Extranet</span></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section id="extranet" class="maxwidth">
+	{% if notifications|length > 0 %}
+		{% for n in notifications %}
+			<article class="notification">
+				<p class="date">{{n.date|date:"l, d F Y"}}</p>
+				<div class="notification-content">
+					<p class="title">{{n.title}}</p>
+					<p class="text">{{n.notification|safe}}</p>
+				</div>
+				<div class="separator"></div>
+			</article>
+		{% endfor %}
+		<p class="viewed">
+			<a href="{% url 'notifications' %}">He leído las notificaciones</a>
+		</p>
+	{% else %}
+		{% if request.user.userinfo.random_password %}
+			<div class="random-password">
+				<p>Le recomendamos cambiar la <strong>contraseña</strong> que se le ha asignado aleatoriamente por una nueva contraseña que solo usted conozca.</p>
+				<p>Para ello puede acceder <a href="{% url 'change_password' %}">aquí</a>.</p>
+			</div>
+		{% endif %}
+		{% if user.userinfo.is_commercial %}
+			<form id="client-select" action="{% url 'extranet' %}" method="post">
+				{% csrf_token %}
+				<select name="client" id="client">
+					<option value="">- - - - - -</option>
+					{% for client in clients %}
+						<option value="{{client.userinfo__algoritmo_code|slugify}}" {% if client.userinfo__algoritmo_code == request.session.algoritmo_code %}selected{% endif %}>{{client.userinfo__company_name|upper}}</option>
+					{% endfor %}
+				</select>
+				<button type="submit" class="submit">
+					<i class="fa fa-search" aria-hidden="true"></i>
+				</button>
+				{% if errors %}<span>{{errors}}</span>{% endif %}
+				<div class="client-selected">
+					{% if request.session.algoritmo_code %}
+						<p><span>Cliente:</span> {{request.session.algoritmo_code|slugify}} - {{request.session.company_name|upper}}</p>
+					{% else %}
+						<p><span>Cliente:</span></p>
+					{% endif %}
+				</div>
+			</form>
+		{% endif %}
+		<nav class="extranet-nav">
+			<ul class="h-list">
+				<div class="row">
+					<li class="ctacte-btn">
+						<a href="#">
+							<div>
+								<span>Cuenta Corriente</span>
+								<span>$</span>
+							</div>
+						</a>
+						<div class="triangle"></div>
+					</li><!--
+					--><li>
+						<a href="{% url 'applied' %}">
+							<div>
+								<span>Cuenta Corriente</span>
+								<span>Aplicada</span>
+							</div>
+						</a>
+					</li>
+				</div>
+				<div class="ctacte-type">
+					<a href="{% url 'ctacte' ctacte_type='vencimiento' %}">
+						<i class="fa fa-calendar" aria-hidden="true"></i> Vencimiento
+					</a>
+					<a href="{% url 'ctacte' ctacte_type='emision' %}">
+						<i class="fa fa-calendar" aria-hidden="true"></i> Emisión
+					</a>
+				</div>
+				<div class="row first">
+					<li>
+						<a href="{% url 'deliveries' %}">
+							<div>
+								<span>Entregas</span>
+								<span><i class="fa fa-truck" aria-hidden="true"></i></span>
+							</div>
+						</a>
+					</li><!--
+					--><li>
+						<a href="{% url 'sales' %}">
+							<div>
+								<span>Ventas</span>
+								<span><i class="fa fa-handshake-o" aria-hidden="true"></i></span>
+							</div>
+						</a>
+					</li>
+				</div>
+				<div class="row second">
+					<li>
+						<a href="{% url 'change_password' %}">
+							<div>
+								<span>Contraseña</span>
+								<span><i class="fa fa-refresh" aria-hidden="true"></i></span>
+							</div>
+						</a>
+					</li><!--
+					--><li>
+						<a href="{% url 'logout' %}">
+							<div>
+								<span>Salir</span>
+								<span><i class="fa fa-sign-out" aria-hidden="true"></i></span>
+							</div>
+						</a>
+					</li>
+				</div>
+			</ul>
+		</nav>
+	{% endif %}
+	
+</section>
+{% endblock %}

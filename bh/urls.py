@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import TemplateView
+from django.contrib.auth.views import LogoutView, LoginView
 
 from website import views
+from website.forms import CustomAuthenticationForm
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,21 +28,21 @@ urlpatterns = [
     path('empresa/', TemplateView.as_view(template_name='company.html'), name='company'),
     path('galeria/', TemplateView.as_view(template_name='gallery.html'), name='gallery'),
     path('contacto/', TemplateView.as_view(template_name='contact.html'), name='contact'),
-    # path('lluvias-historico/', views.historic_rain, name='historic_rain'),
+    path('lluvias-historico/', views.HistoricRainView.as_view(), name='historic_rain'),
     path('impuestos/', TemplateView.as_view(template_name='taxes.html'), name='taxes'),
     path('unidades-de-negocio/', TemplateView.as_view(template_name='units.html'), name='units'),
     path('trabaja-con-nosotros/', TemplateView.as_view(template_name='cv.html'), name='cv'),
     # path('cp/', views.cp, name='cp'),
 
-    # path('login/', views.auth_login, name='login'),
+    path('login/', LoginView.as_view(template_name='login.html', authentication_form=CustomAuthenticationForm), name='login'),
     # path('login/invalido/', views.auth_login_invalid, name='login_invalid'),
     # path('login/requerido/', views.auth_login_required, name='login_required'),
     # path('login/cuenta-inactiva/', views.auth_login_inactive_account, name='login_inactive_account'),
-    # path('logout/', views.auth_logout, name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     # path('activar-cuenta/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',views.auth_activate_account, name='activate_account'),
     # path('cuenta/cambiar-password/', views.change_password, name='change_password'),
 
-    # path('extranet/', views.extranet, name='extranet'),
+    path('extranet/', views.ExtranetView.as_view(), name='extranet'),
     # path('extranet/notificaciones/', views.notifications, name='notifications'),
     # path('extranet/ctacte/pesos/<str:ctacte_type>/', views.ctacte, name='ctacte'),
     # path('extranet/ctacte/aplicada/', views.applied, name='applied'),
