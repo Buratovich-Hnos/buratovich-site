@@ -12,7 +12,7 @@ class UserInfo(models.Model):
     random_password = models.BooleanField(default=True, verbose_name='Password Aleatorio')
 
     def __str__(self):
-        return unicode(self.company_name)
+        return self.company_name
 
     class Meta:
         verbose_name = 'Usuario'
@@ -38,7 +38,7 @@ class TicketsAnalysis(models.Model):
     item_descripcion = models.CharField(max_length=100, verbose_name='Descripcion')
 
     def __str__(self):
-        return unicode(self.ticket)
+        return self.ticket
     class Meta:
         verbose_name = 'Analisis por Ticket'
 
@@ -82,7 +82,7 @@ class Deliveries(models.Model):
     tare = models.IntegerField(verbose_name='Tara')
 
     def __str__(self):
-        return unicode(self.voucher)
+        return self.voucher
     class Meta:
         verbose_name = 'Entregas'
 
@@ -126,7 +126,7 @@ class Sales(models.Model):
     tare = models.IntegerField(verbose_name='Tara')
 
     def __str__(self):
-        return unicode(self.voucher)
+        return self.voucher
 
     class Meta:
         verbose_name = 'Ventas'
@@ -141,7 +141,7 @@ class SpeciesHarvest(models.Model):
     species_description = models.CharField(max_length=50, verbose_name='Especie y Cosecha')
 
     def __str__(self):
-        return unicode(self.species_description)
+        return self.species_description
 
     class Meta:
         verbose_name = 'Especies y Cosechas'
@@ -163,7 +163,7 @@ class Applied(models.Model):
     exchange_rate = models.FloatField(verbose_name='Tipo de Cambio Emisión')
 
     def __str__(self):
-        return unicode(self.voucher)
+        return self.voucher
 
     class Meta:
         verbose_name = 'Cuenta Corriente Aplicada'
@@ -188,7 +188,7 @@ class CtaCte(models.Model):
     cta_cte_name = models.CharField(max_length=80, verbose_name='Descripcion Cta. Cte.')
 
     def __str__(self):
-        return unicode(self.voucher)
+        return self.voucher
 
     class Meta:
         verbose_name = 'Cuenta Corriente'
@@ -254,7 +254,7 @@ class City(models.Model):
     state = models.CharField(max_length=3, choices=STATE_CHOICES, verbose_name='Provincia', default='BUE')
 
     def __str__(self):
-        return unicode(self.city)
+        return self.city
 
     class Meta:
         verbose_name = 'Ciudad'
@@ -265,7 +265,7 @@ class Rain(models.Model):
     date = models.DateField(verbose_name='Fecha', primary_key=True)
 
     def __str__(self):
-        return unicode(self.date)
+        return self.date
 
     class Meta:
         verbose_name = 'Lluvia'
@@ -278,7 +278,7 @@ class RainDetail(models.Model):
     mm = models.FloatField(verbose_name='Milimetros')
 
     def __str__(self):
-        return unicode(self.city)
+        return self.city
 
     class Meta:
         verbose_name = 'Detalle'
@@ -295,7 +295,7 @@ class Notifications(models.Model):
     date_to = models.DateField(verbose_name='Vigencia Hasta')
 
     def __str__(self):
-        return unicode(self.title)
+        return self.title
 
     class Meta:
         verbose_name = 'Notificación'
@@ -308,7 +308,7 @@ class ViewedNotifications(models.Model):
     viewed = models.BooleanField(verbose_name='Notificación vista', default=False)
 
     def __str__(self):
-        return unicode(self.user.userinfo.company_name)
+        return self.user.userinfo.company_name
 
     class Meta:
         verbose_name = 'Notificación por Usuario'
@@ -321,7 +321,7 @@ class AccessLog(models.Model):
     logged = models.DateTimeField(auto_now_add=True, verbose_name='Fecha/Hora de Ingreso')
 
     def __str__(self):
-        return unicode(self.logged)
+        return self.logged
 
     class Meta:
         verbose_name = 'Log de Acceso'

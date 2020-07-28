@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% load humanize %} {% load i18n %}
-{% block title %}Buratovich Hnos. - {% trans "Unidades de Negocio" %}{% endblock
-%} {% block path %}
+{% block title %}Buratovich Hnos. - {% trans "Unidades de Negocio" %}{% endblock%} 
+{% block path %}
 <div class="path maxwidth">
   <div class="path-container">
     {% if user.is_authenticated %}
@@ -142,8 +142,8 @@
         <div>
           <p>
             {% blocktrans %}La estratégica ubicación de nuestras plantas de
-            acopio nos permite operar con los principales puertos del país.{%
-            endblocktrans %}
+            acopio nos permite operar con los principales puertos del país.
+            {%endblocktrans %}
           </p>
         </div>
       </article>
@@ -235,24 +235,24 @@
     <h2 class="unit-title">{% trans "AGRICULTURA Y GANADERÍA" %}</h2>
     <div class="separator"></div>
     <p class="quote maxwidth">
-      {% blocktrans %}Realizamos una amplia explotación intensiva sembrando
+      {% blocktrans %} Realizamos una amplia explotación intensiva sembrando
       mayormente sobre campos del grupo. Nuestros principales cultivos son el
       maíz, girasol, trigo, cebada, arveja, lenteja, soja, sorgo y algodón.
       Realizamos una agricultura sustentable y de precisión que nos permite
       obtener una mayor protección sobre el suelo y el medio ambiente.
       Certificamos nuestros procesos productivos para poder desarrollar las
       buenas prácticas agrícolas y mecanismos que promuevan la responsabilidad
-      compartida entre los distintos actores de la cadena de valor.{%
-      endblocktrans %}
+      compartida entre los distintos actores de la cadena de valor. 
+      {% endblocktrans %}
     </p>
     <div class="main">
       <div class="content maxwidth">
         <div class="boxes">
           <div class="col-3">
             <p class="box">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i><br />{%
-              blocktrans %}Nuestras actividades se desenvuelven en su mayoría en
-              tierras propias, pero también trabajamos campos arrendados
+              <i class="fa fa-ellipsis-h" aria-hidden="true"></i><br />
+              {% blocktrans %}Nuestras actividades se desenvuelven en su mayoría
+              en tierras propias, pero también trabajamos campos arrendados
               localizados <strong>estratégicamente</strong> y con suelos de
               <strong>alta productividad</strong>.<br />Nos ubicamos en
               distintas regiones de las provincias de
@@ -261,21 +261,18 @@
           </div>
           <div class="col-3">
             <p class="box">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i><br />{%
-              blocktrans %}Con foco en la
+              <i class="fa fa-ellipsis-h" aria-hidden="true"></i><br />
+              {% blocktrans %}Con foco en la
               <strong>producción sustentable</strong> utilizamos el sistema de
-              <strong
-                >siembra directa, cultivos de cobertura y alta rotación de los
-                mismos</strong
-              >
+              <strong>siembra directa, cultivos de cobertura y alta rotación de los mismos</strong>
               para lograr una optima <strong>explotación</strong> y
               <strong>rentabilidad</strong> de las tierras.{% endblocktrans %}
             </p>
           </div>
           <div class="col-3">
             <p class="box">
-              <i class="fa fa-ellipsis-h" aria-hidden="true"></i><br />{%
-              blocktrans %}Contamos con un equipo de profesionales
+              <i class="fa fa-ellipsis-h" aria-hidden="true"></i><br />
+              {% blocktrans %}Contamos con un equipo de profesionales
               <strong>altamente capacitado</strong> que tiene como objetivo
               lograr la excelencia en la producción de nuestros cultivos,
               empleando el uso de las <strong>últimas tecnologías</strong> para
@@ -310,8 +307,8 @@
               nuestras propias <strong>operaciones de agro exportación</strong>,
               llegando así a ser activos protagonistas en cada una de las
               actividades intervinientes de la cadena agropecuaria al producir,
-              acopiar, comercializar y exportar nuestros productos.{%
-              endblocktrans %}
+              acopiar, comercializar y exportar nuestros productos.
+              {% endblocktrans %}
             </p>
           </div>
         </div>
@@ -386,8 +383,7 @@
               <strong>Semilla de Algodón</strong>, <strong>Arveja</strong>,
               <strong>Soja</strong>, <strong>Balanced Soybean Meal</strong>,
               <strong>Maíz</strong>, <strong>Maíz Quebrado</strong>,
-              <strong>Cebada</strong> y <strong>Trigo</strong>.{% endblocktrans
-              %}
+              <strong>Cebada</strong> y <strong>Trigo</strong>.{% endblocktrans %}
             </p>
           </div>
         </div>
@@ -400,8 +396,7 @@
         <div>
           <p>
             {% blocktrans %}Hemos creado vínculos comerciales con clientes de
-            <strong>mas de 20 países</strong> alrededor de todo el mundo.{%
-            endblocktrans %}
+            <strong>mas de 20 países</strong> alrededor de todo el mundo.{% endblocktrans %}
           </p>
         </div>
       </article>
