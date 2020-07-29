@@ -1,5 +1,6 @@
 import datetime 
 from collections import OrderedDict
+import json
 
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
@@ -8,9 +9,10 @@ from django.views.generic.edit import FormView
 from django.views.defaults import page_not_found, server_error
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import connection
 from django.db.models import Q
 from django.db.models import Sum, Count
+from django.db.models.functions import ExtractMonth, ExtractYear
+from django.core import serializers
 
 from website.models import CtaCte
 from website.models import Deliveries
@@ -31,6 +33,8 @@ from website.forms import ExtranetClientSelectionForm
 
 
 # def cp(request):
+#     pass
+# def downloadRainExcel(request):
 #     pass
 
 
@@ -60,11 +64,10 @@ class CurrencyView(ListView):
 
     def post(self, request, *args, **kwargs):
         data = None
-        if request.is_ajax():
-            get_date = request.POST.get('cDate')
-            currency = Currencies.objects.filter(date=get_date)
-            if curency:
-                data = serializers.serialize('json',currency)
+        get_date = request.POST.get('cDate')
+        currency = Currencies.objects.filter(date=get_date)
+        if currency:
+            data = serializers.serialize('json',currency)
         return JsonResponse({'data': data})
 
 
@@ -74,11 +77,10 @@ class BoardView(ListView):
 
     def post(self, request, *args, **kwargs):
         data = None
-        if request.is_ajax():
-            get_date = request.POST.get('bDate')
-            board = Board.objects.filter(date=get_date)
-            if board:
-                data = serializers.serialize('json',board)
+        get_date = request.POST.get('bDate')
+        board = Board.objects.filter(date=get_date)
+        if board:
+            data = serializers.serialize('json',board)
         return JsonResponse({'data': data})
 
 
@@ -88,18 +90,18 @@ class RainView(ListView):
 
     def post(self, request, *args, **kwargs):
         data = None
-        if request.is_ajax():
-            get_date = request.POST.get('rDate')
-            rain = RainDetail.objects.filter(rain=get_date).values('rain', 'city__city', 'mm').order_by('city__city')
-            if rain:
-                rain_data = []
-                for r in rain:
-                    temp = {}
-                    temp['date'] = str(r['rain'])
-                    temp['city'] = r['city__city']
-                    temp['mm'] = r['mm']
-                    rain_data.append(temp)
-                data = json.dumps(rain_data)
+        get_date = request.POST.get('rDate')
+        rain = RainDetail.objects.filter(rain=get_date).values('rain', 'city__city', 'mm').order_by('city__city')
+        if rain:
+            rain_data = []
+            for r in rain:
+                temp = {}
+                temp['date'] = str(r['rain'])
+                temp['city'] = r['city__city']
+                temp['mm'] = r['mm']
+                rain_data.append(temp)
+            data = json.dumps(rain_data)
+            print(data)
         return JsonResponse({'data': data})
 
 
@@ -110,15 +112,18 @@ class HistoricRainView(TemplateView):
         context = super().get_context_data(**kwargs)
         months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
         # Filter City = 1 only por Arrecifes
-        rain = RainDetail.objects.filter(city=1).extra(select={'month':connection.ops.date_trunc_sql('month', '"website_raindetail"."rain_id"'), 'year':connection.ops.date_trunc_sql('year', '"website_raindetail"."rain_id"')}).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
+        rain = RainDetail.objects.filter(city=1).annotate(month=ExtractMonth('rain'), year=ExtractYear('rain')).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
+        print(rain)
         history = OrderedDict()
         month_avg = OrderedDict()
         prev_year = 0
         prev_month = 0
 
         for r in rain:
-            year = datetime.datetime.strptime(r['year'], "%Y-%m-%d").date().year
-            month = datetime.datetime.strptime(r['month'], "%Y-%m-%d").date().month
+            # year = datetime.datetime.strptime(r['year'], "%Y-%m-%d").date().year
+            # month = datetime.datetime.strptime(r['month'], "%Y-%m-%d").date().month
+            year = r['year']
+            month = r['month']
             if history.get(year, None) is None:
                 history[year] = OrderedDict()
                 history[year]['rain'] = OrderedDict()
