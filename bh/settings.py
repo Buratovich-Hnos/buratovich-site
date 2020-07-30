@@ -174,5 +174,10 @@ SECURE_BROWSER_XSS_FILTER = True
 # CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
+
 #Token Lifetime
 PASSWORD_RESET_TIMEOUT_DAYS = 360
+
+
+# Use this backend to support is_active flag
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']

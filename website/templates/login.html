@@ -1,123 +1,97 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Buratovich Hnos. -
-Acceso a la Extranet{% endblock %} {% block path %}
-<div class="path maxwidth">
-  <div class="path-container">
-    {% if user.is_authenticated %}
-    <div class="hi">
-      Bienvenido,
-      <span class="customer-name">{{user.userinfo.company_name}}</span>
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Buratovich Hnos. - Acceso a la Extranet{% endblock %} 
+
+{% block path %}
+  <div class="path maxwidth">
+    <div class="path-container">
+      {% if user.is_authenticated %}
+      <div class="hi">
+        Bienvenido,
+        <span class="customer-name">{{user.userinfo.company_name}}</span>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
-  </div>
-  <div class="path-container">
-    <div class="route">
-      <a href="/">Home</a> <span class="chevron">></span>
-      <span class="current">Login</span>
+    <div class="path-container">
+      <div class="route">
+        <a href="/">Home</a> <span class="chevron">></span>
+        <span class="current">Login</span>
+      </div>
     </div>
   </div>
-</div>
-{% endblock %} {% block content %}
-<section id="login" class="maxwidth">
-  <div class="state">
+{% endblock %} 
+
+{% block content %}
+  <section id="login" class="maxwidth">
+    <div class="state">
+      {% if form.errors %}
+        {% for key, msg in form.errors.items %}
+          {{ msg }}
+        {% endfor %}
+      {% else %}
+        <p>Acceso para clientes</p>
+      {% endif %} 
+    </div>
+
+    <form action="{% url 'login' %}" class="login-extranet" method="post">
+      {% csrf_token %}
+      <fieldset>
+        <div class="input">
+          <input type="text" name="username" placeholder="Usuario" required />
+          <span class="icon">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </span>
+        </div>
+        <div class="input">
+          <input class="password" type="password" name="password" placeholder="Contraseña" required />
+          <span class="icon">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+          </span>
+          <span class="eye">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+          </span>
+        </div>
+        <button type="submit" class="submit">
+          Ingresar <i class="fa fa-sign-in" aria-hidden="true"></i>
+        </button>
+        <input type="hidden" name="next" value="{{ next }}" />
+      </fieldset>
+    </form>
+
     {% if login %}
-    <p>Acceso para clientes</p>
-    {% else %} {% if inactive_account %}
-    <p>
-      Su cuenta aún no ha sido activada. Ingrese al link de activación que
-      recibió por correo.
-    </p>
-    {% else %} {% if login_invalid %}
-    <p>
-      ¡Ops! parece que su usuario y contraseña no son validos. Inténtelo
-      nuevamente.
-    </p>
-    {% else %} {% if login_required %}
-    <p>
-      Es necesario que ingrese con su usuario y contraseña para acceder esta
-      pagina.
-    </p>
-    {% endif %} {% endif %} {% endif %} {% endif %}
-  </div>
+      <p class="legend">
+        Agradecemos que nos envíe sus criticas y/o sugerencias al correo electrónico <a href="mailto:buratovich@buratovich.com"><i class="fa fa-paper-plane" aria-hidden="true"></i>buratovich@buratovich.com</a> con el fin de seguir mejorando el acceso a la información y la transparencia en nuestras operaciones.
+      </p>
+    {% endif %}
+  </section>
+{% endblock %}
 
-  {% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
-  <p>{{form.errors}}</p>
-  {% endif %} {% if next %} {% if user.is_authenticated %}
-  <p>
-    Your account doesn't have access to this page. To proceed, please login with
-    an account that has access.
-  </p>
-  {% else %}
-  <p>Please login to see this page.</p>
-  {% endif %} {% endif %}
+{% block scriptjs %}
+  <script>
+    function findParent(el, cls) {
+      while ((el = el.parentElement) && !el.classList.contains(cls));
+      return el;
+    }
 
-  <form action="{% url 'login' %}" class="login-extranet" method="post">
-    {% csrf_token %}
-    <fieldset>
-      <div class="input">
-        <input type="text" name="username" placeholder="Usuario" />
-        <span class="icon">
-          <i class="fa fa-user" aria-hidden="true"></i>
-        </span>
-      </div>
-      <div class="input">
-        <input
-          class="password"
-          type="password"
-          name="password"
-          placeholder="Contraseña"
-        />
-        <span class="icon">
-          <i class="fa fa-lock" aria-hidden="true"></i>
-        </span>
-        <span class="eye">
-          <i class="fa fa-eye" aria-hidden="true"></i>
-        </span>
-      </div>
-      <button type="submit" class="submit">
-        Ingresar <i class="fa fa-sign-in" aria-hidden="true"></i>
-      </button>
-      <input type="hidden" name="next" value="{{ next }}" />
-    </fieldset>
-  </form>
-
-  {% if login %}
-  <p class="legend">
-    Agradecemos que nos envíe sus criticas y/o sugerencias al correo electrónico
-    <a href="mailto:buratovich@buratovich.com"
-      ><i class="fa fa-paper-plane" aria-hidden="true"></i>
-      buratovich@buratovich.com</a
-    >
-    con el fin de seguir mejorando el acceso a la información y la transparencia
-    en nuestras operaciones.
-  </p>
-  {% endif %}
-</section>
-{% endblock %} {% block scriptjs %}
-<script>
-  function findParent(el, cls) {
-    while ((el = el.parentElement) && !el.classList.contains(cls));
-    return el;
-  }
-
-  var eye = document.getElementsByClassName('eye');
-  for (var i = 0; i < eye.length; i++) {
-    eye[i].addEventListener('mousedown', function () {
-      var target = findParent(this, 'input');
-      for (var i = 0; i < target.childNodes.length; i++) {
-        if (hasClass(target.childNodes[i], 'password')) {
-          // Change password input type
-          pwd = target.childNodes[i];
+    var eye = document.getElementsByClassName('eye');
+    for (var i = 0; i < eye.length; i++) {
+      eye[i].addEventListener('mousedown', function () {
+        var target = findParent(this, 'input');
+        for (var i = 0; i < target.childNodes.length; i++) {
+          if (hasClass(target.childNodes[i], 'password')) {
+            // Change password input type
+            pwd = target.childNodes[i];
+          }
         }
-      }
-      pwd.setAttribute('type', 'text');
-      addClass(this, 'selected');
-    });
+        pwd.setAttribute('type', 'text');
+        addClass(this, 'selected');
+      });
 
-    eye[i].addEventListener('mouseup', function () {
-      pwd.setAttribute('type', 'password');
-      removeClass(this, 'selected');
-    });
-  }
-</script>
+      eye[i].addEventListener('mouseup', function () {
+        pwd.setAttribute('type', 'password');
+        removeClass(this, 'selected');
+      });
+    }
+  </script>
 {% endblock %}

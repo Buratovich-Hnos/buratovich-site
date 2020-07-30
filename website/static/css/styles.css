@@ -38,7 +38,7 @@ Author URL: http://luciano.im
 #top a {
   background-color: #018d34;
   border-radius: 3px 0 0 3px;
-  box-shadow: -2px 2px 5px rgba(0,0,0,0.5);
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
   color: #ccc;
   display: block;
   padding: 0.5em;
@@ -173,12 +173,12 @@ Author URL: http://luciano.im
 }
 .data-table {
   -webkit-animation: float 5s infinite;
-          animation: float 5s infinite;
+  animation: float 5s infinite;
   background: #fff;
   border-collapse: collapse;
   border-radius: 3px;
   border-spacing: 0;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   font-size: 0.9em;
   padding: 5px;
   width: 100%;
@@ -188,7 +188,7 @@ Author URL: http://luciano.im
   border-right: 1px solid #c1c3d1;
   padding: 7px 5px;
   text-align: left;
-  text-shadow: -1px -1px 1px rgba(0,0,0,0.1);
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
   vertical-align: middle;
 }
 .data-table td:last-child {
@@ -207,7 +207,7 @@ Author URL: http://luciano.im
   color: #d5dde5;
   padding: 15px 5px;
   text-align: center;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   vertical-align: middle;
 }
 .data-table th:first-child {
@@ -222,7 +222,7 @@ Author URL: http://luciano.im
   border-top: 1px solid #c1c3d1;
   color: #666b85;
   font-size: 0.9em;
-  text-shadow: 0 1px 1px rgba(255,255,255,0.1);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 .data-table tr:hover td {
   background: #4e5066;
@@ -263,21 +263,21 @@ video::-webkit-media-controls-fullscreen-button {
 }
 .come-in {
   -webkit-transform: translateY(100px);
-      -ms-transform: translateY(100px);
-          transform: translateY(100px);
+  -ms-transform: translateY(100px);
+  transform: translateY(100px);
   -webkit-animation: come-in 0.8s ease forwards;
-          animation: come-in 0.8s ease forwards;
+  animation: come-in 0.8s ease forwards;
 }
 .come-in:nth-child(odd) {
   -webkit-animation-duration: 0.6s /* So they look staggered */;
-          animation-duration: 0.6s /* So they look staggered */;
+  animation-duration: 0.6s /* So they look staggered */;
 }
 .already-visible {
   -webkit-transform: translateY(0);
-      -ms-transform: translateY(0);
-          transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
   -webkit-animation: none;
-          animation: none;
+  animation: none;
 }
 .module {
   opacity: 0;
@@ -299,14 +299,14 @@ video::-webkit-media-controls-fullscreen-button {
 @-webkit-keyframes come-in {
   to {
     -webkit-transform: translateY(0);
-            transform: translateY(0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
 @keyframes come-in {
   to {
     -webkit-transform: translateY(0);
-            transform: translateY(0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -1181,8 +1181,8 @@ footer .cv div span a.send-cv {
 }
 footer .cv span:hover {
   -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 footer .cv span:hover .send-cv {
   opacity: 1;
@@ -1218,7 +1218,7 @@ footer .footer-rd-nav {
   width: 100%;
 }
 #home .business-units .carousel .carousel-cell div {
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 1.2em 1.5em 0 1.5em;
   margin-top: 1em;
   position: absolute;
@@ -1233,8 +1233,8 @@ footer .footer-rd-nav {
   text-shadow: 2px 2px 1px #3c433e;
   transition: 0.4s ease-out;
   -webkit-transform: translateY(10px);
-      -ms-transform: translateY(10px);
-          transform: translateY(10px);
+  -ms-transform: translateY(10px);
+  transform: translateY(10px);
 }
 #home .business-units .carousel .carousel-cell img {
   display: block;
@@ -1243,8 +1243,8 @@ footer .footer-rd-nav {
 #home .business-units .carousel .carousel-cell.move-in p {
   opacity: 1;
   -webkit-transform: translateY(-10px);
-      -ms-transform: translateY(-10px);
-          transform: translateY(-10px);
+  -ms-transform: translateY(-10px);
+  transform: translateY(-10px);
 }
 #home .business-units .carousel .flickity-page-dots {
   display: none;
@@ -1322,8 +1322,8 @@ footer .footer-rd-nav {
 }
 #home .services article a:hover i {
   -webkit-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-          transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 #home .services article a i {
   transition: 0.4s ease-out;
@@ -1353,7 +1353,7 @@ footer .footer-rd-nav {
   color: #018d34;
 }
 #home .utils {
-  background: url("../img/silos_1920.jpg");
+  background: url('../img/silos_1920.jpg');
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1385,7 +1385,7 @@ footer .footer-rd-nav {
   max-width: 384px;
 }
 #home .utils > div article.rain-weather .utils-title {
-  background-color: rgba(255,255,255,0.3);
+  background-color: rgba(255, 255, 255, 0.3);
   padding-bottom: 0;
 }
 #home .utils > div article.rain-weather .utils-title li {
@@ -1405,7 +1405,7 @@ footer .footer-rd-nav {
   color: #bbb;
 }
 #home .utils > div article.rain-weather .utils-title li a.active {
-  background-color: rgba(255,255,255,0.3);
+  background-color: rgba(255, 255, 255, 0.3);
   color: #3c433e;
 }
 #home .utils > div article.rain-weather .utils-title li:nth-child(1) {
@@ -1434,8 +1434,8 @@ footer .footer-rd-nav {
 }
 #home .utils > div article.rain-weather .rain .historic-rain a:hover i {
   -webkit-transform: rotate(-360deg);
-      -ms-transform: rotate(-360deg);
-          transform: rotate(-360deg);
+  -ms-transform: rotate(-360deg);
+  transform: rotate(-360deg);
 }
 #home .utils > div article.rain-weather .weather {
   display: none;
@@ -1475,7 +1475,7 @@ footer .footer-rd-nav {
 }
 #home .utils > div article.rain-weather .weather .tabcontent {
   -webkit-animation: fadeEffect 1s;
-          animation: fadeEffect 1s;
+  animation: fadeEffect 1s;
   display: none;
 }
 #home .utils > div article.rain-weather .weather .tabcontent#arrecifes {
@@ -1488,7 +1488,7 @@ footer .footer-rd-nav {
   width: 100% !important;
 }
 #home .utils > div article .utils-title {
-  background-color: rgba(255,255,255,0.6);
+  background-color: rgba(255, 255, 255, 0.6);
   border-radius: 3px 3px 0 0;
   padding-bottom: 0.3em;
   position: relative;
@@ -1568,7 +1568,7 @@ footer .footer-rd-nav {
   padding: 4em 0;
 }
 #home .misc {
-  background: #ccc url("../img/soy.jpg") top center no-repeat;
+  background: #ccc url('../img/soy.jpg') top center no-repeat;
   border-top: 6px solid #fff;
   overflow: hidden;
 }
@@ -1601,7 +1601,7 @@ footer .footer-rd-nav {
 }
 #home .misc .tax div:hover,
 #home .misc .cponline div:hover {
-  box-shadow: 2px 2px 3px rgba(0,0,0,0.7);
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
 }
 #home .misc .tax div:hover .misc-icon i,
 #home .misc .cponline div:hover .misc-icon i {
@@ -1624,8 +1624,8 @@ footer .footer-rd-nav {
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
   color: #065a7a;
   font-size: 2em;
   transition: 0.5s ease-out;
@@ -1651,7 +1651,7 @@ footer .footer-rd-nav {
   opacity: 0;
 }
 #historic-rain {
-  background: url("../img/units/back.jpg") no-repeat top center;
+  background: url('../img/units/back.jpg') no-repeat top center;
   padding: 1.7em 2em 0 2em;
 }
 #historic-rain h2 {
@@ -1703,7 +1703,7 @@ footer .footer-rd-nav {
   color: #fff;
 }
 #company {
-  background: url("../img/units/back.jpg") no-repeat top center;
+  background: url('../img/units/back.jpg') no-repeat top center;
   overflow: hidden;
   position: relative;
 }
@@ -1726,7 +1726,7 @@ footer .footer-rd-nav {
 }
 #company .featured ul li:before {
   color: #018d34;
-  content: "\f14a" /* FontAwesome Unicode */;
+  content: '\f14a' /* FontAwesome Unicode */;
   font-family: FontAwesome;
   font-size: 0.9em;
   display: inline-block;
@@ -1880,9 +1880,9 @@ footer .footer-rd-nav {
   height: auto;
   max-width: 280px;
   -webkit-transform: translateZ(0);
-          transform: translateZ(0);
+  transform: translateZ(0);
   -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   transition: all 0.2s ease-in-out;
   vertical-align: middle;
   width: 100%;
@@ -1919,7 +1919,7 @@ footer .footer-rd-nav {
 }
 #gallery .more a:hover,
 .gallery .more a:hover {
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 #gallery {
   margin: 3em auto 5em auto;
@@ -1978,7 +1978,7 @@ footer .footer-rd-nav {
   text-align: center;
 }
 #cv {
-  background: url("../img/units/back.jpg") no-repeat top center;
+  background: url('../img/units/back.jpg') no-repeat top center;
   font-weight: 400;
   padding: 3em;
 }
@@ -2038,7 +2038,7 @@ footer .footer-rd-nav {
   margin: 0.2em 0;
 }
 #taxes {
-  background: url("../img/units/back.jpg") no-repeat top center;
+  background: url('../img/units/back.jpg') no-repeat top center;
 }
 #taxes h2 {
   margin: 2em 0 1.5em 0 !important;
@@ -2140,7 +2140,7 @@ footer .footer-rd-nav {
   margin-right: 0.3em;
 }
 #contact {
-  background: url("../img/units/back.jpg") no-repeat top center;
+  background: url('../img/units/back.jpg') no-repeat top center;
 }
 #contact .offices {
   margin: 1em 0 2.5em 0;
@@ -2267,7 +2267,7 @@ footer .footer-rd-nav {
   border-radius: 3px 0 0 3px;
 }
 #bussines-units {
-  background: url("../img/units/back.jpg") no-repeat top center;
+  background: url('../img/units/back.jpg') no-repeat top center;
   padding: 3em 0;
   text-align: center;
 }
@@ -2293,7 +2293,7 @@ footer .footer-rd-nav {
 }
 #bussines-units .unit .main::after {
   bottom: 0;
-  content: "";
+  content: '';
   left: 0;
   opacity: 0.9;
   position: absolute;
@@ -2330,7 +2330,7 @@ footer .footer-rd-nav {
   width: 3em;
 }
 #bussines-units .acopio .main::after {
-  background-image: url("../img/units/unit_acopio_xlarge.jpg");
+  background-image: url('../img/units/unit_acopio_xlarge.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: top right;
@@ -2434,7 +2434,8 @@ footer .footer-rd-nav {
   width: 12em;
 }
 #bussines-units .commer .main::after {
-  background: url("../img/units/unit_commer_xlarge.jpg") no-repeat fixed bottom right;
+  background: url('../img/units/unit_commer_xlarge.jpg') no-repeat fixed bottom
+    right;
   background-size: cover;
 }
 #bussines-units .commer .main .content > .row {
@@ -2451,7 +2452,8 @@ footer .footer-rd-nav {
   width: 8em;
 }
 #bussines-units .agro .main::after {
-  background: url("../img/units/unit_agro_xlarge.jpg") no-repeat fixed center left;
+  background: url('../img/units/unit_agro_xlarge.jpg') no-repeat fixed center
+    left;
   background-size: cover;
 }
 #bussines-units .agro .main .content {
@@ -2462,8 +2464,8 @@ footer .footer-rd-nav {
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 #bussines-units .agro .main .content .boxes .box {
   height: auto;
@@ -2492,7 +2494,7 @@ footer .footer-rd-nav {
   padding-right: 0.5em;
 }
 #bussines-units .agro .related .infography .row .divisor {
-  background: url("../img/minibull_grey.png") no-repeat center center;
+  background: url('../img/minibull_grey.png') no-repeat center center;
   height: 34px;
   margin: 0 auto 0 auto;
   width: 17px;
@@ -2501,7 +2503,8 @@ footer .footer-rd-nav {
   width: 9em;
 }
 #bussines-units .export .main::after {
-  background: url("../img/units/unit_expo_xlarge.jpg") no-repeat fixed center right;
+  background: url('../img/units/unit_expo_xlarge.jpg') no-repeat fixed center
+    right;
   background-size: cover;
 }
 #bussines-units .export .main .content {
@@ -2522,8 +2525,8 @@ footer .footer-rd-nav {
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 #bussines-units .export .main .content .commodities .box {
   display: none;
@@ -2592,8 +2595,8 @@ footer .footer-rd-nav {
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 #login .state,
 #change-password .state {
@@ -2602,6 +2605,7 @@ footer .footer-rd-nav {
   text-align: center;
 }
 #login .state p,
+#login .state li,
 #change-password .state p {
   font-size: 2em;
 }
@@ -2677,7 +2681,7 @@ footer .footer-rd-nav {
   padding-top: 0.8em;
 }
 #extranet .notification .notification-content:after {
-  content: "\f05a";
+  content: '\f05a';
   font-family: FontAwesome;
   font-style: normal;
   font-weight: normal;
@@ -2724,7 +2728,7 @@ footer .footer-rd-nav {
   color: #fff;
 }
 #extranet .random-password {
-  background-color: rgba(100,100,100,0.1);
+  background-color: rgba(100, 100, 100, 0.1);
   border-radius: 3px;
   margin: 0 3em 4em 3em;
   padding: 1em;
@@ -2782,7 +2786,7 @@ footer .footer-rd-nav {
   margin-top: 1em;
 }
 #extranet #client-select .client-selected p {
-  background-color: rgba(1,141,52,0.6);
+  background-color: rgba(1, 141, 52, 0.6);
   border-radius: 3px;
   color: #065a7a;
   font-size: 1em;
@@ -2837,8 +2841,8 @@ footer .footer-rd-nav {
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 #extranet .extranet-nav ul li a div span,
 #ctacte .extranet-nav ul li a div span {
@@ -2864,7 +2868,7 @@ footer .footer-rd-nav {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 5px solid transparent;
-  content: "";
+  content: '';
   display: inline-block;
   border-bottom-color: #3c433e;
   bottom: -0.85em;
@@ -2895,8 +2899,8 @@ footer .footer-rd-nav {
 #extranet .extranet-nav ul .ctacte-type.opened a,
 #ctacte .extranet-nav ul .ctacte-type.opened a {
   -webkit-transform: translateY(0px);
-      -ms-transform: translateY(0px);
-          transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  transform: translateY(0px);
   visibility: visible;
 }
 #extranet .extranet-nav ul .ctacte-type a,
@@ -2909,8 +2913,8 @@ footer .footer-rd-nav {
   text-align: center;
   transition: all 0.3s ease-out;
   -webkit-transform: translateY(-20px);
-      -ms-transform: translateY(-20px);
-          transform: translateY(-20px);
+  -ms-transform: translateY(-20px);
+  transform: translateY(-20px);
   visibility: hidden;
   width: 150px;
 }
@@ -2960,8 +2964,8 @@ footer .footer-rd-nav {
   position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 #ctacte .extranet-nav ul li.back div span {
   margin: 0 !important;
@@ -2979,8 +2983,8 @@ footer .footer-rd-nav {
 #ctacte .extranet-nav ul li a div {
   top: 0;
   -webkit-transform: translateY(0%);
-      -ms-transform: translateY(0%);
-          transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  transform: translateY(0%);
 }
 #ctacte .extranet-nav ul li a div span {
   display: inline-block;
@@ -3014,8 +3018,8 @@ footer .footer-rd-nav {
 }
 #ctacte .change-ctacte a:hover i {
   -webkit-transform: rotate(15deg);
-      -ms-transform: rotate(15deg);
-          transform: rotate(15deg);
+  -ms-transform: rotate(15deg);
+  transform: rotate(15deg);
 }
 #ctacte h3 {
   font-size: 1.5em;
@@ -3190,7 +3194,7 @@ footer .footer-rd-nav {
   border: 1px solid #ccc;
   border-radius: 3px;
   display: inline-block;
-/* Fix distance between inline-block childrens */
+  /* Fix distance between inline-block childrens */
   font-size: 0;
 }
 #ctacte.pesos .pagination .wrapper .endless_page_current,
@@ -3202,7 +3206,7 @@ footer .footer-rd-nav {
   border-left: 1px solid #ccc;
   color: #3c433e;
   display: inline-block;
-/* Restore font-size before assign 0 value on parent */
+  /* Restore font-size before assign 0 value on parent */
   font-size: 16px;
   padding: 0.5em 0;
   width: 50px;
@@ -3370,7 +3374,7 @@ footer .footer-rd-nav {
 #ctacte.sales table {
   margin-bottom: 1em;
 }
-#ctacte.sales table:nth-last-child(-n+2) {
+#ctacte.sales table:nth-last-child(-n + 2) {
   margin-bottom: 2.5em;
 }
 #error-page {
@@ -3528,8 +3532,8 @@ footer .footer-rd-nav {
   border: 1px solid #ccc;
 }
 #cp .errors {
-  background-color: rgba(255,0,0,0.1);
-  border: 1px solid rgba(255,0,0,0.3);
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
   font-size: 0.9em;
 }
 #cp .errors p.errors-field {
@@ -3829,8 +3833,8 @@ footer .footer-rd-nav {
     padding-top: 2em;
     top: 0;
     -webkit-transform: translateY(0%);
-        -ms-transform: translateY(0%);
-            transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    transform: translateY(0%);
   }
   #bussines-units .unit.export .main .commodities .product {
     margin-bottom: 1em;
@@ -4167,10 +4171,10 @@ footer .footer-rd-nav {
     display: none;
   }
   #bussines-units .unit.acopio .main .location .row:first-child .plants {
-    background: url("../img/units/acopio/cha.png") no-repeat 15px 50%;
+    background: url('../img/units/acopio/cha.png') no-repeat 15px 50%;
   }
   #bussines-units .unit.acopio .main .location .row:last-child .plants {
-    background: url("../img/units/acopio/bas.png") no-repeat 15px 50%;
+    background: url('../img/units/acopio/bas.png') no-repeat 15px 50%;
   }
   #bussines-units .unit.acopio .main .location .row .plants {
     padding-right: 1em;
@@ -5315,67 +5319,67 @@ footer .footer-rd-nav {
 }
 @media screen and (max-width: 1440px) {
   #home .utils {
-    background-image: url("../img/silos_1440.jpg");
+    background-image: url('../img/silos_1440.jpg');
   }
   #bussines-units .acopio .main::after {
-    background-image: url("../img/units/unit_acopio_large.jpg");
+    background-image: url('../img/units/unit_acopio_large.jpg');
   }
   #bussines-units .commer .main::after {
-    background-image: url("../img/units/unit_commer_large.jpg");
+    background-image: url('../img/units/unit_commer_large.jpg');
   }
   #bussines-units .agro .main::after {
-    background-image: url("../img/units/unit_agro_large.jpg");
+    background-image: url('../img/units/unit_agro_large.jpg');
   }
   #bussines-units .export .main::after {
-    background-image: url("../img/units/unit_expo_large.jpg");
+    background-image: url('../img/units/unit_expo_large.jpg');
   }
 }
 @media screen and (max-width: 1280px) {
   #home .utils {
-    background-image: url("../img/silos_1280.jpg");
+    background-image: url('../img/silos_1280.jpg');
   }
 }
 @media screen and (max-width: 1024px) {
   #home .utils {
-    background-image: url("../img/silos_1024.jpg");
+    background-image: url('../img/silos_1024.jpg');
   }
   #bussines-units .acopio .main::after {
-    background-image: url("../img/units/unit_acopio_medium.jpg");
+    background-image: url('../img/units/unit_acopio_medium.jpg');
   }
   #bussines-units .commer .main::after {
-    background-image: url("../img/units/unit_commer_medium.jpg");
+    background-image: url('../img/units/unit_commer_medium.jpg');
   }
   #bussines-units .agro .main::after {
-    background-image: url("../img/units/unit_agro_medium.jpg");
+    background-image: url('../img/units/unit_agro_medium.jpg');
   }
   #bussines-units .export .main::after {
-    background-image: url("../img/units/unit_expo_medium.jpg");
+    background-image: url('../img/units/unit_expo_medium.jpg');
   }
 }
 @media screen and (max-width: 768px) {
   #home .utils {
-    background-image: url("../img/silos_768.jpg");
+    background-image: url('../img/silos_768.jpg');
   }
 }
 @media screen and (max-width: 480px) {
   #home .utils {
-    background-image: url("../img/silos_480.jpg");
+    background-image: url('../img/silos_480.jpg');
   }
   #bussines-units .acopio .main::after {
-    background-image: url("../img/units/unit_acopio_small.jpg");
+    background-image: url('../img/units/unit_acopio_small.jpg');
   }
   #bussines-units .commer .main::after {
-    background-image: url("../img/units/unit_commer_small.jpg");
+    background-image: url('../img/units/unit_commer_small.jpg');
   }
   #bussines-units .agro .main::after {
-    background-image: url("../img/units/unit_agro_small.jpg");
+    background-image: url('../img/units/unit_agro_small.jpg');
   }
   #bussines-units .export .main::after {
-    background-image: url("../img/units/unit_expo_small.jpg");
+    background-image: url('../img/units/unit_expo_small.jpg');
   }
 }
 @media screen and (max-width: 320px) {
   #home .utils {
-    background-image: url("../img/silos_320.jpg");
+    background-image: url('../img/silos_320.jpg');
   }
 }
