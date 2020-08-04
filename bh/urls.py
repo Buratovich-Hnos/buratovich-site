@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import TemplateView
-from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeDoneView
 
 from website import views
 from website.forms import CustomAuthenticationForm
@@ -35,12 +35,10 @@ urlpatterns = [
     # path('cp/', views.cp, name='cp'),
 
     path('login/', LoginView.as_view(template_name='login.html', authentication_form=CustomAuthenticationForm), name='login'),
-    # path('login/invalido/', views.auth_login_invalid, name='login_invalid'),
-    # path('login/requerido/', views.auth_login_required, name='login_required'),
-    # path('login/cuenta-inactiva/', views.auth_login_inactive_account, name='login_inactive_account'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    # path('activar-cuenta/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',views.auth_activate_account, name='activate_account'),
-    # path('cuenta/cambiar-password/', views.change_password, name='change_password'),
+    path('activar-cuenta/<slug:uidb64>/<slug:token>/', views.AccountActivationView.as_view(), name='activate_account'),
+    path('cuenta/cambiar-password/', views.ChangePasswordView.as_view(), name='change_password'),
+    path('cuenta/password-actualizada/', PasswordChangeDoneView.as_view(template_name='change_password_done.html'), name='password_change_done'),
 
     path('extranet/', views.ExtranetView.as_view(), name='extranet'),
     # path('extranet/notificaciones/', views.notifications, name='notifications'),

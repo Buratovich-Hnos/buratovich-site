@@ -2606,7 +2606,8 @@ footer .footer-rd-nav {
 }
 #login .state p,
 #login .state li,
-#change-password .state p {
+#change-password .state p,
+#change-password .state ul li {
   font-size: 2em;
 }
 #login .state .account-confirmed,
@@ -3408,11 +3409,13 @@ footer .footer-rd-nav {
 #error-page .data p .email:hover {
   border-bottom: 1px dashed #018d34;
 }
-#error-page .data .back {
+#error-page .data .back,
+#change-password .back {
   margin-top: 3em;
   text-align: center;
 }
-#error-page .data .back a {
+#error-page .data .back a,
+#change-password .back a {
   border: 1px solid #ccc;
   border-radius: 3px;
   color: #ccc;
@@ -3420,17 +3423,20 @@ footer .footer-rd-nav {
   transition: 0.2s ease-out;
   vertical-align: middle;
 }
-#error-page .data .back a i {
+#error-page .data .back a i,
+#change-password .back a i {
   font-size: 2em;
   margin: 0 0.4em 2px 0;
   vertical-align: middle;
 }
-#error-page .data .back a:hover {
+#error-page .data .back a:hover,
+#change-password .back a:hover {
   background-color: #018d34;
   border: 1px solid #018d34;
   color: #fff;
 }
-#error-page .data .back a:hover i {
+#error-page .data .back a:hover i,
+#change-password .back a:hover i {
   color: #fff;
 }
 #error-page .img img {

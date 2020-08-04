@@ -1,5 +1,7 @@
 from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.utils.translation import gettext, gettext_lazy as _
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -11,3 +13,12 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class ExtranetClientSelectionForm(forms.Form):
     client = forms.ChoiceField(required=True)
+
+
+class UserCreationForm(ModelForm):
+    username = forms.CharField(required=True, label='Nombre de usuario')
+    email = forms.EmailField(required=True, label='Direccion de email')
+
+    class Meta:
+        model = User
+        fields = ('username', 'email',)

@@ -265,7 +265,7 @@ class Rain(models.Model):
     date = models.DateField(verbose_name='Fecha', primary_key=True)
 
     def __str__(self):
-        return self.date
+        return self.date.strftime('%m/%d/%Y')
 
     class Meta:
         verbose_name = 'Lluvia'
@@ -321,7 +321,7 @@ class AccessLog(models.Model):
     logged = models.DateTimeField(auto_now_add=True, verbose_name='Fecha/Hora de Ingreso')
 
     def __str__(self):
-        return self.logged
+        return self.logged.strftime('%m/%d/%Y')
 
     class Meta:
         verbose_name = 'Log de Acceso'

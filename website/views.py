@@ -4,15 +4,20 @@ import json
 
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic import ListView
+from django.views.generic import View, ListView
 from django.views.generic.edit import FormView
 from django.views.defaults import page_not_found, server_error
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
-from django.db.models import Sum, Count
+from django.contrib.auth.models import User
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth import login, update_session_auth_hash
+from django.db.models import Q, Sum, Count
 from django.db.models.functions import ExtractMonth, ExtractYear
 from django.core import serializers
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.forms import SetPasswordForm
 
 from website.models import CtaCte
 from website.models import Deliveries
@@ -30,6 +35,10 @@ from website.models import Rain
 from website.models import RainDetail
 
 from website.forms import ExtranetClientSelectionForm
+
+from website.tokens import account_activation_token
+
+from bh import settings
 
 
 # def cp(request):
@@ -175,6 +184,50 @@ class HistoricRainView(TemplateView):
         context['month_avg'] = month_avg
         context['months'] = months
         return context
+
+
+class AccountActivationView(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            uidb64 = kwargs['uidb64']
+            token = kwargs['token']
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+        
+        # Check token, mark account as active and confirm account
+        if user is not None and account_activation_token.check_token(user, token):
+            user.userinfo.account_confirmed = True
+            user.userinfo.save()
+            user.is_active = True
+            user.save()
+            # Set backend for user instead authenticate() function
+            user.backend = 'django.contrib.auth.backends.AllowAllUsersModelBackend'
+            login(request, user)
+            request.session['algoritmo_code'] = user.userinfo.algoritmo_code
+
+            return render(request, 'change_password.html', {'account_confirmed': True})
+        else:
+            return render(request, 'change_password.html', {'account_confirmed_error': True})
+
+
+class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+    form_class = SetPasswordForm
+    # success_url = reverse_lazy('password_change_done')
+    template_name = 'change_password.html'
+
+    def form_valid(self, form):
+        form.save()
+        if self.request.user.userinfo.random_password == True:
+            self.request.user.userinfo.random_password = False
+            self.request.user.userinfo.save()
+        if not self.request.user.userinfo.is_commercial:
+            self.request.session['algoritmo_code'] = self.request.user.userinfo.algoritmo_code
+        # Updating the password logs out all other sessions for the user
+        # except the current one.
+        update_session_auth_hash(self.request, form.user)
+        return super().form_valid(form)
 
 
 class ExtranetView(LoginRequiredMixin, FormView):
