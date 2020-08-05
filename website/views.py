@@ -45,6 +45,14 @@ from bh import settings
 #     pass
 # def downloadRainExcel(request):
 #     pass
+# def applied(request):
+#     pass
+# def ctacte(request):
+#     pass
+# def deliveries(request):
+#     pass
+# def sales(request):
+#     pass
 
 
 def handler404(request, exception):
@@ -214,7 +222,6 @@ class AccountActivationView(View):
 
 class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
     form_class = SetPasswordForm
-    # success_url = reverse_lazy('password_change_done')
     template_name = 'change_password.html'
 
     def form_valid(self, form):
@@ -238,11 +245,9 @@ class ExtranetView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         client = form.cleaned_data['client']
-        client_selected = UserInfo.objects.filter(algoritmo_code=client).values('algoritmo_code', 'company_name')
-        for d in client_selected:
-            request.session['algoritmo_code'] = d['algoritmo_code']
-            request.session['company_name'] = d['company_name']
-        return super().form_valid(form)
+        self.request.session['algoritmo_code'] = client.algoritmo_code
+        self.request.session['company_name'] = client.company_name
+        return super(ExtranetView, self).form_valid(form)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -258,6 +263,4 @@ class ExtranetView(LoginRequiredMixin, FormView):
         context['notifications'] = notifications_list
         if len(notifications_id) > 0:
             request.session['notifications'] = notifications_id
-        clients = User.objects.filter(is_staff=False, userinfo__is_commercial=False).values('userinfo__algoritmo_code', 'userinfo__company_name').order_by('userinfo__company_name')
-        context['clients'] = clients        
         return context

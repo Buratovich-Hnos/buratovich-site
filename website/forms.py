@@ -4,6 +4,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.utils.translation import gettext, gettext_lazy as _
 
+from website.models import UserInfo
+
+
 class CustomAuthenticationForm(AuthenticationForm):
     error_messages = {
         'invalid_login': _('¡Ops! parece que su usuario y contraseña no son validos. Inténtelo nuevamente.'),
@@ -12,7 +15,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class ExtranetClientSelectionForm(forms.Form):
-    client = forms.ChoiceField(required=True)
+    client = forms.ModelChoiceField(queryset=UserInfo.objects.all(), required=True, empty_label='- - - - - -')
 
 
 class UserCreationForm(ModelForm):

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf import settings
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeDoneView
 
@@ -65,6 +66,14 @@ urlpatterns = [
     # Internazionalization
     path('i18n/', include('django.conf.urls.i18n')),
 ]
+
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+
 
 handler400 = 'website.views.handler404'
 handler404 = 'website.views.handler404'

@@ -6,5 +6,4 @@ class WebsiteConfig(AppConfig):
 
     # Connecting signals
     def ready(self):
-        print('import signals')
         import website.signals
