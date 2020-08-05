@@ -2,7 +2,7 @@ import datetime
 from collections import OrderedDict
 import json
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic import View, ListView
 from django.views.generic.edit import FormView
@@ -18,6 +18,7 @@ from django.core import serializers
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.forms import SetPasswordForm
+from django.urls import reverse
 
 from website.models import CtaCte
 from website.models import Deliveries
@@ -262,5 +263,18 @@ class ExtranetView(LoginRequiredMixin, FormView):
                 notifications_id.append(n.id)
         context['notifications'] = notifications_list
         if len(notifications_id) > 0:
-            request.session['notifications'] = notifications_id
+            self.request.session['notifications'] = notifications_id
         return context
+
+
+class NotificationsView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        if 'notifications' in request.session:
+            notifications = request.session['notifications']
+            for n in notifications:
+                not_obj = Notifications.objects.get(id=n)
+                ViewedNotifications.objects.create(notification=not_obj, user=request.user, viewed=True)
+            del request.session['notifications']
+            return redirect(reverse('extranet'))
+        else:
+            return redirect('/')

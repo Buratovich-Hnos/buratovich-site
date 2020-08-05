@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'debug_toolbar',
+    'tinymce',
     'website.apps.WebsiteConfig'
 ]
 
@@ -189,3 +190,15 @@ AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBacke
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+
+# Django-tinymce Settings
+# TINYMCE_DEFAULT_CONFIG = {
+# 	'theme': 'advanced',
+# 	'theme_advanced_buttons1': 'bold,italic,underline,separator,bullist,numlist,separator,link,unlink',
+# 	'theme_advanced_buttons2': '',
+# 	'theme_advanced_buttons3': '',
+# 	'theme_advanced_toolbar_location': 'top',
+# 	'theme_advanced_toolbar_align': 'left',
+# }
+TINYMCE_COMPRESSOR = True

@@ -23,6 +23,8 @@ from website import views
 from website.forms import CustomAuthenticationForm
 
 urlpatterns = [
+    path('tinymce/', include('tinymce.urls')),
+
     path('admin/', admin.site.urls),
 
     path('', views.IndexView.as_view(), name='home'),
@@ -42,7 +44,7 @@ urlpatterns = [
     path('cuenta/password-actualizada/', PasswordChangeDoneView.as_view(template_name='change_password_done.html'), name='password_change_done'),
 
     path('extranet/', views.ExtranetView.as_view(), name='extranet'),
-    # path('extranet/notificaciones/', views.notifications, name='notifications'),
+    path('extranet/notificaciones/', views.NotificationsView.as_view(), name='notifications'),
     # path('extranet/ctacte/pesos/<str:ctacte_type>/', views.ctacte, name='ctacte'),
     # path('extranet/ctacte/aplicada/', views.applied, name='applied'),
     # path('extranet/entregas/', views.deliveries, name='deliveries'),

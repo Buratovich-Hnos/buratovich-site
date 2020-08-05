@@ -4,7 +4,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.utils.translation import gettext, gettext_lazy as _
 
-from website.models import UserInfo
+from tinymce.widgets import TinyMCE
+
+from website.models import UserInfo, Notifications
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -25,3 +27,13 @@ class UserCreationForm(ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email',)
+
+
+class NotificationCreationForm(ModelForm):
+
+	class Meta:
+		model = Notifications
+		fields = ('title', 'notification', 'active', 'date_from', 'date_to',)
+		widgets = {
+			'notification': TinyMCE(attrs={'cols': 80, 'rows': 30}),
+		}

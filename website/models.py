@@ -278,7 +278,7 @@ class RainDetail(models.Model):
     mm = models.FloatField(verbose_name='Milimetros')
 
     def __str__(self):
-        return self.city
+        return self.city.city
 
     class Meta:
         verbose_name = 'Detalle'
