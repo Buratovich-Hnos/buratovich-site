@@ -40,22 +40,7 @@
 <body>
   <header>
     <div class="maxwidth">
-      <form action="{% url "set_language" %}" method="post" class="form-language">
-        {% csrf_token %}
-        <div>
-            <input name="next" type="hidden" value="{{ redirect_to }}" />
-            {% get_current_language as LANGUAGE_CODE %}
-            {% get_available_languages as LANGUAGES %}
-            {% for lang in LANGUAGES %}
-              <button type="submit" name="language" value="{{ lang.0 }}" class="{% if lang.0 == LANGUAGE_CODE %}selected{% endif %}">
-                {{ lang.1 }}
-              </button>
-            {% endfor %}
-            {% if user.is_staff %}
-              <a href="{% url 'admin:index' %}" class="admin-login"><span>ADMIN</span><i class="fa fa-cog" aria-hidden="true"></i></a>
-            {% endif %}
-        </div>
-      </form>
+      {% block language %} {% endblock %}
       <a href="/">
         <div class="logo">
           <img src="{% static "img/logo_bh_2.png" %}" alt="Buratovich Hnos. S.A.">

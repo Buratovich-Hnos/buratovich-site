@@ -1,5 +1,13 @@
-{% extends 'base.html' %} {% load static %} {% load i18n %} 
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
 {% block title %}Buratovich Hnos. - {% trans "Contacto" %}{% endblock %} 
+
+{% block language %}
+	{% include 'language.html' %}
+{% endblock %}
+
 {% block path %}
 <div class="path maxwidth">
   <div class="path-container">
@@ -17,7 +25,9 @@
     </div>
   </div>
 </div>
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block content %}
 <section id="contact" class="maxwidth">
   <p class="data-contact">
     <i class="fa fa-ellipsis-v" aria-hidden="true"></i> {% blocktrans %}Ante
@@ -285,7 +295,9 @@
     </div>
   </article>
 </section>
-{% endblock %} {% block scriptjs %}
+{% endblock %}
+
+{% block scriptjs %}
 
 <script>
   function initMap() {

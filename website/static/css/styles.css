@@ -954,7 +954,6 @@ header > div {
   overflow: hidden;
 }
 header .form-language {
-  margin-bottom: 0.8em;
   padding-right: 1em;
   text-align: right;
 }
@@ -996,6 +995,7 @@ header .form-language .admin-login span {
   font-size: 0.8em;
 }
 header .logo {
+  margin-top: 0.8em;
   padding: 0 0 0 1em;
 }
 header .logo img,
@@ -1018,6 +1018,7 @@ header .logo span {
   display: block;
 }
 header nav {
+  margin-top: 0.8em;
   padding-right: 1em;
   text-align: right;
 }

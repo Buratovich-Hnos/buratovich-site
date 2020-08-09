@@ -1,5 +1,14 @@
-{% extends 'base.html' %} {% load static %} {% load humanize %} {% load i18n %}
-{% block title %}Buratovich Hnos. - {% trans "Unidades de Negocio" %}{% endblock%} 
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block title %}Buratovich Hnos. - {% trans "Unidades de Negocio" %}{% endblock%}
+
+{% block language %}
+	{% include 'language.html' %}
+{% endblock %}
+
 {% block path %}
 <div class="path maxwidth">
   <div class="path-container">
@@ -17,7 +26,9 @@
     </div>
   </div>
 </div>
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block content %}
 <section id="bussines-units">
   <article class="units-description module maxwidth">
     <p>
