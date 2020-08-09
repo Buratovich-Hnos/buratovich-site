@@ -1,6 +1,7 @@
 import datetime 
 from collections import OrderedDict
 import json
+from monthdelta import monthdelta
 
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
@@ -8,12 +9,13 @@ from django.views.generic import View, ListView
 from django.views.generic.edit import FormView
 from django.views.defaults import page_not_found, server_error
 from django.http import JsonResponse
+from django.http import Http404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth import login, update_session_auth_hash
-from django.db.models import Q, Sum, Count
-from django.db.models.functions import ExtractMonth, ExtractYear
+from django.db.models import Q, Sum, Count, F, Window, Value, FloatField
+from django.db.models.functions import ExtractMonth, ExtractYear, Coalesce
 from django.core import serializers
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
@@ -44,11 +46,13 @@ from bh import settings
 
 # def cp(request):
 #     pass
+# def downloadexcel(request):
+#     pass
+# def downloadPDFExtranet(request):
+#     pass
 # def downloadRainExcel(request):
 #     pass
 # def applied(request):
-#     pass
-# def ctacte(request):
 #     pass
 # def deliveries(request):
 #     pass
@@ -119,7 +123,6 @@ class RainView(ListView):
                 temp['mm'] = r['mm']
                 rain_data.append(temp)
             data = json.dumps(rain_data)
-            print(data)
         return JsonResponse({'data': data})
 
 
@@ -131,15 +134,12 @@ class HistoricRainView(TemplateView):
         months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
         # Filter City = 1 only por Arrecifes
         rain = RainDetail.objects.filter(city=1).annotate(month=ExtractMonth('rain'), year=ExtractYear('rain')).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
-        print(rain)
         history = OrderedDict()
         month_avg = OrderedDict()
         prev_year = 0
         prev_month = 0
 
         for r in rain:
-            # year = datetime.datetime.strptime(r['year'], "%Y-%m-%d").date().year
-            # month = datetime.datetime.strptime(r['month'], "%Y-%m-%d").date().month
             year = r['year']
             month = r['month']
             if history.get(year, None) is None:
@@ -278,3 +278,89 @@ class NotificationsView(LoginRequiredMixin, View):
             return redirect(reverse('extranet'))
         else:
             return redirect('/')
+
+
+class CtaCteView(LoginRequiredMixin, ListView):
+    http_method_names = ['get',]
+    model = CtaCte
+    template_name = 'ctacte.html'
+    allow_empty = True
+    date_field = None
+    since_date = None
+    until_date = None
+    date_format = '%Y-%m-%d'
+
+    def get_since_date(self):
+        since_date = self.since_date
+        if since_date is None:
+            try:
+                since_date = self.kwargs['from']
+            except KeyError:
+                try:
+                    since_date = self.request.GET['from']
+                except KeyError:
+                    return None
+        format = self.date_format
+        return datetime.datetime.strptime(since_date, format).date()
+
+    def get_until_date(self):
+        until_date = self.until_date
+        if until_date is None:
+            try:
+                until_date = self.kwargs['to']
+            except KeyError:
+                try:
+                    until_date = self.request.GET['to']
+                except KeyError:
+                    return None
+        format = self.date_format
+        return datetime.datetime.strptime(until_date, format).date()
+
+    def get(self, request, *args, **kwargs):
+        ctacte_type = kwargs['ctacte_type']
+        if ctacte_type != 'vencimiento' and ctacte_type != 'emision':
+            raise Http404('Tipo de cuenta corriente iválido')
+        if ctacte_type == 'emision':
+            self.date_field = 'date_2'
+        else:
+            self.date_field = 'date_1'
+        if self.get_since_date() is None:
+            self.since_date = (datetime.datetime.today() - monthdelta(1)).strftime(self.date_format)
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        return self.render_to_response(context)
+
+    def get_queryset(self):
+        ctacte_type = self.kwargs['ctacte_type']
+        algoritmo_code = self.request.session['algoritmo_code']
+
+        date_field = self.date_field
+        since = self.get_since_date()
+        until = self.get_until_date()
+        lookup_ib = {
+            '%s__lt' % date_field: since
+        }
+        if until:
+            lookup_kwargs = {
+                '%s__gte' % date_field: since,
+                '%s__lt' % date_field: until,
+            }
+        else:
+            lookup_kwargs = {
+                '%s__gte' % date_field: since
+            }
+        initial_balance = CtaCte.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Sum('amount_sign'))
+        queryset = CtaCte.objects\
+            .filter(algoritmo_code=algoritmo_code)\
+            .filter(**lookup_kwargs)\
+            .annotate(ib=Value(initial_balance['ib'] or 0, output_field=FloatField()))\
+            .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_sign').asc()]) + F('initial_balance_countable') + F('ib'))\
+            .values('date_1', 'date_2', 'voucher', 'concept', 'movement_type', 'amount_sign', 'initial_balance_countable', 'ib', 'row_balance').order_by('%s' % date_field, 'voucher', 'amount_sign')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ctacte_type'] = self.kwargs['ctacte_type']
+        context['from_date'] = self.get_since_date()
+        context['to_date'] = self.get_until_date()
+        return context

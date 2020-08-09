@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'mathfilters',
     'debug_toolbar',
     'tinymce',
+    'el_pagination',
     'website.apps.WebsiteConfig'
 ]
 
@@ -214,3 +216,7 @@ INTERNAL_IPS = [
 # 	'theme_advanced_toolbar_align': 'left',
 # }
 TINYMCE_COMPRESSOR = True
+
+
+# Django El Pagination
+EL_PAGINATION_PER_PAGE = 100
