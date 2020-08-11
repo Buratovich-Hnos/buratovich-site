@@ -52,8 +52,6 @@ from bh import settings
 #     pass
 # def downloadRainExcel(request):
 #     pass
-# def applied(request):
-#     pass
 # def deliveries(request):
 #     pass
 # def sales(request):
@@ -280,10 +278,8 @@ class NotificationsView(LoginRequiredMixin, View):
             return redirect('/')
 
 
-class CtaCteView(LoginRequiredMixin, ListView):
+class DateFilterBaseView(ListView):
     http_method_names = ['get',]
-    model = CtaCte
-    template_name = 'ctacte.html'
     allow_empty = True
     date_field = None
     since_date = None
@@ -315,6 +311,16 @@ class CtaCteView(LoginRequiredMixin, ListView):
                     return None
         format = self.date_format
         return datetime.datetime.strptime(until_date, format).date()
+    
+    def get_context_data(self, **kwargs):
+        context = {'from_date': self.get_since_date(),
+                   'to_date': self.get_until_date()}
+        context.update(kwargs)
+        return super(DateFilterBaseView, self).get_context_data(**context)
+
+
+class CtaCteView(LoginRequiredMixin, DateFilterBaseView):
+    template_name = 'ctacte.html'
 
     def get(self, request, *args, **kwargs):
         ctacte_type = kwargs['ctacte_type']
@@ -361,6 +367,42 @@ class CtaCteView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['ctacte_type'] = self.kwargs['ctacte_type']
-        context['from_date'] = self.get_since_date()
-        context['to_date'] = self.get_until_date()
         return context
+
+
+class AppliedView(LoginRequiredMixin, DateFilterBaseView):
+    template_name = 'applied.html'
+    date_field = 'expiration_date'
+
+    def get_queryset(self):
+        algoritmo_code = self.request.session['algoritmo_code']
+
+        date_field = self.date_field
+        since = self.get_since_date()
+        until = self.get_until_date()
+        if since:
+            lookup_ib = {
+                '%s__lt' % date_field: since
+            }
+            initial_balance = Applied.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Sum('amount_sign'))
+            if until:
+                lookup_kwargs = {
+                    '%s__gte' % date_field: since,
+                    '%s__lt' % date_field: until,
+                }
+            else:
+                lookup_kwargs = {
+                    '%s__gte' % date_field: since
+                }
+            queryset = Applied.objects\
+                .filter(algoritmo_code=algoritmo_code)\
+                .filter(**lookup_kwargs)\
+                .annotate(ib=Value(initial_balance['ib'] or 0, output_field=FloatField()))\
+                .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_sign').asc()]) + F('ib'))\
+                .values('expiration_date', 'issue_date', 'voucher', 'concept', 'movement_type', 'amount_sign', 'ib', 'row_balance').order_by('%s' % date_field, 'voucher', 'amount_sign')
+        else:
+            queryset = Applied.objects\
+                .filter(algoritmo_code=algoritmo_code)\
+                .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_sign').asc()]))\
+                .values('expiration_date', 'issue_date', 'voucher', 'concept', 'movement_type', 'amount_sign', 'row_balance').order_by('%s' % date_field, 'voucher', 'amount_sign')
+        return queryset

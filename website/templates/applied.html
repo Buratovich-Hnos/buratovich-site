@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% load humanize %}
+{% load truncatechars %}
+{% load voucher %}
+{% load balance %}
+
+{% block title %}Buratovich Hnos. - Cuenta Corriente Aplicada{% endblock %}
+
+{% block path %}
+<div class="path maxwidth">
+	<div class="path-container">
+		{% if user.is_authenticated %}
+			<div class="hi">Bienvenido, <span class="customer-name">{{user.userinfo.company_name}}</span></div>
+		{% endif %}
+	</div>
+	<div class="path-container">
+		<div class="route"><a href="/">Home</a> <span class="chevron">></span> <a href="{% url 'extranet' %}">Extranet</a> <span class="chevron">></span> <span class="current">Cuenta Corriente Aplicada</span></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+	<section id="ctacte" class="applied maxwidth">
+		<nav class="extranet-nav">
+			<ul class="h-list">
+				<div class="row">
+					<li class="back">
+						<a href="{% url 'extranet' %}">
+							<div>
+								<span>
+									<img src="{% static "img/return-arrow.png" %}">
+								</span>
+							</div>
+						</a>
+					</li><!--
+					-->
+					<li class="ctacte-btn ctacte-pesos">
+						<a href="#">
+							<div>
+								<span class="full">Cuenta Corriente</span>
+								<span class="short">Cta. Cte.</span>
+								<span>$</span>
+							</div>
+						</a>
+					</li>
+				</div>
+				<div class="ctacte-type">
+					<a href="{% url 'ctacte' 'vencimiento' %}">
+						<i class="fa fa-calendar" aria-hidden="true"></i> Vencimiento
+					</a>
+					<a href="{% url 'ctacte' 'emision' %}">
+						<i class="fa fa-calendar" aria-hidden="true"></i> Emisión
+					</a>
+				</div>
+				<div class="row first">
+					<li>
+						<a href="{% url 'deliveries' %}">
+							<div>
+								<span>Entregas</span>
+								<span><i class="fa fa-truck" aria-hidden="true"></i></span>
+							</div>
+						</a>
+					</li><!--
+					--><li>
+						<a href="{% url 'sales' %}">
+							<div>
+								<span>Ventas</span>
+								<span><i class="fa fa-handshake-o" aria-hidden="true"></i></span>
+							</div>
+						</a>
+					</li>
+				</div>
+				<div class="row second" style="display:block;"></div>
+			</ul>
+		</nav>
+
+		<h3>Cuenta Corriente Aplicada</h3>
+
+		{% if user.userinfo.is_commercial %}
+			{% if request.session.algoritmo_code %}
+				<h4 class="client-selected">{{request.session.algoritmo_code|slugify}} - {{request.session.company_name|upper}}</h4>
+			{% endif %}
+		{% endif %}
+
+		<form id="filter-date" action="{% url 'applied' %}" method="get">
+			<!-- {% csrf_token %} -->
+			<div class="input-el">
+				<div class="from">
+					Desde
+					<div class="input">
+						{% if from_date %}
+							<input id="from" name="from" type="date" value="{{request.GET.from}}" placeholder="dd/mm/aaaa">
+						{% else %}
+							<input id="from" name="from" type="date" placeholder="dd/mm/aaaa">
+						{% endif %}
+						<span class="icon">
+							<i class="fa fa-calendar-o" aria-hidden="true"></i>
+						</span>
+					</div>
+				</div>
+				<div class="to">
+					Hasta
+					<div class="input">
+						{% if to_date %}
+							<input id="to" name="to" type="date" value="{{request.GET.to}}" placeholder="dd/mm/aaaa">
+						{% else %}
+							<input id="to" name="to" type="date" placeholder="dd/mm/aaaa">
+						{% endif %}
+						<span class="icon">
+							<i class="fa fa-calendar-o" aria-hidden="true"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="submit">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+			<p class="error-description">{{error}}</p>
+		</form>
+
+		{% if from_date and to_date %}
+			<h4 class="filter-date-title">Cuenta Corriente desde {{from_date}} hasta {{to_date}}</h4>
+		{% endif %}
+
+		{% if object_list %}
+
+			{% load el_pagination_tags %}
+			{% paginate object_list as applied %}
+			{% get_pages %}
+
+			<div class="export-data">
+				<button>
+					<a href="{% url 'downloadexcel' 'applied' %}?{{request.GET.urlencode}}"><i class="fa fa-table" aria-hidden="true"></i> Exportar a Excel</a>
+				</button>
+				<!--<button>
+					<a href="/downloadtxt/applied/"><i class="fa fa-file-text-o" aria-hidden="true"></i> Exportar a TXT</a>
+				</button>-->
+			</div>
+
+			<div class="pagination top">
+				<span class="wrapper">
+					{% show_pages %}
+				</span>
+			</div>
+
+			<table>
+				<thead>
+					<tr>
+						<th>Fecha Vto.</th>
+						<th>Comprobante</th>
+						<th class="observations">Observaciones</th>
+						<th class="date-e">Fecha Emi.</th>
+						<th class="dh">D/H</th>
+						<th class="amount">Importe</th>
+						<th class="debe">Debe</th>
+						<th class="haber">Haber</th>
+						<th>Saldo</th>
+						<th class="detail" colspan="3"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% show_current_number as page_number %}
+					{% balance applied as balance_detail %}
+					<tr class="initial-balance">
+						<td></td>
+						<td></td>
+						<td class="observations"></td>
+						<td class="date-e"></td>
+						<td class="dh"></td>
+						<td class="amount">S. Inicial:</td>
+						<td class="debe"></td>
+						<td class="haber">S. Inicial:</td>
+						<td class="right">{{balance_detail.initial_page_balance|floatformat:2|intcomma}}</td>
+						<td class="detail" colspan="3"></td>
+					</tr>
+					{% for i in applied %}
+						<tr>
+							<td class="center">{{i.expiration_date|date:"d/m/Y"}}</td>
+							{% voucher i.voucher 'S' as voucher %}
+							<td>{{voucher}}</td>
+							{% truncate_chars i.concept 40 as concept %}
+							<td class="observations">{{concept}}</td>
+							<td class="center date-e">{{i.issue_date|date:"d/m/Y"}}</td>
+							{% if i.movement_type == "Debito" %}
+								<td class="center dh">D</td>
+								<td class="right amount">{{i.amount_sign|floatformat:2|intcomma}}</td>
+							{% else %}
+								<td class="center dh">H</td>
+								<td class="right amount">{{i.amount_sign|floatformat:2|intcomma}}</td>
+							{% endif %}
+							{% if i.movement_type == "Debito" %}
+								<td class="right debe">{{i.amount_sign|floatformat:2|intcomma}}</td>
+								<td class="haber"></td>
+							{% else %}
+								<td class="debe"></td>
+								<td class="right haber">{{i.amount_sign|abs|floatformat:2|intcomma}}</td>
+							{% endif %}
+							<td class="right">{{i.row_balance|floatformat:2|intcomma}}</td>
+							<td class="center detail" colspan="3">
+								<a href="#" class="show-detail">
+									<i class="fa fa-search-plus" aria-hidden="true"></i>
+								</a>
+								<a href="#" class="hide-detail hide-btn">
+									<i class="fa fa-search-minus" aria-hidden="true"></i>
+								</a>
+							</td>
+						</tr>
+						<tr class="detail">
+							<td colspan="7">
+								<table>
+									<thead>
+										<tr>
+											<th class="observations">Observaciones</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="observations">{{i.concept}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					{% endfor %}
+					{% if page_number == pages|length %}
+						<tr class="total">
+							<td></td>
+							<td></td>
+							<td class="observations"></td>
+							<td class="date-e"></td>
+							<td class="dh"></td>
+							<td class="amount">Total Gral.:</td>
+							<td class="debe"></td>
+							<td class="haber">Total Gral.:</td>
+							<td class="right">{{balance_detail.final_page_balance|floatformat:2|intcomma}}</td>
+							<td colspan="3"></td>
+						</tr>
+					{% endif %}
+				</tbody>
+			</table>
+
+			<div class="pagination bottom">
+				<span class="wrapper">
+					{% show_pages %}
+				</span>
+			</div>
+
+		{% else %}
+
+			<div class="no-data">
+				{% if request.session.algoritmo_code %}
+					<p>No se encontraron movimientos.</p>
+				{% else %}
+					<p>Debe seleccionar un Cliente.</p>
+				{% endif %}
+			</div>
+
+		{% endif %}
+
+	</section>
+
+{% endblock %}
