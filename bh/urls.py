@@ -47,7 +47,7 @@ urlpatterns = [
     path('extranet/notificaciones/', views.NotificationsView.as_view(), name='notifications'),
     path('extranet/ctacte/pesos/<str:ctacte_type>/', views.CtaCteView.as_view(), name='ctacte'),
     path('extranet/ctacte/aplicada/', views.AppliedView.as_view(), name='applied'),
-    # path('extranet/entregas/', views.deliveries, name='deliveries'),
+    path('extranet/entregas/', views.DeliveriesView.as_view(), name='deliveries'),
     # path('extranet/ventas/', views.sales, name='sales'),
 
     # path('downloadexcel/rain/', views.downloadRainExcel, name='download_rain'),

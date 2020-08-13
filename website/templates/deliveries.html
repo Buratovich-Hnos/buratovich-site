@@ -1,0 +1,314 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% load humanize %}
+{% load analysis %}
+{% load truncatechars %}
+{% load voucher %}
+{% load totals %}
+
+{% block title %}Buratovich Hnos. - Entregas por Cosecha{% endblock %}
+
+{% block path %}
+<div class="path maxwidth">
+	<div class="path-container">
+		{% if user.is_authenticated %}
+			<div class="hi">Bienvenido, <span class="customer-name">{{user.userinfo.company_name}}</span></div>
+		{% endif %}
+	</div>
+	<div class="path-container">
+		<div class="route"><a href="/">Home</a> <span class="chevron">></span> <a href="{% url 'extranet' %}">Extranet</a> <span class="chevron">></span> <span class="current">Entregas</span></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+	<section id="ctacte" class="kilos maxwidth">
+		<nav class="extranet-nav">
+			<ul class="h-list">
+				<div class="row">
+					<li class="back">
+						<a href="{% url 'extranet' %}">
+							<div>
+								<span>
+									<img src="{% static "img/return-arrow.png" %}">
+								</span>
+							</div>
+						</a>
+					</li><!--
+					--><li class="ctacte-btn ctacte-pesos">
+						<a href="#">
+							<div>
+								<span class="full">Cuenta Corriente</span>
+								<span class="short">Cta. Cte.</span>
+								<span>$</span>
+							</div>
+						</a>
+					</li>
+				</div>
+				<div class="ctacte-type">
+					<a href="{% url 'ctacte' ctacte_type='vencimiento' %}">
+						<i class="fa fa-calendar" aria-hidden="true"></i> Vencimiento
+					</a>
+					<a href="{% url 'ctacte' ctacte_type='emision' %}">
+						<i class="fa fa-calendar" aria-hidden="true"></i> Emisión
+					</a>
+				</div>
+				<div class="row first">
+					<li>
+						<a href="{% url 'applied' %}">
+							<div>
+								<span>Cta. Cte.</span>
+								<span>Aplicada</span>
+							</div>
+						</a>
+					</li><!--
+					--><li>
+						<a href="{% url 'sales' %}">
+							<div>
+								<span>Ventas</span>
+								<span><i class="fa fa-handshake-o" aria-hidden="true"></i></span>
+							</div>
+						</a>
+					</li>
+				</div>
+				<div class="row second" style="display:block;"></div>
+			</ul>
+		</nav>
+
+		<h3>Entregas</h3>
+
+		{% if user.userinfo.is_commercial %}
+			{% if request.session.algoritmo_code %}
+				<h4 class="client-selected">{{request.session.algoritmo_code|slugify}} - {{request.session.company_name|upper}}</h4>
+			{% endif %}
+		{% endif %}
+
+		{% if species %}
+
+			<div class="harvest-selector">
+				<form action="{% url 'deliveries' %}" method="get">
+				<!-- {% csrf_token %} -->
+					<div class="harvest-detail">
+						{% regroup species by harvest as harvest_list %}
+						{% for h in harvest_list %}
+							<div>
+								<h4>{{h.grouper}}</h4>
+								{% for s in h.list %}
+									<label>
+										<input type="checkbox" name="checks" value="{{s.speciesharvest}}" {% if s.speciesharvest in request.session.current_species %} checked {% endif %}>
+										{{s.species_title|title}}
+									</label>
+								{% endfor %}
+							</div>
+						{% endfor %}
+					</div>
+					<div style="clear:both;"></div>
+					<button type="submit" class="submit">
+						Buscar
+						<i class="fa fa-search" aria-hidden="true"></i>
+					</button>
+				</form>
+			</div>
+
+			{% if object_list %}
+				<div class="export-data">
+					<button>
+						<a href="{% url 'downloadexcel' 'deliveries' %}"><i class="fa fa-table" aria-hidden="true"></i> Exportar a Excel</a>
+					</button>
+					<!--<button>
+						<a href=""><i class="fa fa-file-text-o" aria-hidden="true"></i> Exportar a TXT</a>
+					</button>-->
+				</div>
+
+				{% regroup object_list by species_title as tickets_by_harvest %}
+				{% for tbh in tickets_by_harvest %}
+					<h4 class="harvest-title">{{tbh.grouper}}</h4>
+					<table>
+						<thead>
+							<tr>
+								<th rowspan="2" class="date">Fecha</th>
+								<th rowspan="2" class="voucher">Comprobante</th>
+								<th rowspan="2" class="cp">CP</th>
+								<th colspan="2" class="hum kg">Hum.</th>
+								<th class="hum">Hum.</th>
+								<th colspan="2" class="zar">Zar.</th>
+								<th colspan="2" class="vol">Vol.</th>
+								<th rowspan="2" class="gross">Brutos</th>
+								<th rowspan="2" class="net">Netos</th>
+								<th rowspan="2" class="factor">Factor</th>
+								<th rowspan="2" class="grade">Grado</th>
+								<th rowspan="2" class="detail analysis">Análisis</th>
+								<th rowspan="2" class="cd">Nº 1116A</th>
+								<th rowspan="2"	class="driver">Transportista</th>
+								<th colspan="16" rowspan="2" class="detail"></th>
+							</tr>
+							<tr>
+								<th colspan="1" class="hum per">%</th>
+								<th colspan="1" class="hum kg">Kg.</th>
+								<th colspan="1" class="zar">%</th>
+								<th colspan="1" class="zar">Kg.</th>
+								<th colspan="1" class="vol">%</th>
+								<th colspan="1" class="vol">Kg.</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% regroup tbh.list by field_description as tickets_by_field %}
+						{% for tbf in tickets_by_field %}
+							<tr class="field-name">
+								<td colspan="16">{{tbf.grouper}}</td>
+							</tr>
+							{% for tk in tbf.list %}
+								{% get_analysis ticket_analysis tk.voucher as detail %}
+								<tr>
+									<td class="center date">{{tk.date|date:"d/m/Y"}}</td>
+									{% voucher tk.voucher 'S' as voucher %}
+									<td class="voucher">{{voucher}}</td>
+									<td class="center cp">{{tk.external_voucher_number|stringformat:'s'}}</td>
+									<td class="right hum per">{{tk.humidity_percentage|floatformat:2|intcomma}}</td>
+									<td class="right hum kg">{{tk.humidity_kg|intcomma}}</td>
+									<td class="right zar">{{tk.shaking_reduction|floatformat:2|intcomma}}</td>
+									<td class="right zar">{{tk.shaking_kg|intcomma}}</td>
+									<td class="right vol">{{tk.volatile_reduction|floatformat:2|intcomma}}</td>
+									<td class="right vol">{{tk.volatile_kg|intcomma}}</td>
+									<td class="right gross">{{tk.gross_kg|intcomma}}</td>
+									<td class="right net">{{tk.net_weight|intcomma}}</td>
+									<td class="center factor">{{tk.factor|intcomma}}</td>
+									<td class="center grade">{{tk.grade}}</td>
+									<td class="center detail analysis">
+										{% if detail %}
+											<a href="#" class="show-detail">
+												<i class="fa fa-search-plus" aria-hidden="true"></i>
+											</a>
+											<a href="#" class="hide-detail hide-btn">
+												<i class="fa fa-search-minus" aria-hidden="true"></i>
+											</a>
+										{% endif %}
+									</td>
+									<td class="center cd">{{tk.number_1116A|stringformat:'s'}}</td>
+									{% truncate_chars tk.driver_name 20 as driver %}
+									<td class="driver">{{driver}}</td>
+									<td colspan="16" class="center detail">
+										<a href="#" class="show-detail">
+											<i class="fa fa-search-plus" aria-hidden="true"></i>
+										</a>
+										<a href="#" class="hide-detail hide-btn">
+											<i class="fa fa-search-minus" aria-hidden="true"></i>
+										</a>
+									</td>
+								</tr>
+								<tr class="analysis">
+									<td colspan="16">
+										<table class="ticket-detail">
+											<thead>
+												<tr>
+													<th class="center factor">Factor</th>
+													<th class="center grade">Grado</th>
+													<th class="driver">Chofer</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="center factor">{{tk.factor|intcomma}}</td>
+													<td class="center grade">{{tk.grade}}</td>
+													<td class="driver">{{driver}}</td>
+												</tr>
+											</tbody>
+										</table>
+										{% if detail %}
+											<table class="analysis-detail">
+												<thead>
+													<tr>
+														<th colspan="3">Gluten: {{detail.0.gluten}}</th>
+														<th colspan="2">Importe de Gastos: $ {{detail.0.analysis_costs|floatformat:2|intcomma}}</th>
+													</tr>
+													<tr>
+														<th colspan="2">Item</th>
+														<th>%</th>
+														<th>Bonificación</th>
+														<th>Rebaja</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for z in detail %}
+														<tr>
+															<td colspan="2">{{z.item_descripcion}}</td>
+															<td class="right">{{z.percentage|floatformat:2|intcomma}}</td>
+															<td class="right">{{z.bonus|floatformat:2|intcomma}}</td>
+															<td class="right">{{z.reduction|floatformat:2|intcomma}}</td>
+														</tr>
+													{% endfor %}
+												</tbody>
+											</table>
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+							{% get_totals totals_by_field tbh.grouper tbf.grouper as field_totals %}
+							<tr class="total">
+								<td class="center date"><span>Entregas: {{field_totals.tickets_count}}</span></td>
+								<td class="voucher"></td>
+								<td class="cp"></td>
+								<td class="hum per"></td>
+								<td class="right hum kg"><span>{{field_totals.total_hum}}</span></td>
+								<td class="zar"></td>
+								<td class="right zar"><span>{{field_totals.total_sha}}</span></td>
+								<td class="vol"></td>
+								<td class="right vol"><span>{{field_totals.total_vol}}</span></td>
+								<td class="right gross"><span>{{field_totals.total_gross}}</span></td>
+								<td class="right net"><span>{{field_totals.total_net}}</span></td>
+								<td class="factor"></td>
+								<td class="grade"></td>
+								<td class="detail analysis"></td>
+								<td class="cd"></td>
+								<td class="driver"></td>
+								<td colspan="16" class="detail"></td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				{% endfor %}
+
+				<table>
+					<tbody>
+						<tr class="total-received header">
+							<td class="left" colspan="3">Camiones Entregados: {{total.voucher__count|intcomma}}</td>
+						</tr>
+						<tr class="total-received header">
+							<td class="left" colspan="3">Total Kg. Brutos<span>{{total.gross_kg__sum|intcomma}}</span></td>
+						</tr>
+						<tr class="total-received header">
+							<td class="left" colspan="3">Total Kg. Netos<span>{{total.net_weight__sum|intcomma}}</span></td>
+						</tr>
+						<tr class="total-received">
+							<td class="center" style="width: 33.33%;">Total Kg. Hum.<span>{{total.humidity_kg__sum|intcomma}}</span></td>
+							<td class="center" style="width: 33.33%;">Total Kg. Zar.<span>{{total.shaking_kg__sum|intcomma}}</span></td>
+							<td class="center" style="width: 33.34%;">Total Kg. Vol.<span>{{total.volatile_kg__sum|intcomma}}</span></td>
+						</tr>
+					</tbody>
+				</table>
+
+			{% else %}
+
+				<div class="no-species">
+					<p>Seleccione las especies y cosechas que desea visualizar.</p>
+				</div>
+
+			{% endif %}
+
+		{% else %}
+
+			<div class="no-data">
+				{% if request.session.algoritmo_code %}
+					<p>No se encontraron movimientos.</p>
+				{% else %}
+					<p>Debe seleccionar un Cliente.</p>
+				{% endif %}
+			</div>
+
+		{% endif %}
+
+	</section>
+
+{% endblock %}
