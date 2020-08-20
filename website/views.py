@@ -125,67 +125,10 @@ class HistoricRainView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+        context['months'] = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
         # Filter City = 1 only por Arrecifes
         rain = RainDetail.objects.filter(city=1).annotate(month=ExtractMonth('rain'), year=ExtractYear('rain')).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
-        history = OrderedDict()
-        month_avg = OrderedDict()
-        prev_year = 0
-        prev_month = 0
-
-        for r in rain:
-            year = r['year']
-            month = r['month']
-            if history.get(year, None) is None:
-                history[year] = OrderedDict()
-                history[year]['rain'] = OrderedDict()
-                history[year]['total'] = 0
-            if month_avg.get(month, None) is None:
-                month_avg[month] = OrderedDict()
-                month_avg[month]['sum'] = 0
-                month_avg[month]['count'] = 0
-            if year == prev_year or prev_year == 0:
-                if prev_month + 1 == month or prev_month == 0:
-                    # history[year]['rain'][month] = r['mmsum']
-                    history[year]['rain'][month] = OrderedDict()
-                    history[year]['rain'][month]['name'] = months[month-1]
-                    history[year]['rain'][month]['mm'] = r['mmsum']
-                    history[year]['total'] += r['mmsum']
-                    month_avg[month]['sum'] += r['mmsum']
-                    month_avg[month]['count'] += 1
-                else:
-                    for i in range(prev_month+1, month):
-                        # history[year]['rain'][datetime.datetime(year,i,1).date().month] = 0
-                        history[year]['rain'][datetime.datetime(year,i,1).date().month] = OrderedDict()
-                        history[year]['rain'][datetime.datetime(year,i,1).date().month]['name'] = months[datetime.datetime(year,i,1).date().month - 1]
-                        history[year]['rain'][datetime.datetime(year,i,1).date().month]['mm'] = 0
-                        if month_avg.get(datetime.datetime(year,i,1).date().month, None) is None:
-                            month_avg[datetime.datetime(year,i,1).date().month] = OrderedDict()
-                            month_avg[datetime.datetime(year,i,1).date().month]['sum'] = 0
-                            month_avg[datetime.datetime(year,i,1).date().month]['count'] = 0
-                        month_avg[datetime.datetime(year,i,1).date().month]['count'] += 1
-                    # history[year]['rain'][month] = r['mmsum']
-                    history[year]['rain'][month] = OrderedDict()
-                    history[year]['rain'][month]['name'] = months[month-1]
-                    history[year]['rain'][month]['mm'] = r['mmsum']
-                    history[year]['total'] += r['mmsum']
-                    month_avg[month]['sum'] += r['mmsum']
-                    month_avg[month]['count'] += 1
-            else:
-                # history[year]['rain'][month] = r['mmsum']
-                history[year]['rain'][month] = OrderedDict()
-                history[year]['rain'][month]['name'] = months[month-1]
-                history[year]['rain'][month]['mm'] = r['mmsum']
-                history[year]['total'] += r['mmsum']
-                month_avg[month]['sum'] += r['mmsum']
-                month_avg[month]['count'] += 1
-
-            prev_year = year
-            prev_month = month
-        
-        context['history'] = history
-        context['month_avg'] = month_avg
-        context['months'] = months
+        context['rain'] = rain
         return context
 
 
