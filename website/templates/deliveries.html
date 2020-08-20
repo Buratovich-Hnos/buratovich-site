@@ -245,7 +245,7 @@
 									</td>
 								</tr>
 							{% endfor %}
-							{% get_totals totals_by_field tbh.grouper tbf.grouper as field_totals %}
+							{% get_totals 'deliveries' totals_by_field tbh.grouper tbf.grouper as field_totals %}
 							<tr class="total">
 								<td class="center date"><span>Entregas: {{field_totals.tickets_count}}</span></td>
 								<td class="voucher"></td>

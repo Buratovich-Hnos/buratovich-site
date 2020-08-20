@@ -52,8 +52,6 @@ from bh import settings
 #     pass
 # def downloadRainExcel(request):
 #     pass
-# def sales(request):
-#     pass
 
 
 def handler404(request, exception):
@@ -406,8 +404,7 @@ class AppliedView(LoginRequiredMixin, DateFilterBaseView):
         return queryset
 
 
-class DeliveriesView(LoginRequiredMixin, ListView):
-    template_name = 'deliveries.html'
+class HarvestFilterBaseView(ListView):
     current_species = None
 
     def set_current_species(self, checks):
@@ -415,7 +412,7 @@ class DeliveriesView(LoginRequiredMixin, ListView):
         for item in checks:
             speciesharvest_filter = speciesharvest_filter | Q(speciesharvest=item)
         self.current_species = speciesharvest_filter
-
+    
     def get(self, request, *args, **kwargs):
         try:
             request.session['current_species'] = kwargs['checks']
@@ -429,19 +426,7 @@ class DeliveriesView(LoginRequiredMixin, ListView):
         self.object_list = self.get_queryset()
         context = self.get_context_data()
         return self.render_to_response(context)
-
-    def get_queryset(self):
-        algoritmo_code = self.request.session['algoritmo_code']
-        current_species = self.current_species
-        queryset = Deliveries.objects\
-            .filter(algoritmo_code=algoritmo_code)\
-            .filter(current_species)\
-            .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
-            .values('date', 'voucher', 'gross_kg', 'humidity_percentage', 'humidity_kg', 'shaking_reduction', 'shaking_kg', 'volatile_reduction', 'volatile_kg', 'net_weight', 'factor', 'grade', 'number_1116A', 'external_voucher_number', 'driver_name', 'field_description', 'species_title')\
-            .order_by('-harvest', 'species', 'field_description', 'date')
-        return queryset
-
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         algoritmo_code = self.request.session['algoritmo_code']
@@ -451,25 +436,84 @@ class DeliveriesView(LoginRequiredMixin, ListView):
             .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
             .values('species', 'harvest', 'speciesharvest', 'species_title', 'species_description')\
             .order_by('-harvest', 'speciesharvest')
-        context['total'] = Deliveries.objects\
-            .filter(algoritmo_code=algoritmo_code)\
-            .filter(current_species)\
-            .aggregate(Sum('net_weight'), Count('voucher'), Sum('humidity_kg'), Sum('shaking_kg'), Sum('volatile_kg'), Sum('gross_kg'))
-        context['totals_by_field'] = list(
-            Deliveries.objects\
+        return context
+
+
+class DeliveriesView(LoginRequiredMixin, HarvestFilterBaseView):
+    template_name = 'deliveries.html'
+
+    def get_queryset(self):
+        current_species = self.current_species
+        if current_species:
+            algoritmo_code = self.request.session['algoritmo_code']
+            queryset = Deliveries.objects\
+                .filter(algoritmo_code=algoritmo_code)\
+                .filter(current_species)\
+                .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
+                .values('date', 'voucher', 'gross_kg', 'humidity_percentage', 'humidity_kg', 'shaking_reduction', 'shaking_kg', 'volatile_reduction', 'volatile_kg', 'net_weight', 'factor', 'grade', 'number_1116A', 'external_voucher_number', 'driver_name', 'field_description', 'species_title')\
+                .order_by('-harvest', 'species', 'field_description', 'date')
+            return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        algoritmo_code = self.request.session['algoritmo_code']
+        current_species = self.current_species
+        if current_species:
+            context['total'] = Deliveries.objects\
+                .filter(algoritmo_code=algoritmo_code)\
+                .filter(current_species)\
+                .aggregate(Sum('net_weight'), Count('voucher'), Sum('humidity_kg'), Sum('shaking_kg'), Sum('volatile_kg'), Sum('gross_kg'))
+            context['totals_by_field'] = list(
+                Deliveries.objects\
                 .filter(algoritmo_code=algoritmo_code)\
                 .filter(current_species)\
                 .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
                 .values('species_title', 'field_description')\
                 .annotate(total_net=Sum('net_weight'), tickets_count=Count('voucher'), total_hum=Sum('humidity_kg'), total_sha=Sum('shaking_kg'), total_vol=Sum('volatile_kg'), total_gross=Sum('gross_kg'))\
                 .order_by('-harvest', 'speciesharvest')
-        )
-        # Use list() to evaluate QuerySet only once, otherwise queryset will be evaluated every time a ticket is searched
-        context['ticket_analysis'] = list(
-            TicketsAnalysis.objects\
+            )
+            # Use list() to evaluate QuerySet only once, otherwise queryset will be evaluated every time a ticket is searched
+            context['ticket_analysis'] = list(
+                TicketsAnalysis.objects\
+                    .filter(algoritmo_code=algoritmo_code)\
+                    .filter(current_species)\
+                    .values('ticket', 'analysis_costs', 'gluten', 'analysis_item', 'percentage', 'bonus', 'reduction', 'item_descripcion')\
+                    .order_by('item_descripcion')
+            )
+        return context
+
+
+class SalesView(LoginRequiredMixin, HarvestFilterBaseView):
+    template_name = 'sales.html'
+
+    def get_queryset(self):
+        current_species = self.current_species
+        if current_species:
+            algoritmo_code = self.request.session['algoritmo_code']
+            queryset = Sales.objects\
                 .filter(algoritmo_code=algoritmo_code)\
                 .filter(current_species)\
-                .values('ticket', 'analysis_costs', 'gluten', 'analysis_item', 'percentage', 'bonus', 'reduction', 'item_descripcion')\
-                .order_by('item_descripcion')
-        )
+                .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
+                .values('id', 'date', 'voucher', 'field_description', 'service_billing_date', 'to_date', 'gross_kg', 'service_billing_number', 'number_1116A', 'price_per_yard', 'grade', 'driver_name', 'observations', 'species_description', 'indicator', 'species_title')\
+                .order_by('-harvest', 'speciesharvest', 'indicator', 'date')
+            return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        algoritmo_code = self.request.session['algoritmo_code']
+        current_species = self.current_species
+        if current_species:
+            context['totals_by_sale'] = list(
+                Sales.objects\
+                .filter(algoritmo_code=algoritmo_code)\
+                .filter(current_species)\
+                .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
+                .values('species_title', 'indicator')\
+                .annotate(total_gross=Sum('gross_kg'), total_pending=Sum('service_billing_number'), total_liquid=Sum('number_1116A'), total_count=Count('voucher'), total_in=Sum('gross_kg', filter=Q(gross_kg__gt=0)), total_out=Sum('gross_kg', filter=Q(gross_kg__lt=0)))\
+                .order_by('-harvest', 'speciesharvest')
+            )
+            context['total_sales'] = Sales.objects.filter(algoritmo_code=algoritmo_code, indicator='2').filter(current_species).aggregate(Sum('net_weight'))
+            context['total_to_set'] = Sales.objects.filter(algoritmo_code=algoritmo_code, indicator='2B').filter(current_species).aggregate(Sum('net_weight'))
+            context['total_other'] = Sales.objects.filter(algoritmo_code=algoritmo_code, indicator='3').filter(current_species).aggregate(Sum('net_weight'))
+            context['total_settled'] = Sales.objects.filter(algoritmo_code=algoritmo_code).filter(current_species).aggregate(Sum('number_1116A'))
         return context
