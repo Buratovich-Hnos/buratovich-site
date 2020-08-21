@@ -1,14 +1,16 @@
 import datetime 
 from collections import OrderedDict
 import json
+import csv
 from monthdelta import monthdelta
 
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
+from django.views.generic.list import MultipleObjectMixin
 from django.views.generic import View, ListView
 from django.views.generic.edit import FormView
 from django.views.defaults import page_not_found, server_error
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.http import Http404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -49,8 +51,6 @@ from bh import settings
 # def downloadexcel(request):
 #     pass
 # def downloadPDFExtranet(request):
-#     pass
-# def downloadRainExcel(request):
 #     pass
 
 
@@ -460,3 +460,29 @@ class SalesView(LoginRequiredMixin, HarvestFilterBaseView):
             context['total_other'] = Sales.objects.filter(algoritmo_code=algoritmo_code, indicator='3').filter(current_species).aggregate(Sum('net_weight'))
             context['total_settled'] = Sales.objects.filter(algoritmo_code=algoritmo_code).filter(current_species).aggregate(Sum('number_1116A'))
         return context
+
+
+class DownloadRainView(MultipleObjectMixin, View):
+    filename = 'HistoricoLluvias'
+    fields = ('month', 'year', 'mmsum')
+    headers = ('Mes', 'Año', 'Milimetros')
+
+    def get_queryset(self):
+        queryset = RainDetail.objects.filter(city=1).annotate(month=ExtractMonth('rain'), year=ExtractYear('rain')).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        response = HttpResponse(content_type='text/csv')
+        filename = self.filename
+        if not filename.endswith('.csv'):
+            filename += '.csv'
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+
+        writer = csv.writer(response, delimiter=';', dialect='excel', quoting=csv.QUOTE_NONNUMERIC)
+        # Headers
+        writer.writerow([header for header in self.headers])
+        # Fields
+        for obj in queryset:
+            writer.writerow([obj[field] for field in self.fields])
+        return response

@@ -50,7 +50,7 @@ urlpatterns = [
     path('extranet/entregas/', views.DeliveriesView.as_view(), name='deliveries'),
     path('extranet/ventas/', views.SalesView.as_view(), name='sales'),
 
-    # path('downloadexcel/rain/', views.downloadRainExcel, name='download_rain'),
+    path('downloadexcel/rain/', views.DownloadRainView.as_view(), name='download_rain'),
     # path('downloadexcel/(?P<module>[0-9A-Za-z_\-]+)/', views.downloadexcel, name='downloadexcel'),
     # path('downloadexcel/(?P<module>[0-9A-Za-z_\-]+)(?:/(?P<type_module>[0-9A-Za-z_\-]+))/', views.downloadexcel, name='downloadexcel'),
     # path('download/', views.downloadPDFExtranet, name='downloadPDF'),
