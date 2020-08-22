@@ -48,8 +48,6 @@ from bh import settings
 
 # def cp(request):
 #     pass
-# def downloadexcel(request):
-#     pass
 # def downloadPDFExtranet(request):
 #     pass
 
@@ -462,8 +460,29 @@ class SalesView(LoginRequiredMixin, HarvestFilterBaseView):
         return context
 
 
-class DownloadRainView(MultipleObjectMixin, View):
-    filename = 'HistoricoLluvias'
+class DownloadCSVBaseClass(MultipleObjectMixin, View):
+    filename = None
+    fields = None
+    headers = None
+
+    def get_csv_response(self):
+        queryset = self.get_queryset()
+        response = HttpResponse(content_type='text/csv')
+        filename = self.filename
+        if not filename.endswith('.csv'):
+            filename += '.csv'
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+        writer = csv.writer(response, delimiter=';', dialect='excel', quoting=csv.QUOTE_NONNUMERIC)
+        # Headers
+        writer.writerow([header for header in self.headers])
+        # Fields
+        for obj in queryset:
+            writer.writerow([obj[field] for field in self.fields])
+        return response
+
+
+class DownloadRainView(DownloadCSVBaseClass):
+    filename = 'Historico Lluvias'
     fields = ('month', 'year', 'mmsum')
     headers = ('Mes', 'Año', 'Milimetros')
 
@@ -472,17 +491,49 @@ class DownloadRainView(MultipleObjectMixin, View):
         return queryset
 
     def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        response = HttpResponse(content_type='text/csv')
-        filename = self.filename
-        if not filename.endswith('.csv'):
-            filename += '.csv'
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+        response = self.get_csv_response()
+        return response
 
-        writer = csv.writer(response, delimiter=';', dialect='excel', quoting=csv.QUOTE_NONNUMERIC)
-        # Headers
-        writer.writerow([header for header in self.headers])
-        # Fields
-        for obj in queryset:
-            writer.writerow([obj[field] for field in self.fields])
+
+class DownloadCtaCteCSVView(CtaCteView, DownloadCSVBaseClass):
+    filename = 'Cuenta Corriente'
+    fields = ('date_1', 'date_2', 'voucher', 'concept', 'movement_type', 'amount_sign', 'row_balance')
+    headers = ('Fecha Vencimiento', 'Fecha Emisión', 'Comprobante', 'Concepto', 'Tipo de Movimiento', 'Importe', 'Saldo')
+
+    def get(self, request, *args, **kwargs):
+        super(DownloadCtaCteCSVView, self).get(request, *args, **kwargs)
+        response = self.get_csv_response()
+        return response
+
+
+class DownloadAppliedCSVView(AppliedView, DownloadCSVBaseClass):
+    filename = 'Cuenta Corriente Aplicada'
+    fields = ('expiration_date', 'issue_date', 'voucher', 'concept', 'movement_type', 'amount_sign', 'row_balance')
+    headers = ('Fecha Vencimiento', 'Fecha Emisión', 'Comprobante', 'Concepto', 'Tipo de Movimiento', 'Importe', 'Saldo')
+
+    def get(self, request, *args, **kwargs):
+        super(DownloadAppliedCSVView, self).get(request, *args, **kwargs)
+        response = self.get_csv_response()
+        return response
+
+
+class DownloadDeliveriesCSVView(DeliveriesView, DownloadCSVBaseClass):
+    filename = 'Entregas'
+    fields = ('date', 'voucher', 'gross_kg', 'humidity_percentage', 'humidity_kg', 'shaking_reduction', 'shaking_kg', 'volatile_reduction', 'volatile_kg', 'net_weight', 'factor', 'grade', 'number_1116A', 'external_voucher_number', 'driver_name', 'field_description', 'species_title')
+    headers = ('Fecha', 'Comprobante', 'Kilos Brutos', '% Hum.', 'Kg. Hum.', '% Zarandeo', 'Kg. Zarandeo', '% Volatil', 'Kg. Volatil', 'Kilos Netos', 'Factor', 'Grado', 'Certificado', 'Número Externo', 'Chofer', 'Campo', 'Especie y Cosecha')
+
+    def get(self, request, *args, **kwargs):
+        super(DownloadDeliveriesCSVView, self).get(request, *args, **kwargs)
+        response = self.get_csv_response()
+        return response
+
+
+class DownloadSalesCSVView(SalesView, DownloadCSVBaseClass):
+    filename = 'Ventas'
+    fields = ('date', 'voucher', 'field_description', 'service_billing_date', 'to_date', 'gross_kg', 'service_billing_number', 'number_1116A', 'price_per_yard', 'grade', 'observations', 'species_title')
+    headers = ('Fecha', 'Comprobante', 'Destino', 'Fecha Entrega Desde', 'Fecha Entrega Hasta', 'Kilos', 'Pend. TC', 'Liquidado', 'Precio por Quintal', 'Moneda', 'Observaciones', 'Especie y Cosecha')
+
+    def get(self, request, *args, **kwargs):
+        super(DownloadSalesCSVView, self).get(request, *args, **kwargs)
+        response = self.get_csv_response()
         return response

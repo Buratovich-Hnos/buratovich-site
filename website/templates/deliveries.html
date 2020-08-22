@@ -115,7 +115,7 @@
 			{% if object_list %}
 				<div class="export-data">
 					<button>
-						<a href="{% url 'downloadexcel' 'deliveries' %}"><i class="fa fa-table" aria-hidden="true"></i> Exportar a Excel</a>
+						<a href="{% url 'download_deliveries' %}?{{request.GET.urlencode}}"><i class="fa fa-table" aria-hidden="true"></i> Exportar CSV</a>
 					</button>
 					<!--<button>
 						<a href=""><i class="fa fa-file-text-o" aria-hidden="true"></i> Exportar a TXT</a>
