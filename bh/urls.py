@@ -55,7 +55,7 @@ urlpatterns = [
     path('download/ctacte/aplicada/', views.DownloadAppliedCSVView.as_view(), name='download_applied'),
     path('download/entregas/', views.DownloadDeliveriesCSVView.as_view(), name='download_deliveries'),
     path('download/ventas/', views.DownloadSalesCSVView.as_view(), name='download_sales'),
-    # path('download/', views.downloadPDFExtranet, name='downloadPDF'),
+    path('download/', views.DownloadPDFView.as_view(), name='download_pdf'),
 
     path('monedas/', views.CurrencyView.as_view(), name='currency'),
     path('pizarras/', views.BoardView.as_view(), name='board'),

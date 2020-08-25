@@ -10,7 +10,7 @@ from django.views.generic.list import MultipleObjectMixin
 from django.views.generic import View, ListView
 from django.views.generic.edit import FormView
 from django.views.defaults import page_not_found, server_error
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, StreamingHttpResponse
 from django.http import Http404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -27,6 +27,8 @@ from django.contrib.auth.forms import SetPasswordForm
 from django.urls import reverse
 
 from PyPDF2 import PdfFileWriter, PdfFileReader
+import requests
+from requests.auth import HTTPBasicAuth
 
 from website.models import CtaCte
 from website.models import Deliveries
@@ -557,10 +559,10 @@ class DownloadPDFView(LoginRequiredMixin, View):
         'VF': {'codigo': ['VF',], 'separator': '_', 'url':'cnv/'},
     }
 
-    def append_pdf(input,output):
+    def append_pdf(self, input, output):
         [output.addPage(input.getPage(page_num)) for page_num in range(input.numPages)]
 
-    def merge_pdf(file1, file2):
+    def merge_pdf(self, file1, file2):
         # Create instance por Write new PDF
         output = PdfFileWriter()
         pdf1 = PdfFileReader(cStringIO.StringIO(file1))
@@ -574,7 +576,7 @@ class DownloadPDFView(LoginRequiredMixin, View):
         output.write(new_file)
         return new_file.getvalue()
 
-    def search_file(voucher, voucher_date):
+    def search_file(self, voucher, voucher_date):
         voucher = voucher.split(' ')
         if self.vouchers.get(voucher[0], None) is None:
             return None

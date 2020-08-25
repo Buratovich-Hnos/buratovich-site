@@ -223,7 +223,7 @@
 							{% download_file i.voucher as file %}
 							{% if file %}
 								<td class="center voucher">
-									<a href="{% url 'downloadPDF' %}?f={{i.voucher}}&d={{i.date_2|date:'Ymd'}}" target="_blank">
+									<a href="{% url 'download_pdf' %}?f={{i.voucher}}&d={{i.date_2|date:'Ymd'}}" target="_blank">
 										<img src="{% static "img/pdf2.png" %}" alt="">
 									</a>
 								</td>
@@ -253,7 +253,7 @@
 											<td class="observations">{{i.concept}}</td>
 											{% if file %}
 												<td class="center voucher">
-													<a href="{% url 'downloadPDF' %}?f={{i.voucher}}&d={{i.date_2|date:'Ymd'}}" target="_blank">
+													<a href="{% url 'download_pdf' %}?f={{i.voucher}}&d={{i.date_2|date:'Ymd'}}" target="_blank">
 														<img src="{% static "img/pdf2.png" %}" alt="">
 													</a>
 												</td>
