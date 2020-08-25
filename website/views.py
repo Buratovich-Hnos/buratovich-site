@@ -26,6 +26,8 @@ from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.forms import SetPasswordForm
 from django.urls import reverse
 
+from PyPDF2 import PdfFileWriter, PdfFileReader
+
 from website.models import CtaCte
 from website.models import Deliveries
 from website.models import Sales
@@ -49,8 +51,6 @@ from bh import settings
 
 
 # def cp(request):
-#     pass
-# def downloadPDFExtranet(request):
 #     pass
 
 
@@ -539,6 +539,84 @@ class DownloadSalesCSVView(SalesView, DownloadCSVBaseClass):
         super(DownloadSalesCSVView, self).get(request, *args, **kwargs)
         response = self.get_csv_response()
         return response
+
+
+class DownloadPDFView(LoginRequiredMixin, View):
+    vouchers = {
+        'LC': {'codigo': ['C',], 'separator': ' ', 'url':''},
+        'IC': {'codigo': ['C',], 'separator': ' ', 'url':''},
+        'LB': {'codigo': ['B',], 'separator': ' ', 'url':''},
+        'IB': {'codigo': ['B',], 'separator': ' ', 'url':''},
+        'ND': {'codigo': ['HNDCER','HNDE','NDE','NDECAJ','NDECER','NDEPER',], 'separator': '_', 'url':'ventas/'},
+        'NC': {'codigo': ['HNCCER','HNCR','NCR','NCRCER','NCRDEV','NCSCER',], 'separator': '_', 'url':'ventas/'},
+        'FC': {'codigo': ['FAC','FACCER','FACD','FACSER','FASCER','HFAC','HFACER',], 'separator': '_', 'url':'ventas/'},
+        'PC': {'codigo': ['PC',], 'separator': '_', 'url':'tesoreria/'},
+        'OP': {'codigo': ['OP',], 'separator': '_', 'url':'tesoreria/'},
+        'RE': {'codigo': ['RE',], 'separator': '_', 'url':'tesoreria/'},
+        'VT': {'codigo': ['VT',], 'separator': '_', 'url':'cnv/'},
+        'VF': {'codigo': ['VF',], 'separator': '_', 'url':'cnv/'},
+    }
+
+    def append_pdf(input,output):
+        [output.addPage(input.getPage(page_num)) for page_num in range(input.numPages)]
+
+    def merge_pdf(file1, file2):
+        # Create instance por Write new PDF
+        output = PdfFileWriter()
+        pdf1 = PdfFileReader(cStringIO.StringIO(file1))
+        pdf2 = PdfFileReader(cStringIO.StringIO(file2))
+        self.append_pdf(pdf1,output)
+        self.append_pdf(pdf2,output)
+        # Init InMemory PDF file
+        new_file = cStringIO.StringIO()
+
+        # Write PDF to buffer
+        output.write(new_file)
+        return new_file.getvalue()
+
+    def search_file(voucher, voucher_date):
+        voucher = voucher.split(' ')
+        if self.vouchers.get(voucher[0], None) is None:
+            return None
+        else:
+            separator = self.vouchers[voucher[0]]['separator']
+            url = self.vouchers[voucher[0]]['url']
+            for c in self.vouchers[voucher[0]]['codigo']:
+                file_name = '{0}{1}{2}{3}{4}.pdf'.format(c, separator, voucher[1], separator, voucher[2])
+                if 'tesoreria' in url:
+                    file_url = 'http://{0}:{1}/{2}{3}/C{4}{5}{6}'.format(settings.RS_HOST, settings.RS_PORT, url, voucher_date, str(self.request.session['algoritmo_code']), separator, file_name)
+                else:
+                    file_url = 'http://{0}:{1}/{2}{3}'.format(settings.RS_HOST, settings.RS_PORT, url, file_name)
+                r = requests.get(file_url, auth=HTTPBasicAuth(settings.RS_USER, settings.RS_PASS))
+                if r.status_code == 200:
+                    ##### FASCER Tickets Detail
+                    if c == 'FASCER':
+                        tickets_file_url = 'http://{0}:{1}/DETTK{2}{3}{4}{5}.pdf'.format(settings.RS_HOST, settings.RS_PORT, separator, voucher[1], separator, voucher[2])
+                        rtk = requests.get(tickets_file_url, auth=HTTPBasicAuth(settings.RS_USER, settings.RS_PASS))
+                        if rtk.status_code == 200:
+                            r = merge_pdf(r.content, rtk.content)
+                            return {'file':r, 'filename':file_name}
+                    # If voucher is not FASCER or there is no DETTK then return the response content (file)
+                    return {'file':r.content, 'filename':file_name}
+
+    def get(self, request, *args, **kwargs):
+        algoritmo_code = request.session['algoritmo_code']
+        try:
+            f = kwargs['f']
+            d = kwargs['d']
+        except KeyError:
+            try:
+                f = request.GET['f']
+                d = request.GET['d']
+            except KeyError:
+                pass
+        file = self.search_file(f, d)
+        if file:
+            response = StreamingHttpResponse(file['file'], content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="{}"'.format(file['filename'])
+            return response
+        else:
+            raise Http404
 
 
 @login_required

@@ -176,6 +176,8 @@ SERVER_EMAIL = 'website@buratovich.com'
 
 
 # REMOTE SERVER
+RS_HOST = os.getenv('RS_HOST')
+RS_PORT = os.getenv('RS_PORT')
 RS_USER = os.getenv('RS_USER')
 RS_PASS = os.getenv('RS_PASS')
 

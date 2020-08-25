@@ -6,6 +6,7 @@ django-mathfilters==1.0.0
 django-tinymce==3.0.2
 MonthDelta==0.9.1
 mysqlclient==2.0.1
+PyPDF2==1.26.0
 python-dotenv==0.14.0
 pytz==2020.1
 sqlparse==0.3.1
