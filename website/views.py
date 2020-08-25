@@ -12,6 +12,8 @@ from django.views.generic.edit import FormView
 from django.views.defaults import page_not_found, server_error
 from django.http import JsonResponse, HttpResponse
 from django.http import Http404
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
@@ -537,3 +539,25 @@ class DownloadSalesCSVView(SalesView, DownloadCSVBaseClass):
         super(DownloadSalesCSVView, self).get(request, *args, **kwargs)
         response = self.get_csv_response()
         return response
+
+
+@login_required
+@staff_member_required
+def importdata(request, datatype):
+    if datatype == 'ctacte':
+        import_tasks.importCtaCteP()
+    elif datatype == 'kilos':
+        import_tasks.importKilos()
+    elif datatype == 'applied':
+        import_tasks.importApplied()
+    elif datatype == 'analysis':
+        import_tasks.importTicketsAnalysis()
+    elif datatype == 'all':
+        import_tasks.importCtaCteP()
+        import_tasks.importKilos()
+        import_tasks.importApplied()
+        import_tasks.importTicketsAnalysis()
+    else:
+        raise Http404()
+
+    return render(request, 'update_extranet.html')
