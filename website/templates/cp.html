@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buratovich Hnos. - Carta de Porte Online{% endblock %}
+
+{% block path %}
+<div class="path maxwidth">
+	<div class="path-container">
+		{% if user.is_authenticated %}
+			<div class="hi">Bienvenido, <span class="customer-name">{{user.userinfo.company_name}}</span></div>
+		{% endif %}
+	</div>
+	<div class="path-container">
+		<div class="route"><a href="/">Home</a> <span class="chevron">></span> <span class="current">CARTA DE PORTE ON-LINE</span></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section id="cp" class="maxwidth">
+	<form action="{% url 'cp' %}" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form.non_field_errors}}
+		{% if form.errors %}
+			<div class="errors">
+				<p class="errors-description">El formulario contiene errores, corrijalos y vuelva a procesar la <strong>Carta de Porte</strong>.</p>
+				{% for field in form %}
+					{% if field.errors %}
+						<p class="errors-field"><strong>{{field.label_tag}}</strong></p>
+						<ul class="errors-list">
+							{% for error in field.errors %}
+								<li>{{error|escape}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% endif %}
+		<div class="box">
+			<div class="title">
+				<i class="fa fa-file-text" aria-hidden="true"></i>
+				<h3>1 - CARTA DE PORTE EN BLANCO</h3>
+			</div>
+			<p>{{form.cp.label_tag}} {{form.cp}}</p>
+		</div>
+		<div class="box">
+			<div class="title">
+				<i class="fa fa-align-left" aria-hidden="true"></i>
+				<h3>2 - DATOS DE LA CARTA DE PORTE</h3>
+			</div>
+			<p>{{form.ownership_line.label_tag}} {{form.ownership_line}} <span style="margin-left: 10px;">(marcar si el titular de la CP ocupa dos renglones)</span></p>
+			<p>{{form.load_date.label_tag}} {{form.load_date}}</p>
+			<p>{{form.ctg.label_tag}} {{form.ctg}}</p>
+			<p>{{form.renspa.label_tag}} {{form.renspa}}</p>
+			<div class="subtitle">
+				<h4>1 - DATOS DE INTERVINIENTES EN EL TRASLADO DE GRANOS</h3>
+			</div>
+			<p class="name">
+				<span>{{form.intermediary.label_tag}} {{form.intermediary}}</span>
+				<span>{{form.intermediary_cuit.label_tag}} {{form.intermediary_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.sender.label_tag}} {{form.sender}}</span>
+				<span>{{form.sender_cuit.label_tag}} {{form.sender_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.broker.label_tag}} {{form.broker}}</span>
+				<span>{{form.broker_cuit.label_tag}} {{form.broker_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.mat.label_tag}} {{form.mat}}</span>
+				<span>{{form.mat_cuit.label_tag}} {{form.mat_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.broker_seller.label_tag}} {{form.broker_seller}}</span>
+				<span>{{form.broker_seller_cuit.label_tag}} {{form.broker_seller_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.representative.label_tag}} {{form.representative}}</span>
+				<span>{{form.representative_cuit.label_tag}} {{form.representative_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.addressee.label_tag}} {{form.addressee}}</span>
+				<span>{{form.addressee_cuit.label_tag}} {{form.addressee_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.destination.label_tag}} {{form.destination}}</span>
+				<span>{{form.destination_cuit.label_tag}} {{form.destination_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.freight_broker.label_tag}} {{form.freight_broker}}</span>
+				<span>{{form.freight_broker_cuit.label_tag}} {{form.freight_broker_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.carrier.label_tag}} {{form.carrier}}</span>
+				<span>{{form.carrier_cuit.label_tag}} {{form.carrier_cuit}}</span>
+			</p>
+			<p class="name">
+				<span>{{form.driver.label_tag}} {{form.driver}}</span>
+				<span>{{form.driver_cuit.label_tag}} {{form.driver_cuit}}</span>
+			</p>
+			<div class="subtitle">
+				<h4>2 - DATOS DE LOS GRANOS / ESPECIES TRANSPORTADOS</h4>
+			</div>
+			<p>{{form.harvest.label_tag}} {{form.harvest}}</p>
+			<p>{{form.species.label_tag}} {{form.species}}</p>
+			<p>{{form.species_type.label_tag}} {{form.species_type}}</p>
+			<p>{{form.contract.label_tag}} {{form.contract}}</p>
+			<p>{{form.destination_load.label_tag}} {{form.destination_load}}</p>
+			<p>{{form.estimated_kg.label_tag}} {{form.estimated_kg}}</p>
+			<p class="radio">
+				{{form.quality.label_tag}}
+				{% for r in form.quality %}
+					<span>{{r.choice_label}} {{r.tag}}</span>
+				{% endfor %}
+			</p>
+			<p>{{form.gross_kg.label_tag}} {{form.gross_kg}}</p>
+			<p>{{form.tare_kg.label_tag}} {{form.tare_kg}}</p>
+			<p>{{form.net_kg.label_tag}} {{form.net_kg}}</p>
+			<p>{{form.observations.label_tag}} {{form.observations}}</p>
+			<p class="pro-des">{{form.stablishment.label_tag}} {{form.stablishment}}</p>
+			<p class="pro-des">{{form.address.label_tag}} {{form.address}}</p>
+			<p class="pro-des">{{form.city.label_tag}} {{form.city}}</p>
+			<p class="pro-des">{{form.state.label_tag}} {{form.state}}</p>
+			<div class="subtitle">
+				<h4>3 - LUGAR DE DESTINO DE LOS GRANOS</h4>
+			</div>
+			<p class="pro-des">{{form.destination_address.label_tag}} {{form.destination_address}}</p>
+			<p class="pro-des">{{form.destination_city.label_tag}} {{form.destination_city}}</p>
+			<p class="pro-des">{{form.destination_state.label_tag}} {{form.destination_state}}</p>
+			<div class="subtitle">
+				<h4>4 - DATOS DEL TRANSPORTE</h4>
+			</div>
+			<p class="pro-des">{{form.freight_payer.label_tag}} {{form.freight_payer}}</p>
+			<p>{{form.truck.label_tag}} {{form.truck}}</p>
+			<p>{{form.trailer.label_tag}} {{form.trailer}}</p>
+			<p>{{form.km.label_tag}} {{form.km}}</p>
+			<p>{{form.ref_rate.label_tag}} {{form.ref_rate}}</p>
+			<p>{{form.rate.label_tag}} {{form.rate}}</p>
+			<div class="subtitle">
+				<h4>DECLARACIÓN TRATAMIENTO DE LA MERCADERÍA CON PLAGUICIDA FUMIGANTE</h4>
+			</div>
+			<p>{{form.fumigant_dni.label_tag}} {{form.fumigant_dni}}</p>
+			<p class="pro-des">{{form.fumigant_observation.label_tag}} {{form.fumigant_observation}}</p>
+		</div>
+		<input type="submit" value="Procesar Carta de Porte" />
+	</form>
+</section>
+{% endblock %}
