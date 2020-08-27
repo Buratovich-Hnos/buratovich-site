@@ -48,6 +48,7 @@ from website.models import TicketsAnalysis
 from website.models import City
 from website.models import Rain
 from website.models import RainDetail
+from website.models import Careers
 
 from website.forms import ExtranetClientSelectionForm
 
@@ -228,6 +229,15 @@ class IndexView(TemplateView):
         context['board'] = Board.objects.order_by('-date')[:1]
         rain = Rain.objects.order_by('-date')[:1]
         context['rain'] = RainDetail.objects.filter(rain=rain).order_by('city__city')
+        return context
+
+
+class CareersView(TemplateView):
+    template_name = 'cv.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['careers'] = Careers.objects.filter(active=True)
         return context
 
 

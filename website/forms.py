@@ -10,7 +10,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 from tinymce.widgets import TinyMCE
 
-from website.models import UserInfo, Notifications
+from website.models import UserInfo, Notifications, Careers
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -40,6 +40,17 @@ class NotificationCreationForm(ModelForm):
         fields = ('title', 'notification', 'active', 'date_from', 'date_to',)
         widgets = {
             'notification': TinyMCE(attrs={'cols': 80, 'rows': 30}),
+        }
+
+
+class CareerCreationForm(ModelForm):
+
+    class Meta:
+        model = Careers
+        fields = ('title', 'active', 'description', 'requirements',)
+        widgets = {
+            'description': TinyMCE(attrs={'cols': 80, 'rows': 30}),
+            'requirements': TinyMCE(attrs={'cols': 80, 'rows': 30}),
         }
 
 

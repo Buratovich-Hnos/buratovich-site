@@ -34,7 +34,7 @@ urlpatterns = [
     path('lluvias-historico/', views.HistoricRainView.as_view(), name='historic_rain'),
     path('impuestos/', TemplateView.as_view(template_name='taxes.html'), name='taxes'),
     path('unidades-de-negocio/', TemplateView.as_view(template_name='units.html'), name='units'),
-    path('trabaja-con-nosotros/', TemplateView.as_view(template_name='cv.html'), name='cv'),
+    path('trabaja-con-nosotros/', views.CareersView.as_view(), name='cv'),
     path('cp/', views.cp, name='cp'),
 
     path('login/', LoginView.as_view(template_name='login.html', authentication_form=CustomAuthenticationForm), name='login'),

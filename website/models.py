@@ -326,3 +326,17 @@ class AccessLog(models.Model):
     class Meta:
         verbose_name = 'Log de Acceso'
         verbose_name_plural = 'Log de Acceso'
+
+
+class Careers(models.Model):
+    title = models.CharField(verbose_name='Título', max_length=80)
+    active = models.BooleanField(verbose_name='Activo / Inactivo')
+    description = models.TextField(verbose_name='Descripción')
+    requirements = models.TextField(verbose_name='Requerimientos')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Oportunidad Laboral'
+        verbose_name_plural = 'Oportunidades Laborales'

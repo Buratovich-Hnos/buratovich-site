@@ -13,8 +13,9 @@ from website.models import Board
 from website.models import City
 from website.models import Rain
 from website.models import RainDetail
+from website.models import Careers
 
-from website.forms import UserCreationForm, NotificationCreationForm
+from website.forms import UserCreationForm, NotificationCreationForm, CareerCreationForm
 
 
 # Unregister models
@@ -164,6 +165,7 @@ class NotificationsAdmin(admin.ModelAdmin):
         return mark_safe(obj.notification)
 
     notifications_html.allow_tags = True
+    notifications_html.short_description = 'Notificación'
 
 
 class ViewedNotificationsAdmin(admin.ModelAdmin):
@@ -176,6 +178,22 @@ class ViewedNotificationsAdmin(admin.ModelAdmin):
     get_company_name.admin_order_field = 'user__userinfo__company_name'
 
 
+class CareersAdmin(admin.ModelAdmin):
+    form = CareerCreationForm
+    list_display = ('title', 'active', 'description_html', 'requirements_html',)
+
+    def description_html(self, obj):
+        return mark_safe(obj.description)
+
+    def requirements_html(self, obj):
+        return mark_safe(obj.requirements)
+
+    description_html.allow_tags = True
+    requirements_html.allow_tags = True
+    description_html.short_description = 'Descripción'
+    requirements_html.short_description = 'Requerimientos'
+
+
 # Register models
 admin.site.register(User, UserAdmin)
 admin.site.register(Notifications, NotificationsAdmin)
@@ -184,3 +202,4 @@ admin.site.register(Currencies, CurrenciesAdmin)
 admin.site.register(Board, BoardAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Rain, RainAdmin)
+admin.site.register(Careers, CareersAdmin)
