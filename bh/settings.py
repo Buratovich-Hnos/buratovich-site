@@ -36,6 +36,9 @@ MANAGERS = [('Luciano Muñoz', 'hola@luciano.im'),]
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_reorder',
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 ROOT_URLCONF = 'bh.urls'
@@ -68,14 +72,19 @@ ROOT_URLCONF = 'bh.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        # 'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+            ],
+            'loaders': [
+                'apptemplates.Loader',
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
             ],
         },
     },
@@ -227,3 +236,14 @@ TINYMCE_COMPRESSOR = True
 
 # Django El Pagination
 EL_PAGINATION_PER_PAGE = 100
+
+
+ADMIN_REORDER = (
+    {'app': 'admin_interface', 'models': ('admin_interface.Theme',)},
+    {'app': 'auth', 'models': ('auth.User', 'auth.Group')},
+    {'app': 'website', 'models': ('website.Currencies', 'website.Board'), 'label': 'Moneda y Pizarras'},
+    {'app': 'website', 'models': ('website.City', 'website.Rain'), 'label': 'Lluvias'},
+    {'app': 'website', 'models': ('website.Notifications', 'website.ViewedNotifications'), 'label': 'Notificaciones'},
+    {'app': 'website', 'models': ('website.Careers',), 'label': 'Busquedas Laborales'},
+    {'app': 'website', 'models': ('website.AccessLog',), 'label': 'Accesos'},
+)

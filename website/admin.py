@@ -20,7 +20,6 @@ from website.forms import UserCreationForm, NotificationCreationForm, CareerCrea
 
 # Unregister models
 admin.site.unregister(User)
-admin.site.unregister(Group)
 
 
 class UserInline(admin.StackedInline):

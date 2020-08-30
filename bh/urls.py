@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
+from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeDoneView
 
@@ -61,7 +62,7 @@ urlpatterns = [
     path('pizarras/', views.BoardView.as_view(), name='board'),
     path('lluvias/', views.RainView.as_view(), name='rain'),
 
-    # path('importar/<str:datatype>/', views.importdata, name='importdata'),
+    path('importar/<str:datatype>/', views.importdata, name='import_data'),
 
     # path('400/', views.handler404, name='handler400'),
     # path('404/', views.handler404, name='handler404'),
@@ -76,7 +77,7 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+    ] + urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 handler400 = 'website.views.handler404'
