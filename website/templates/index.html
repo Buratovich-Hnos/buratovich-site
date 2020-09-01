@@ -216,16 +216,20 @@
 							</tbody>
 						</table>
 						<table class="data-table board-error">
-							<tr>
-								<th class="board-date"></th>
-								<th>ROS.</th>
-								<th>BS. AS.</th>
-								<th>QQ.</th>
-								<th>B.B.</th>
-							</tr>
-							<tr>
-								<td colspan="5" rowspan="6">{% trans "Sin Pizarra" %}</td>
-							</tr>
+							<thead>
+								<tr>
+									<th class="board-date"></th>
+									<th>ROS.</th>
+									<th>BS. AS.</th>
+									<th>QQ.</th>
+									<th>B.B.</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="5" rowspan="6">{% trans "Sin Pizarra" %}</td>
+								</tr>
+							</tbody>
 						</table>
 						<span class="data">+ {% trans "Precios del día" %} <span id="b-data-date">{{b.date|date:"d/m/Y"}}</span></span>
 					{% endfor %}
@@ -234,7 +238,7 @@
 						<fieldset>
 							<legend>{% trans "Ver pizarra del:" %} </legend>
 							<div class="input">
-								<input id="date" name="board" type="date" placeholder="dd/mm/aaaa">
+								<input id="date" name="board" type="date" placeholder="dd/mm/aaaa" required>
 								<span class="icon">
 									<i class="fa fa-calendar-o" aria-hidden="true"></i>
 								</span>
@@ -256,31 +260,39 @@
 				<div class="container">
 					{% for c in currency %}
 						<table class="data-table currency-ok">
-							<tr>
-								<th class="currency-date">{{c.date|date:"d/m/Y"}}</th>
-								<th>{% trans "Compra" %}</th>
-								<th>{% trans "Venta" %}</th>
-							</tr>
-							<tr>
-								<td>DOLAR NACIÓN</td>
-								<td id="dn-buy" class="right">{{c.dn_buy|floatformat:2|intcomma}}</td>
-								<td id="dn-sell" class="right">{{c.dn_sell|floatformat:2|intcomma}}</td>
-							</tr>
-							<tr>
-								<td>DOLAR LIBRE</td>
-								<td id="dl-buy" class="right">{{c.dl_buy|floatformat:2|intcomma}}</td>
-								<td id="dl-sell" class="right">{{c.dl_sell|floatformat:2|intcomma}}</td>
-							</tr>
+							<thead>
+								<tr>
+									<th class="currency-date">{{c.date|date:"d/m/Y"}}</th>
+									<th>{% trans "Compra" %}</th>
+									<th>{% trans "Venta" %}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>DOLAR NACIÓN</td>
+									<td id="dn-buy" class="right">{{c.dn_buy|floatformat:2|intcomma}}</td>
+									<td id="dn-sell" class="right">{{c.dn_sell|floatformat:2|intcomma}}</td>
+								</tr>
+								<tr>
+									<td>DOLAR LIBRE</td>
+									<td id="dl-buy" class="right">{{c.dl_buy|floatformat:2|intcomma}}</td>
+									<td id="dl-sell" class="right">{{c.dl_sell|floatformat:2|intcomma}}</td>
+								</tr>
+							</tbody>
 						</table>
 						<table class="data-table currency-error">
-							<tr>
-								<th class="currency-date"></th>
-								<th>{% trans "Compra" %}</th>
-								<th>{% trans "Venta" %}</th>
-							</tr>
-							<tr>
-								<td colspan="3" rowspan="2">{% trans "Sin Cotización" %}</td>
-							</tr>
+							<thead>
+								<tr>
+									<th class="currency-date"></th>
+									<th>{% trans "Compra" %}</th>
+									<th>{% trans "Venta" %}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="3" rowspan="2">{% trans "Sin Cotización" %}</td>
+								</tr>
+							</tbody>
 						</table>
 						<span class="data">+ {% trans "Cotización del día" %} <span id="c-data-date">{{c.date|date:"d/m/Y"}}</span></span>
 					{% endfor %}
@@ -289,7 +301,7 @@
 						<fieldset>
 							<legend>{% trans "Ver dolar del:" %} </legend>
 							<div class="input">
-								<input id="usd" name="usd" type="date" placeholder="dd/mm/aaaa">
+								<input id="usd" name="usd" type="date" placeholder="dd/mm/aaaa" required>
 								<span class="icon">
 									<i class="fa fa-calendar-o" aria-hidden="true"></i>
 								</span>
@@ -327,25 +339,33 @@
 				<article id="rcontent" class="rain rwcontent">
 					<div class="container">
 						<table class="data-table rain-ok">
-							<tr>
-								<th class="rain-date">{{rain.0.rain.date|date:"d/m/Y"}}</th>
-								<th>{% trans "Milímetros" %}</th>
-							</tr>
-							{% for r in rain %}
+							<thead>
 								<tr>
-									<td>{{r.city}}</td>
-									<td class="right">{{r.mm|floatformat:0|intcomma}}</td>
+									<th class="rain-date">{{rain.0.rain.date|date:"d/m/Y"}}</th>
+									<th>{% trans "Milímetros" %}</th>
 								</tr>
-							{% endfor %}
+							</thead>
+							<tbody>
+								{% for r in rain %}
+									<tr>
+										<td>{{r.city}}</td>
+										<td class="right">{{r.mm|floatformat:0|intcomma}}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
 						</table>
 						<table class="data-table rain-error">
-							<tr>
-								<th class="rain-date"></th>
-								<th>{% trans "Milímetros" %}</th>
-							</tr>
-							<tr>
-								<td colspan="2" rowspan="2">{% trans "Sin Lluvias" %}</td>
-							</tr>
+							<thead>
+								<tr>
+									<th class="rain-date"></th>
+									<th>{% trans "Milímetros" %}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="2" rowspan="2">{% trans "Sin Lluvias" %}</td>
+								</tr>
+							</tbody>
 						</table>
 						<span class="data">+ {% trans "Lluvias del día" %} <span id="r-data-date">{{rain.0.rain.date|date:"d/m/Y"}}</span></span>
 						<form id="rain">
@@ -353,7 +373,7 @@
 							<fieldset>
 								<legend>{% trans "Ver lluvias del:" %} </legend>
 								<div class="input">
-									<input id="rain-date" name="rain-date" type="date" placeholder="dd/mm/aaaa">
+									<input id="rain-date" name="rain-date" type="date" placeholder="dd/mm/aaaa" required>
 									<span class="icon">
 										<i class="fa fa-calendar-o" aria-hidden="true"></i>
 									</span>
@@ -599,17 +619,20 @@
 					document.getElementsByClassName('rain-error')[0].style.display= 'none';
 					document.getElementsByClassName('rain-ok')[0].style.display= 'table';
 				}
-				var rainOk = document.getElementsByClassName('rain-ok')[0];
-				for(var i = 1; i <= rainOk.rows.length; i++) {
-					rainOk.deleteRow(1);
-				}
+				var currentTbody = document.querySelector('.rain-ok tbody');
+				var newTbody = document.createElement('tbody');
 				for(var i = 0; i < obj.length; i++) {
-					var row = rainOk.insertRow(rainOk.rows.length);
-					var cellCity = row.insertCell(0);
-					var cellMm = row.insertCell(1);
-					cellCity.innerHTML = obj[i].city;
-					cellMm.innerHTML = obj[i].mm;
+					var tr = document.createElement('tr');
+					var city = document.createElement('td');
+					var mm = document.createElement('td')
+					mm.classList.add('right');
+					city.innerHTML = obj[i].city;
+					mm.innerHTML = obj[i].mm;
+					tr.appendChild(city);
+					tr.appendChild(mm);
+					newTbody.appendChild(tr);
 				}
+				currentTbody.parentNode.replaceChild(newTbody, currentTbody)
 			} else {
 				document.getElementsByClassName('rain-ok')[0].style.display= 'none';
 				document.getElementsByClassName('rain-error')[0].style.display= 'table';
