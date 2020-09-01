@@ -1,4 +1,3 @@
-#-*- coding: utf-8 -*-
 import codecs
 import datetime
 import os
@@ -6,13 +5,12 @@ import re
 
 from django.conf import settings
 
-from models import TicketsAnalysis
-from models import CtaCte
-from models import Deliveries
-from models import Sales
-from models import Applied
-from models import SpeciesHarvest
-
+from website.models import TicketsAnalysis
+from website.models import CtaCte
+from website.models import Deliveries
+from website.models import Sales
+from website.models import Applied
+from website.models import SpeciesHarvest
 
 def evalDate(date):
     # Catch format error in date
@@ -41,21 +39,23 @@ def evalInt(num):
 
 def evalText(text):
     # Decode text in latin iso-8859-1 like (0xd1 --> ñ)
-    return unicode(text.strip(' ').decode('iso-8859-1'))
+    # return unicode(text.strip(' ').decode('iso-8859-1'))
+    return text
 
 def evalTextUTF8(text):
-    return unicode(text.strip(' ').decode('utf-8'))
+    # return unicode(text.strip(' ').decode('utf-8'))
+    return text
 
 
 def importTicketsAnalysis():
     txt = os.path.join(settings.EXTRANET_DIR, 'Analisis_Tickets.txt')
     try:
-        with open(txt, 'r') as file:
+        with open(txt, 'r', encoding='utf-8') as file:
             if TicketsAnalysis.objects.exists():
                 TicketsAnalysis.objects.all().delete()
             record = []
             # Exclude header
-            file.next()
+            file.readline()
             for line in file:
                 # Delete new line character
                 line = line.replace('\n', '').replace('\r', '')
@@ -85,13 +85,13 @@ def importTicketsAnalysis():
             TicketsAnalysis.objects.bulk_create(record)
 
     except IOError as e:
-        print "I/O error({0}): {1}".format(e.errno, e.strerror)
+        print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
 
 def importApplied():
     txt = os.path.join(settings.EXTRANET_DIR, 'Aplicada.TXT')
     try:
-        with open(txt, 'r') as file:
+        with open(txt, 'r', encoding='iso-8859-1') as file:
             if Applied.objects.exists():
                 Applied.objects.all().delete()
             record = []
@@ -121,13 +121,13 @@ def importApplied():
             Applied.objects.bulk_create(record)
 
     except IOError as e:
-        print "I/O error({0}): {1}".format(e.errno, e.strerror)
+        print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
 
 def importCtaCteP():
     txt = os.path.join(settings.EXTRANET_DIR, 'CtaCteP.TXT')
     try:
-        with open(txt, 'r') as file:
+        with open(txt, 'r', encoding='iso-8859-1') as file:
             if CtaCte.objects.exists():
                 CtaCte.objects.all().delete()
             record = []
@@ -161,13 +161,13 @@ def importCtaCteP():
             CtaCte.objects.bulk_create(record)
 
     except IOError as e:
-        print "I/O error({0}): {1}".format(e.errno, e.strerror)
+        print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
 
 def importKilos():
     txt = os.path.join(settings.EXTRANET_DIR, 'Web.TXT')
     try:
-        with open(txt, 'r') as file:
+        with open(txt, 'r', encoding='iso-8859-1') as file:
             if Deliveries.objects.exists():
                 Deliveries.objects.all().delete()
             if Sales.objects.exists():
@@ -224,7 +224,7 @@ def importKilos():
                             )
                         )
                     else:
-                        if data[9][0:2] <> 'AD':
+                        if data[9][0:2] != 'AD':
                             record_sales.append(
                                 Sales(
                                     algoritmo_code = evalInt(data[0]),
@@ -299,4 +299,4 @@ def importKilos():
             SpeciesHarvest.objects.bulk_create(record_species[j:j+BULK_SIZE])
 
     except IOError as e:
-        print "I/O error({0}): {1}".format(e.errno, e.strerror)
+        print("I/O error({0}): {1}".format(e.errno, e.strerror))

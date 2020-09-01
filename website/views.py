@@ -33,7 +33,7 @@ from reportlab.lib.pagesizes import A4
 import requests
 from requests.auth import HTTPBasicAuth
 
-from website.forms import CP
+from website.forms import CP, ExtranetClientSelectionForm
 from website.models import CtaCte
 from website.models import Deliveries
 from website.models import Sales
@@ -49,10 +49,8 @@ from website.models import City
 from website.models import Rain
 from website.models import RainDetail
 from website.models import Careers
-
-from website.forms import ExtranetClientSelectionForm
-
 from website.tokens import account_activation_token
+from website import import_tasks
 
 from bh import settings
 
