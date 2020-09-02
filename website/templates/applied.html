@@ -121,10 +121,6 @@
 			<p class="error-description">{{error}}</p>
 		</form>
 
-		{% if from_date and to_date %}
-			<h4 class="filter-date-title">Cuenta Corriente desde {{from_date}} hasta {{to_date}}</h4>
-		{% endif %}
-
 		{% if object_list %}
 
 			{% load el_pagination_tags %}

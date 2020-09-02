@@ -388,6 +388,7 @@ class DateFilterBaseView(ListView):
     date_field = None
     since_date = None
     until_date = None
+    initial = False
     date_format = '%Y-%m-%d'
 
     def get_since_date(self):
@@ -401,7 +402,10 @@ class DateFilterBaseView(ListView):
                 except KeyError:
                     return None
         format = self.date_format
-        return datetime.datetime.strptime(since_date, format).date()
+        try:
+            return datetime.datetime.strptime(since_date, format).date()
+        except:
+            return None
 
     def get_until_date(self):
         until_date = self.until_date
@@ -414,11 +418,15 @@ class DateFilterBaseView(ListView):
                 except KeyError:
                     return None
         format = self.date_format
-        return datetime.datetime.strptime(until_date, format).date()
+        try:
+            return datetime.datetime.strptime(until_date, format).date()
+        except:
+            return None
     
     def get_context_data(self, **kwargs):
         context = {'from_date': self.get_since_date(),
-                   'to_date': self.get_until_date()}
+                   'to_date': self.get_until_date(),
+                   'initial': self.initial}
         context.update(kwargs)
         return super(DateFilterBaseView, self).get_context_data(**context)
 
@@ -434,8 +442,9 @@ class CtaCteView(LoginRequiredMixin, DateFilterBaseView):
             self.date_field = 'date_2'
         else:
             self.date_field = 'date_1'
-        if self.get_since_date() is None:
+        if self.get_since_date() is None and self.get_until_date() is None:
             self.since_date = (datetime.datetime.today() - monthdelta(1)).strftime(self.date_format)
+            self.initial = True
         self.object_list = self.get_queryset()
         context = self.get_context_data()
         return self.render_to_response(context)
@@ -447,23 +456,29 @@ class CtaCteView(LoginRequiredMixin, DateFilterBaseView):
         date_field = self.date_field
         since = self.get_since_date()
         until = self.get_until_date()
-        lookup_ib = {
-            '%s__lt' % date_field: since
-        }
-        if until:
+        initial_balance = {}
+        if since:
+            lookup_ib = {
+                '%s__lt' % date_field: since
+            }
+            initial_balance = CtaCte.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Sum('amount_sign'))
+        if until and since:
             lookup_kwargs = {
                 '%s__gte' % date_field: since,
+                '%s__lt' % date_field: until,
+            }
+        elif until:
+            lookup_kwargs = {
                 '%s__lt' % date_field: until,
             }
         else:
             lookup_kwargs = {
                 '%s__gte' % date_field: since
             }
-        initial_balance = CtaCte.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Sum('amount_sign'))
         queryset = CtaCte.objects\
             .filter(algoritmo_code=algoritmo_code)\
             .filter(**lookup_kwargs)\
-            .annotate(ib=Value(initial_balance['ib'] or 0, output_field=FloatField()))\
+            .annotate(ib=Value(initial_balance.get('ib', 0), output_field=FloatField()))\
             .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_sign').asc()]) + F('initial_balance_countable') + F('ib'))\
             .values('date_1', 'date_2', 'voucher', 'concept', 'movement_type', 'amount_sign', 'initial_balance_countable', 'ib', 'row_balance').order_by('%s' % date_field, 'voucher', 'amount_sign')
         return queryset
@@ -484,31 +499,32 @@ class AppliedView(LoginRequiredMixin, DateFilterBaseView):
         date_field = self.date_field
         since = self.get_since_date()
         until = self.get_until_date()
+        lookup_kwargs = {}
+        initial_balance = {}
         if since:
             lookup_ib = {
                 '%s__lt' % date_field: since
             }
             initial_balance = Applied.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Sum('amount_sign'))
-            if until:
-                lookup_kwargs = {
-                    '%s__gte' % date_field: since,
-                    '%s__lt' % date_field: until,
-                }
-            else:
-                lookup_kwargs = {
-                    '%s__gte' % date_field: since
-                }
-            queryset = Applied.objects\
-                .filter(algoritmo_code=algoritmo_code)\
-                .filter(**lookup_kwargs)\
-                .annotate(ib=Value(initial_balance['ib'] or 0, output_field=FloatField()))\
-                .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_sign').asc()]) + F('ib'))\
-                .values('expiration_date', 'issue_date', 'voucher', 'concept', 'movement_type', 'amount_sign', 'ib', 'row_balance').order_by('%s' % date_field, 'voucher', 'amount_sign')
-        else:
-            queryset = Applied.objects\
-                .filter(algoritmo_code=algoritmo_code)\
-                .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_sign').asc()]))\
-                .values('expiration_date', 'issue_date', 'voucher', 'concept', 'movement_type', 'amount_sign', 'row_balance').order_by('%s' % date_field, 'voucher', 'amount_sign')
+        if until and since:
+            lookup_kwargs = {
+                '%s__gte' % date_field: since,
+                '%s__lt' % date_field: until,
+            }
+        elif until:
+            lookup_kwargs = {
+                '%s__lt' % date_field: until,
+            }
+        elif since:
+            lookup_kwargs = {
+                '%s__gte' % date_field: since,
+            }
+        queryset = Applied.objects\
+            .filter(algoritmo_code=algoritmo_code)\
+            .filter(**lookup_kwargs)\
+            .annotate(ib=Value(initial_balance.get('ib', 0), output_field=FloatField()))\
+            .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_sign').asc()]) + F('ib'))\
+            .values('expiration_date', 'issue_date', 'voucher', 'concept', 'movement_type', 'amount_sign', 'ib', 'row_balance').order_by('%s' % date_field, 'voucher', 'amount_sign')
         return queryset
 
 
