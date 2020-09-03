@@ -1,0 +1,4 @@
+{% load humanize %}
+{% for name in headers %}"{{name|addslashes}}";{% endfor %}
+{% for row in data %}"{{row.date|date:"d/m/Y"}}";"{{row.voucher|addslashes}}";"{{row.field_description|addslashes}}";"{{row.service_billing_date|date:"d/m/Y"}}";"{{row.to_date|date:"d/m/Y"}}";"{{row.gross_kg|addslashes|intcomma}}";"{{row.service_billing_number|addslashes|intcomma}}";"{{row.number_1116A|addslashes|intcomma}}";"{{row.price_per_yard|addslashes|floatformat:2|intcomma}}";"{% if row.grade == 1 or row.grade == 'D' %}D{% else %}P{% endif %}";"{{row.observations|addslashes}}";"{{row.species_title|addslashes}}"
+{% endfor %}

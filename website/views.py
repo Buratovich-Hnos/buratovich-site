@@ -26,6 +26,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.forms import SetPasswordForm
 from django.urls import reverse
+from django.template import loader
 
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from reportlab.pdfgen import canvas
@@ -647,6 +648,7 @@ class DownloadCSVBaseClass(MultipleObjectMixin, View):
     filename = None
     fields = None
     headers = None
+    template = None
 
     def get_csv_response(self):
         queryset = self.get_queryset()
@@ -655,19 +657,19 @@ class DownloadCSVBaseClass(MultipleObjectMixin, View):
         if not filename.endswith('.csv'):
             filename += '.csv'
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
-        writer = csv.writer(response, delimiter=';', dialect='excel', quoting=csv.QUOTE_NONNUMERIC)
-        # Headers
-        writer.writerow([header for header in self.headers])
-        # Fields
-        for obj in queryset:
-            writer.writerow([obj[field] for field in self.fields])
+        c = {
+            'data': queryset,
+            'headers': self.headers
+        }
+        t = loader.get_template(self.template)
+        response.write(t.render(c))
         return response
 
 
 class DownloadRainView(DownloadCSVBaseClass):
     filename = 'Historico Lluvias'
-    fields = ('month', 'year', 'mmsum')
     headers = ('Mes', 'Año', 'Milimetros')
+    template = 'csv_rain_template.txt'
 
     def get_queryset(self):
         queryset = RainDetail.objects.filter(city=1).annotate(month=ExtractMonth('rain'), year=ExtractYear('rain')).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
@@ -680,8 +682,8 @@ class DownloadRainView(DownloadCSVBaseClass):
 
 class DownloadCtaCteCSVView(CtaCteView, DownloadCSVBaseClass):
     filename = 'Cuenta Corriente'
-    fields = ('date_1', 'date_2', 'voucher', 'concept', 'movement_type', 'amount_sign', 'row_balance')
     headers = ('Fecha Vencimiento', 'Fecha Emisión', 'Comprobante', 'Concepto', 'Tipo de Movimiento', 'Importe', 'Saldo')
+    template = 'csv_ctacte_template.txt'
 
     def get(self, request, *args, **kwargs):
         super(DownloadCtaCteCSVView, self).get(request, *args, **kwargs)
@@ -691,8 +693,8 @@ class DownloadCtaCteCSVView(CtaCteView, DownloadCSVBaseClass):
 
 class DownloadAppliedCSVView(AppliedView, DownloadCSVBaseClass):
     filename = 'Cuenta Corriente Aplicada'
-    fields = ('expiration_date', 'issue_date', 'voucher', 'concept', 'movement_type', 'amount_sign', 'row_balance')
     headers = ('Fecha Vencimiento', 'Fecha Emisión', 'Comprobante', 'Concepto', 'Tipo de Movimiento', 'Importe', 'Saldo')
+    template = 'csv_applied_template.txt'
 
     def get(self, request, *args, **kwargs):
         super(DownloadAppliedCSVView, self).get(request, *args, **kwargs)
@@ -702,8 +704,8 @@ class DownloadAppliedCSVView(AppliedView, DownloadCSVBaseClass):
 
 class DownloadDeliveriesCSVView(DeliveriesView, DownloadCSVBaseClass):
     filename = 'Entregas'
-    fields = ('date', 'voucher', 'gross_kg', 'humidity_percentage', 'humidity_kg', 'shaking_reduction', 'shaking_kg', 'volatile_reduction', 'volatile_kg', 'net_weight', 'factor', 'grade', 'number_1116A', 'external_voucher_number', 'driver_name', 'field_description', 'species_title')
     headers = ('Fecha', 'Comprobante', 'Kilos Brutos', '% Hum.', 'Kg. Hum.', '% Zarandeo', 'Kg. Zarandeo', '% Volatil', 'Kg. Volatil', 'Kilos Netos', 'Factor', 'Grado', 'Certificado', 'Número Externo', 'Chofer', 'Campo', 'Especie y Cosecha')
+    template = 'csv_deliveries_template.txt'
 
     def get(self, request, *args, **kwargs):
         super(DownloadDeliveriesCSVView, self).get(request, *args, **kwargs)
@@ -713,8 +715,8 @@ class DownloadDeliveriesCSVView(DeliveriesView, DownloadCSVBaseClass):
 
 class DownloadSalesCSVView(SalesView, DownloadCSVBaseClass):
     filename = 'Ventas'
-    fields = ('date', 'voucher', 'field_description', 'service_billing_date', 'to_date', 'gross_kg', 'service_billing_number', 'number_1116A', 'price_per_yard', 'grade', 'observations', 'species_title')
     headers = ('Fecha', 'Comprobante', 'Destino', 'Fecha Entrega Desde', 'Fecha Entrega Hasta', 'Kilos', 'Pend. TC', 'Liquidado', 'Precio por Quintal', 'Moneda', 'Observaciones', 'Especie y Cosecha')
+    template = 'csv_sales_template.txt'
 
     def get(self, request, *args, **kwargs):
         super(DownloadSalesCSVView, self).get(request, *args, **kwargs)
