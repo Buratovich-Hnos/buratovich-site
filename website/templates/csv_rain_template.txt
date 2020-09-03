@@ -1,0 +1,4 @@
+{% load humanize %}
+{% for name in headers %}"{{name|addslashes}}";{% endfor %}
+{% for row in data %}"{{row.month|addslashes}}";"{{row.year|addslashes}}";"{{row.mmsum|addslashes|floatformat:2|intcomma}}"
+{% endfor %}

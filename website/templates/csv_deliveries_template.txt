@@ -1,0 +1,4 @@
+{% load humanize %}
+{% for name in headers %}"{{name|addslashes}}";{% endfor %}
+{% for row in data %}"{{row.date|date:"d/m/Y"}}";"{{row.voucher|addslashes}}";"{{row.gross_kg|addslashes|intcomma}}";"{{row.humidity_percentage|addslashes|floatformat:2|intcomma}}";"{{row.humidity_kg|addslashes|intcomma}}";"{{row.shaking_reduction|addslashes|floatformat:2|intcomma}}";"{{row.shaking_kg|addslashes|intcomma}}";"{{row.volatile_reduction|addslashes|floatformat:2|intcomma}}";"{{row.volatile_kg|addslashes|intcomma}}";"{{row.net_weight|addslashes|intcomma}}";"{{row.factor|addslashes|intcomma}}";"{{row.grade|addslashes}}";"{{row.number_1116A|addslashes}}";"{{row.external_voucher_number|addslashes}}";"{{row.driver_name|addslashes}}";"{{row.field_description|addslashes}}";"{{row.species_title|addslashes}}"
+{% endfor %}

@@ -1,0 +1,4 @@
+{% load humanize %}
+{% for name in headers %}"{{name|addslashes}}";{% endfor %}
+{% for row in data %}"{{row.expiration_date|date:"d/m/Y"}}";"{{row.issue_date|date:"d/m/Y"}}";"{{row.voucher|addslashes}}";"{{row.concept|addslashes}}";"{{row.movement_type|addslashes}}";"{{row.amount_sign|addslashes|floatformat:2|intcomma}}";"{{row.row_balance|addslashes|floatformat:2|intcomma}}"
+{% endfor %}
