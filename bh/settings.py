@@ -247,3 +247,24 @@ ADMIN_REORDER = (
     {'app': 'website', 'models': ('website.Careers',), 'label': 'Busquedas Laborales'},
     {'app': 'website', 'models': ('website.AccessLog',), 'label': 'Accesos'},
 )
+
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
+}
