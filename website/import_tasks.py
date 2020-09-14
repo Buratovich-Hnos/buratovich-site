@@ -12,6 +12,8 @@ from website.models import Sales
 from website.models import Applied
 from website.models import SpeciesHarvest
 
+BATCH_SIZE = 10000
+
 def evalDate(date):
     # Catch format error in date
     try:
@@ -82,7 +84,7 @@ def importTicketsAnalysis():
                         )
                     )
 
-            TicketsAnalysis.objects.bulk_create(record)
+            TicketsAnalysis.objects.bulk_create(record, BATCH_SIZE)
 
     except IOError as e:
         print("I/O error({0}): {1}".format(e.errno, e.strerror))
@@ -118,7 +120,7 @@ def importApplied():
                         )
                     )
 
-            Applied.objects.bulk_create(record)
+            Applied.objects.bulk_create(record, BATCH_SIZE)
 
     except IOError as e:
         print("I/O error({0}): {1}".format(e.errno, e.strerror))
@@ -158,7 +160,7 @@ def importCtaCteP():
                         )
                     )
 
-            CtaCte.objects.bulk_create(record)
+            CtaCte.objects.bulk_create(record, BATCH_SIZE)
 
     except IOError as e:
         print("I/O error({0}): {1}".format(e.errno, e.strerror))
@@ -266,8 +268,8 @@ def importKilos():
                                 )
                             )
 
-            Deliveries.objects.bulk_create(record_deliveries)
-            Sales.objects.bulk_create(record_sales)
+            Deliveries.objects.bulk_create(record_deliveries, BATCH_SIZE)
+            Sales.objects.bulk_create(record_sales, BATCH_SIZE)
 
             # Create speciesharvest table
             species_d = Deliveries.objects.values('algoritmo_code', 'species', 'harvest', 'speciesharvest', 'species_description').order_by('-harvest','species').distinct()
@@ -296,7 +298,7 @@ def importKilos():
                     )
                 )
 
-            SpeciesHarvest.objects.bulk_create(record_species[j:j+BULK_SIZE])
+            SpeciesHarvest.objects.bulk_create(record_species, BATCH_SIZE)
 
     except IOError as e:
         print("I/O error({0}): {1}".format(e.errno, e.strerror))
