@@ -196,7 +196,7 @@ CP_MAX_UPLOAD_SIZE = 2621440 #2.5 Mb
 
 
 # Extranet files
-EXTRANET_DIR = os.path.join(BASE_DIR, 'FTP')
+EXTRANET_DIR = os.getenv('FTP_DIR')
 
 
 # Security Settings

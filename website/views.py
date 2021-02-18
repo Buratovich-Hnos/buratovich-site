@@ -777,7 +777,7 @@ class DownloadPDFView(LoginRequiredMixin, View):
                         tickets_file_url = 'http://{0}:{1}/DETTK{2}{3}{4}{5}.pdf'.format(settings.RS_HOST, settings.RS_PORT, separator, voucher[1], separator, voucher[2])
                         rtk = requests.get(tickets_file_url, auth=HTTPBasicAuth(settings.RS_USER, settings.RS_PASS))
                         if rtk.status_code == 200:
-                            r = merge_pdf(r.content, rtk.content)
+                            r = self.merge_pdf(r.content, rtk.content)
                             return {'file':r, 'filename':file_name}
                     # If voucher is not FASCER or there is no DETTK then return the response content (file)
                     return {'file':r.content, 'filename':file_name}
