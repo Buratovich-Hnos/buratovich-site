@@ -301,7 +301,7 @@ class HistoricRainView(TemplateView):
 class CustomLoginView(LoginView):
     def form_valid(self, form):
         """Security check complete. Log the user in."""
-        auth_login(self.request, form.get_user())
+        login(self.request, form.get_user())
         user = form.get_user()
         self.request.session['algoritmo_code'] = user.userinfo.algoritmo_code
         return HttpResponseRedirect(self.get_success_url())
