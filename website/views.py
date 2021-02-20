@@ -755,12 +755,12 @@ class DownloadPDFView(LoginRequiredMixin, View):
     def merge_pdf(self, file1, file2):
         # Create instance por Write new PDF
         output = PdfFileWriter()
-        pdf1 = PdfFileReader(io.StringIO(file1))
-        pdf2 = PdfFileReader(io.StringIO(file2))
+        pdf1 = PdfFileReader(io.BytesIO(file1))
+        pdf2 = PdfFileReader(io.BytesIO(file2))
         self.append_pdf(pdf1,output)
         self.append_pdf(pdf2,output)
         # Init InMemory PDF file
-        new_file = io.StringIO()
+        new_file = io.BytesIO()
 
         # Write PDF to buffer
         output.write(new_file)
@@ -804,7 +804,7 @@ class DownloadPDFView(LoginRequiredMixin, View):
                 pass
         file = self.search_file(f, d)
         if file:
-            response = StreamingHttpResponse(file['file'], content_type='application/pdf')
+            response = HttpResponse(file['file'], content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="{}"'.format(file['filename'])
             return response
         else:
