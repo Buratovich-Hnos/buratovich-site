@@ -18,7 +18,7 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
-from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeDoneView
+from django.contrib.auth.views import LogoutView, PasswordChangeDoneView
 
 from website import views
 from website.forms import CustomAuthenticationForm
@@ -38,7 +38,7 @@ urlpatterns = [
     path('trabaja-con-nosotros/', views.CareersView.as_view(), name='cv'),
     path('cp/', views.cp, name='cp'),
 
-    path('login/', LoginView.as_view(template_name='login.html', authentication_form=CustomAuthenticationForm), name='login'),
+    path('login/', views.CustomLoginView.as_view(template_name='login.html', authentication_form=CustomAuthenticationForm), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('activar-cuenta/<slug:uidb64>/<slug:token>/', views.AccountActivationView.as_view(), name='activate_account'),
     path('cuenta/cambiar-password/', views.ChangePasswordView.as_view(), name='change_password'),

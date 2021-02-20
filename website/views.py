@@ -11,13 +11,13 @@ from django.views.generic.list import MultipleObjectMixin
 from django.views.generic import View, ListView
 from django.views.generic.edit import FormView
 from django.views.defaults import page_not_found, server_error
-from django.http import JsonResponse, HttpResponse, StreamingHttpResponse
+from django.http import JsonResponse, HttpResponse, StreamingHttpResponse, HttpResponseRedirect
 from django.http import Http404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, LoginView
 from django.contrib.auth import login, update_session_auth_hash
 from django.db.models import Q, Sum, Count, F, Window, Value, FloatField
 from django.db.models.functions import ExtractMonth, ExtractYear, Replace
@@ -296,6 +296,15 @@ class HistoricRainView(TemplateView):
         rain = RainDetail.objects.filter(city=1).annotate(month=ExtractMonth('rain'), year=ExtractYear('rain')).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
         context['rain'] = rain
         return context
+
+
+class CustomLoginView(LoginView):
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        auth_login(self.request, form.get_user())
+        user = form.get_user()
+        self.request.session['algoritmo_code'] = user.userinfo.algoritmo_code
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class AccountActivationView(View):
