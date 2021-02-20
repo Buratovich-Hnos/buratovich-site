@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 # Email send and errors
 from django.core.mail import EmailMessage
 from django.core.mail import BadHeaderError
-# import smtplib
+import smtplib
 from django.template.loader import render_to_string
 
 from website.tokens import account_activation_token
