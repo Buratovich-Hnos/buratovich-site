@@ -547,7 +547,7 @@ class HarvestFilterBaseView(ListView):
             speciesharvest_filter = speciesharvest_filter | Q(speciesharvest=item)
         self.current_species = speciesharvest_filter
     
-    def get_species_for(algoritmo_code, movement_type):
+    def get_species_for(self, algoritmo_code, movement_type):
         return SpeciesHarvest.objects\
             .filter(algoritmo_code=algoritmo_code, movement_type=movement_type)\
             .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
@@ -594,7 +594,7 @@ class DeliveriesView(LoginRequiredMixin, HarvestFilterBaseView):
         context = super().get_context_data(**kwargs)
         algoritmo_code = self.request.session['algoritmo_code']
         current_species = self.current_species
-        context['species'] = self.get_species_for('D')
+        context['species'] = self.get_species_for(algoritmo_code, 'D')
         if current_species:
             context['total'] = Deliveries.objects\
                 .filter(algoritmo_code=algoritmo_code)\
@@ -639,7 +639,7 @@ class SalesView(LoginRequiredMixin, HarvestFilterBaseView):
         context = super().get_context_data(**kwargs)
         algoritmo_code = self.request.session['algoritmo_code']
         current_species = self.current_species
-        context['species'] = self.get_species_for('S')
+        context['species'] = self.get_species_for(algoritmo_code, 'S')
         if current_species:
             context['totals_by_sale'] = list(
                 Sales.objects\
