@@ -547,6 +547,13 @@ class HarvestFilterBaseView(ListView):
             speciesharvest_filter = speciesharvest_filter | Q(speciesharvest=item)
         self.current_species = speciesharvest_filter
     
+    def get_species_for(algoritmo_code, movement_type):
+        return SpeciesHarvest.objects\
+            .filter(algoritmo_code=algoritmo_code, movement_type=movement_type)\
+            .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
+            .values('species', 'harvest', 'speciesharvest', 'species_title', 'species_description')\
+            .order_by('-harvest', 'speciesharvest')
+    
     def get(self, request, *args, **kwargs):
         try:
             request.session['current_species'] = kwargs['checks']
@@ -565,11 +572,6 @@ class HarvestFilterBaseView(ListView):
         context = super().get_context_data(**kwargs)
         algoritmo_code = self.request.session['algoritmo_code']
         current_species = self.current_species
-        context['species'] = SpeciesHarvest.objects\
-            .filter(algoritmo_code=algoritmo_code, movement_type='D')\
-            .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
-            .values('species', 'harvest', 'speciesharvest', 'species_title', 'species_description')\
-            .order_by('-harvest', 'speciesharvest')
         return context
 
 
@@ -592,6 +594,7 @@ class DeliveriesView(LoginRequiredMixin, HarvestFilterBaseView):
         context = super().get_context_data(**kwargs)
         algoritmo_code = self.request.session['algoritmo_code']
         current_species = self.current_species
+        context['species'] = self.get_species_for('D')
         if current_species:
             context['total'] = Deliveries.objects\
                 .filter(algoritmo_code=algoritmo_code)\
@@ -636,6 +639,7 @@ class SalesView(LoginRequiredMixin, HarvestFilterBaseView):
         context = super().get_context_data(**kwargs)
         algoritmo_code = self.request.session['algoritmo_code']
         current_species = self.current_species
+        context['species'] = self.get_species_for('S')
         if current_species:
             context['totals_by_sale'] = list(
                 Sales.objects\
