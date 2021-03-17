@@ -5,6 +5,7 @@ import csv
 import io
 from monthdelta import monthdelta
 
+from django.db.models.functions import Coalesce
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.list import MultipleObjectMixin
@@ -471,7 +472,7 @@ class CtaCteView(LoginRequiredMixin, DateFilterBaseView):
             lookup_ib = {
                 '%s__lt' % date_field: since
             }
-            initial_balance = CtaCte.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Sum('amount_sign'))
+            initial_balance = CtaCte.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Coalesce(Sum('amount_sign'),0))
         if until and since:
             lookup_kwargs = {
                 '%s__gte' % date_field: since,
@@ -515,7 +516,7 @@ class AppliedView(LoginRequiredMixin, DateFilterBaseView):
             lookup_ib = {
                 '%s__lt' % date_field: since
             }
-            initial_balance = Applied.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Sum('amount_sign'))
+            initial_balance = Applied.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Coalesce(Sum('amount_sign'),0))
         if until and since:
             lookup_kwargs = {
                 '%s__gte' % date_field: since,

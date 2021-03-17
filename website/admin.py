@@ -14,6 +14,7 @@ from website.models import City
 from website.models import Rain
 from website.models import RainDetail
 from website.models import Careers
+from website.models import AccessLog
 
 from website.forms import UserCreationForm, NotificationCreationForm, CareerCreationForm
 
@@ -193,6 +194,11 @@ class CareersAdmin(admin.ModelAdmin):
     requirements_html.short_description = 'Requerimientos'
 
 
+class AccessLogAdmin(admin.ModelAdmin):
+    list_display = ('user', 'algoritmo_code', 'logged')
+    list_filter = ('user', 'algoritmo_code', 'logged')
+
+
 # Register models
 admin.site.register(User, UserAdmin)
 admin.site.register(Notifications, NotificationsAdmin)
@@ -202,3 +208,4 @@ admin.site.register(Board, BoardAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Rain, RainAdmin)
 admin.site.register(Careers, CareersAdmin)
+admin.site.register(AccessLog, AccessLogAdmin)
