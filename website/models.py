@@ -184,7 +184,7 @@ class CtaCte(models.Model):
     date_1 = models.DateField(null=True, verbose_name='Fecha Vencimiento')
     date_2 = models.DateField(null=True, verbose_name='Fecha Emisión')
     amount_sign = models.FloatField(verbose_name='Importe Signo')
-    cta_cte = models.CharField(max_length=1, verbose_name='Tipo Cta. Cte.')
+    cta_cte = models.CharField(max_length=80, verbose_name='Tipo Cta. Cte.')
     cta_cte_name = models.CharField(max_length=80, verbose_name='Descripcion Cta. Cte.')
 
     def __str__(self):
