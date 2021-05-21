@@ -21,7 +21,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class ExtranetClientSelectionForm(forms.Form):
-    client = forms.ModelChoiceField(queryset=UserInfo.objects.all(), required=True, empty_label='- - - - - -')
+    client = forms.ModelChoiceField(queryset=UserInfo.objects.all().order_by('company_name'), required=True, empty_label='- - - - - -')
 
 
 class UserCreationForm(ModelForm):
