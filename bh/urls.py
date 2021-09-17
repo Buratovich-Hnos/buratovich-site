@@ -23,7 +23,11 @@ from django.contrib.auth.views import LogoutView, PasswordChangeDoneView
 from website import views
 from website.forms import CustomAuthenticationForm
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
 urlpatterns = [
+    path('sentry-debug/', trigger_error),
     path('tinymce/', include('tinymce.urls')),
 
     path('admin/', admin.site.urls),
