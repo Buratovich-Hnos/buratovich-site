@@ -1,4 +1,4 @@
-import datetime 
+import datetime
 from collections import OrderedDict
 import json
 import csv
@@ -57,6 +57,7 @@ from website import import_tasks
 from bh import settings
 
 from django.http import FileResponse
+
 
 def cp(request):
 
@@ -433,7 +434,7 @@ class DateFilterBaseView(ListView):
             return datetime.datetime.strptime(until_date, format).date()
         except:
             return None
-    
+
     def get_context_data(self, **kwargs):
         context = {'from_date': self.get_since_date(),
                    'to_date': self.get_until_date(),
@@ -547,14 +548,14 @@ class HarvestFilterBaseView(ListView):
         for item in checks:
             speciesharvest_filter = speciesharvest_filter | Q(speciesharvest=item)
         self.current_species = speciesharvest_filter
-    
+
     def get_species_for(self, algoritmo_code, movement_type):
         return SpeciesHarvest.objects\
             .filter(algoritmo_code=algoritmo_code, movement_type=movement_type)\
             .annotate(species_title=Replace('species_description', Value('COSECHA '), Value('')))\
             .values('species', 'harvest', 'speciesharvest', 'species_title', 'species_description')\
             .order_by('-harvest', 'speciesharvest')
-    
+
     def get(self, request, *args, **kwargs):
         try:
             request.session['current_species'] = kwargs['checks']
@@ -568,7 +569,7 @@ class HarvestFilterBaseView(ListView):
         self.object_list = self.get_queryset()
         context = self.get_context_data()
         return self.render_to_response(context)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         algoritmo_code = self.request.session['algoritmo_code']
