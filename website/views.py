@@ -828,6 +828,8 @@ def importdata(request, datatype):
         import_tasks.importApplied()
     elif datatype == 'analysis':
         import_tasks.importTicketsAnalysis()
+    elif datatype == 'quality':
+        import_tasks.importIncomeQuality()
     elif datatype == 'all':
         import_tasks.importCtaCteP()
         import_tasks.importKilos()

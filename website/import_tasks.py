@@ -11,6 +11,7 @@ from website.models import Deliveries
 from website.models import Sales
 from website.models import Applied
 from website.models import SpeciesHarvest
+from website.models import IncomeQuality
 
 BATCH_SIZE = 10000
 
@@ -47,6 +48,118 @@ def evalText(text):
 def evalTextUTF8(text):
     # return unicode(text.strip(' ').decode('utf-8'))
     return text
+
+
+def importIncomeQuality():
+    for filename in os.listdir(settings.EXTRANET_DIR):
+        if 'ANALISIS' in filename:
+            species = re.search(r"\[([A-Za-z0-9_]+)\]", filename)
+            print(filename, species.group(1))
+
+            txt = os.path.join(settings.EXTRANET_DIR, filename)
+            try:
+                with open(txt, 'r', encoding='utf-8') as file:
+                    if IncomeQuality.objects.exists():
+                        IncomeQuality.objects.filter(species=species).delete()
+                    record = []
+                    # Exclude header
+                    file.readline()
+                    for line in file:
+                        # Delete new line character
+                        line = line.replace('\n', '').replace('\r', '')
+                        if len(line) > 0:
+                            data = re.split('\t', line)
+
+                            algoritmo_code, name = data[7][:7], data[7][8:]
+                            field, field_description = data[8].split(' ')[0], ' '.join(data[8].split(' ')[1:])
+
+                            record.append(
+                                IncomeQuality(
+                                    species = evalText(data[1]),
+                                    harvest = evalText(data[2]),
+                                    ticket = 'TK ' + evalText(data[3]),
+                                    income = evalText(data[4]),
+                                    cp = evalText(data[6]),
+                                    algoritmo_code = algoritmo_code,
+                                    name = name,
+                                    field = field,
+                                    field_description = field_description,
+                                    gross_kg = evalInt(data[10]),
+                                    tare = evalInt(data[11]),
+                                    net_weight = evalInt(data[12]),
+                                    humidity_percentage = evalFloat(data[13]),
+                                    humidity_volatile_reduction = evalFloat(data[14]),
+                                    humidity_volatile_kg = evalInt(data[15]),
+                                    dry_kg = evalInt(data[16]),
+                                    
+                                    quality_percentage = evalFloat(data[11]),
+                                    conditioning_kg = evalInt(data[13]),
+                                    item_1 = evalFloat(data[11]),
+                                    item_2 = evalFloat(data[11]),
+                                    item_3 = evalFloat(data[11]),
+                                    item_4 = evalFloat(data[11]),
+                                    item_5 = evalFloat(data[11]),
+                                    item_6 = evalFloat(data[11]),
+                                    item_7 = evalFloat(data[11]),
+                                    item_8 = evalFloat(data[11]),
+                                    item_9 = evalFloat(data[11]),
+                                    item_10 = evalFloat(data[11]),
+                                    item_11 = evalFloat(data[11]),
+                                    item_12 = evalFloat(data[11]),
+                                    item_13 = evalFloat(data[11]),
+                                    item_14 = evalFloat(data[11]),
+                                    item_15 = evalFloat(data[11]),
+                                    plant = evalInt(data[13]),
+                                    plant_description = evalText(data[8]),
+                                    shaking_reduction = evalFloat(data[14]),
+                                    shaking_kg = evalInt(data[15]),
+                                    volatile_percentage = evalFloat(data[16]),
+                                    volatile_kg = evalInt(data[17]),
+                                    quality_reduction = evalInt(data[17]),
+                                    grade = evalInt(data[22]),
+                                    factor = evalFloat(data[21]),
+                                    speciesharvest = evalText(data[9]) + evalText(data[10]),
+                                    bonus_item_1 = evalFloat(data[11]),
+                                    bonus_item_2 = evalFloat(data[11]),
+                                    bonus_item_3 = evalFloat(data[11]),
+                                    bonus_item_4 = evalFloat(data[11]),
+                                    bonus_item_5 = evalFloat(data[11]),
+                                    bonus_item_6 = evalFloat(data[11]),
+                                    bonus_item_7 = evalFloat(data[11]),
+                                    bonus_item_8 = evalFloat(data[11]),
+                                    bonus_item_9 = evalFloat(data[11]),
+                                    bonus_item_10 = evalFloat(data[11]),
+                                    bonus_item_11 = evalFloat(data[11]),
+                                    bonus_item_12 = evalFloat(data[11]),
+                                    bonus_item_13 = evalFloat(data[11]),
+                                    bonus_item_14 = evalFloat(data[11]),
+                                    bonus_item_15 = evalFloat(data[11]),
+                                    reduction_item_1 = evalFloat(data[11]),
+                                    reduction_item_2 = evalFloat(data[11]),
+                                    reduction_item_3 = evalFloat(data[11]),
+                                    reduction_item_4 = evalFloat(data[11]),
+                                    reduction_item_5 = evalFloat(data[11]),
+                                    reduction_item_6 = evalFloat(data[11]),
+                                    reduction_item_7 = evalFloat(data[11]),
+                                    reduction_item_8 = evalFloat(data[11]),
+                                    reduction_item_9 = evalFloat(data[11]),
+                                    reduction_item_10 = evalFloat(data[11]),
+                                    reduction_item_11 = evalFloat(data[11]),
+                                    reduction_item_12 = evalFloat(data[11]),
+                                    reduction_item_13 = evalFloat(data[11]),
+                                    reduction_item_14 = evalFloat(data[11]),
+                                    reduction_item_15 = evalFloat(data[11]),
+                                    services_kg = evalInt(data[22]),
+                                    gluten = evalInt(data[23]),
+                                    fumigation_charge = evalText(data[9]),
+                                    quality_datetime = evalDate(data[18])
+                                )
+                            )
+
+                    IncomeQuality.objects.bulk_create(record, BATCH_SIZE)
+
+            except IOError as e:
+                print("I/O error({0}): {1}".format(e.errno, e.strerror))
 
 
 def importTicketsAnalysis():
