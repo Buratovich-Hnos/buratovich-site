@@ -96,7 +96,7 @@ class IncomeQuality(models.Model):
     services_kg = models.IntegerField(verbose_name='Kilos Servicio')
     gluten = models.IntegerField(verbose_name='Gluten')
     fumigation_charge = models.CharField(max_length=30, verbose_name='Cobro de Fumigado')
-    quality_datetime = models.DateTimeField(verbose_name='Fecha y Hora de Calidad')
+    quality_datetime = models.DateTimeField(null=True, verbose_name='Fecha y Hora de Calidad')
 
     def __str__(self):
         return self.ticket
