@@ -16,6 +16,7 @@ FTP/bash.script
 FTP/*.txt
 FTP/*.TXT
 FTP/*.ZIP
+FTP/*.json
 
 # Mac
 .DS_Store

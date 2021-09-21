@@ -6,6 +6,7 @@
 {% load truncatechars %}
 {% load voucher %}
 {% load totals %}
+{% load income_quality %}
 
 {% block title %}Buratovich Hnos. - Entregas por Cosecha{% endblock %}
 
@@ -160,7 +161,7 @@
 								<td colspan="16">{{tbf.grouper}}</td>
 							</tr>
 							{% for tk in tbf.list %}
-								{% get_analysis ticket_analysis tk.voucher as detail %}
+								{% get_income_quality income_quality tk.voucher as income_detail %}
 								<tr>
 									<td class="center date">{{tk.date|date:"d/m/Y"}}</td>
 									{% voucher tk.voucher 'S' as voucher %}
@@ -216,12 +217,12 @@
 												</tr>
 											</tbody>
 										</table>
-										{% if detail %}
+										{% if income_detail %}
 											<table class="analysis-detail">
 												<thead>
 													<tr>
-														<th colspan="3">Gluten: {{detail.0.gluten}}</th>
-														<th colspan="2">Importe de Gastos: $ {{detail.0.analysis_costs|floatformat:2|intcomma}}</th>
+														<th colspan="3">Gluten: {{income_detail.gluten}}</th>
+														<th colspan="2">Humedad: {{humidity_percentage}}</th>
 													</tr>
 													<tr>
 														<th colspan="2">Item</th>
@@ -231,12 +232,12 @@
 													</tr>
 												</thead>
 												<tbody>
-													{% for z in detail %}
+													{% for k, v in income_detail.details.items %}
 														<tr>
-															<td colspan="2">{{z.item_descripcion}}</td>
-															<td class="right">{{z.percentage|floatformat:2|intcomma}}</td>
-															<td class="right">{{z.bonus|floatformat:2|intcomma}}</td>
-															<td class="right">{{z.reduction|floatformat:2|intcomma}}</td>
+															<td colspan="2">{{k}}</td>
+															{% for m, l in v.items %}
+																<td class="right">{{l|floatformat:2|intcomma}}</td>
+															{% endfor %}
 														</tr>
 													{% endfor %}
 												</tbody>

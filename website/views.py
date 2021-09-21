@@ -46,7 +46,7 @@ from website.models import Notifications
 from website.models import ViewedNotifications
 from website.models import Currencies
 from website.models import Board
-from website.models import TicketsAnalysis
+from website.models import TicketsAnalysis, IncomeQuality
 from website.models import City
 from website.models import Rain
 from website.models import RainDetail
@@ -612,12 +612,12 @@ class DeliveriesView(LoginRequiredMixin, HarvestFilterBaseView):
                 .order_by('-harvest', 'speciesharvest')
             )
             # Use list() to evaluate QuerySet only once, otherwise queryset will be evaluated every time a ticket is searched
-            context['ticket_analysis'] = list(
-                TicketsAnalysis.objects\
+            context['income_quality'] = list(
+                IncomeQuality.objects\
                     .filter(algoritmo_code=algoritmo_code)\
                     .filter(current_species)\
-                    .values('ticket', 'analysis_costs', 'gluten', 'analysis_item', 'percentage', 'bonus', 'reduction', 'item_descripcion')\
-                    .order_by('item_descripcion')
+                    .values('ticket', 'species', 'item_1', 'item_2', 'item_3', 'item_4', 'item_5', 'item_6', 'item_7', 'item_8', 'item_9', 'item_10', 'item_11', 'item_12', 'item_13', 'item_14', 'item_15', 'bonus_item_1', 'bonus_item_2', 'bonus_item_3', 'bonus_item_4', 'bonus_item_5', 'bonus_item_6', 'bonus_item_7', 'bonus_item_8', 'bonus_item_9', 'bonus_item_10', 'bonus_item_11', 'bonus_item_12', 'bonus_item_13', 'bonus_item_14', 'bonus_item_15', 'reduction_item_1', 'reduction_item_2', 'reduction_item_3', 'reduction_item_4', 'reduction_item_5', 'reduction_item_6', 'reduction_item_7', 'reduction_item_8', 'reduction_item_9', 'reduction_item_10', 'reduction_item_11', 'reduction_item_12', 'reduction_item_13', 'reduction_item_14', 'reduction_item_15', 'gluten', 'humidity_percentage', 'humidity_volatile_reduction', 'humidity_volatile_kg', 'shaking_reduction', 'shaking_kg', 'volatile_percentage', 'volatile_kg', 'quality_percentage', 'quality_reduction')\
+                    .order_by('ticket')
             )
         return context
 
