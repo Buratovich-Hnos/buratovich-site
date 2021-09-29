@@ -259,6 +259,10 @@ ADMIN_REORDER = (
 )
 
 
+# Source of Quality data = 'ticket_analysis' | 'income_quality'
+SOURCE_QUALITY_DATA = 'ticket_analysis'
+
+
 # Logging
 LOGGING = {
     'version': 1,
