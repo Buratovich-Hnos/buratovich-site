@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-18 11:34-0300\n"
+"POT-Creation-Date: 2021-09-29 09:06-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,52 +16,58 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\templates\base.html:75 .\templates\base.html:103
+#: .\templates\base.html:62 .\templates\base.html:90
 msgid "Salir"
 msgstr "Logout"
 
-#: .\templates\base.html:79 .\templates\base.html:107
+#: .\templates\base.html:66 .\templates\base.html:94
 msgid "Clientes"
 msgstr "Clients"
 
-#: .\templates\base.html:90 .\templates\base.html:125 .\templates\base.html:144
-#: .\templates\company.html:19
+#: .\templates\base.html:77 .\templates\base.html:112
+#: .\templates\base.html:131
+#: .\templates\company.html:23
 msgid "Institucional"
 msgstr "Institutional"
 
-#: .\templates\base.html:93 .\templates\base.html:126 .\templates\base.html:145
-#: .\templates\index.html:138 .\templates\units.html:6
-#: .\templates\units.html:16
+#: .\templates\base.html:80 .\templates\base.html:113
+#: .\templates\base.html:132
+#: .\templates\index.html:142
+#: .\templates\units.html:6
+#: .\templates\units.html:25
 msgid "Unidades de Negocio"
 msgstr "Business Units"
 
-#: .\templates\base.html:96 .\templates\base.html:127 .\templates\base.html:146
-#: .\templates\contact.html:5 .\templates\contact.html:15
+#: .\templates\base.html:83 .\templates\base.html:114
+#: .\templates\base.html:133
+#: .\templates\contact.html:5
+#: .\templates\contact.html:24
 msgid "Contacto"
 msgstr "Contact us"
 
-#: .\templates\base.html:138
+#: .\templates\base.html:125
 msgid "Ruta"
 msgstr "Route"
 
-#: .\templates\base.html:153
+#: .\templates\base.html:140
 msgid "Trabajá con nosotros"
 msgstr "Work with us"
 
-#: .\templates\base.html:154
+#: .\templates\base.html:141
 msgid "Envíanos tu CV"
 msgstr "Send us your resume"
 
-#: .\templates\base.html:161
+#: .\templates\base.html:148
 msgid "OFICINA CENTRAL:"
 msgstr "CENTRAL OFFICE:"
 
-#: .\templates\base.html:161
+#: .\templates\base.html:148
 msgid "Ruta 8 Km 176.5 - Arrecifes, Buenos Aires (2740)"
 msgstr "Route 8 Km 176.5 – Arrecifes, Buenos Aires (2740)"
 
-#: .\templates\base.html:162
+#: .\templates\base.html:149
 msgid "Desarrollado por"
 msgstr "Developed by"
 
@@ -69,11 +75,11 @@ msgstr "Developed by"
 msgid "Empresa"
 msgstr "Our Company"
 
-#: .\templates\company.html:35
+#: .\templates\company.html:39
 msgid "Nuestra empresa"
 msgstr "Our company"
 
-#: .\templates\company.html:37
+#: .\templates\company.html:41
 msgid ""
 "Nuestro grupo empresario desarrolla su actividad comercial y agropecuaria "
 "principalmente en las provincias de Buenos Aires y Chaco."
@@ -81,7 +87,7 @@ msgstr ""
 "Our business group develops its commercial and agricultural activities "
 "mainly in the provinces of Buenos Aires and Chaco."
 
-#: .\templates\company.html:38
+#: .\templates\company.html:42
 msgid ""
 "Contamos con dos plantas de acopio en la localidad de Arrecifes (Bs. As.) y "
 "una tercera en la localidad de General Pinedo (Chaco) para la recepción y "
@@ -93,7 +99,7 @@ msgstr ""
 "conditioning of the merchandise, with a total capacity of approximately 150 "
 "thousand tons."
 
-#: .\templates\company.html:39
+#: .\templates\company.html:43
 msgid ""
 "Satisfacemos las necesidades comerciales de mas de 400 clientes desde "
 "nuestra casa central en Arrecifes, y los atendemos en la zona centro-este de "
@@ -104,7 +110,7 @@ msgstr ""
 "in Arrecifes, and we serve them in the central-east area of the province of "
 "Buenos Aires from a commercial office located in Lobos city."
 
-#: .\templates\company.html:40
+#: .\templates\company.html:44
 msgid ""
 "La producción agrícola en la provincia de Chaco se extiende desde el "
 "sudoeste hacia la región norte. En Charata se encuentran las oficinas que "
@@ -116,7 +122,7 @@ msgstr ""
 "located in Charata. In Buenos Aires, production is centralized in the "
 "northern zone and in La Cuenca del Salado."
 
-#: .\templates\company.html:41
+#: .\templates\company.html:45
 msgid ""
 "Actualmente nos encontramos desarrollando nuevas alternativas comerciales "
 "que nos permitan continuar ampliando nuestros horizontes, como la "
@@ -127,11 +133,11 @@ msgstr ""
 "continue expanding our horizons, such as the export of cereals, oilseeds, "
 "other derived products, and the importation of agricultural supplies."
 
-#: .\templates\company.html:45 .\templates\index.html:122
+#: .\templates\company.html:49 .\templates\index.html:126
 msgid "Una empresa centenaria"
 msgstr "A century old company"
 
-#: .\templates\company.html:46
+#: .\templates\company.html:50
 msgid ""
 "La empresa fue fundada en el año 1915 por Esteban Buratovich, inmigrante de "
 "origen croata, que se radicó en el país a fines del siglo XIX."
@@ -140,7 +146,7 @@ msgstr ""
 "Croatian origin, who settled down in the country at the end of the 19th "
 "century."
 
-#: .\templates\company.html:47
+#: .\templates\company.html:51
 msgid ""
 "Hombre de un espíritu innovador, fue precursor del acarreo y "
 "acondicionamiento de cereal a granel."
@@ -148,7 +154,7 @@ msgstr ""
 "A man of an innovative spirit, he was the forefather of the transporting and "
 "conditioning of cereal in bulk."
 
-#: .\templates\company.html:48
+#: .\templates\company.html:52
 msgid ""
 "Sus hijos varones continuaron la tarea y actualmente, después de más de 100 "
 "años, miembros de la tercera y cuarta generación de una rama de la familia, "
@@ -159,7 +165,7 @@ msgstr ""
 "the third and fourth generations of the family, continue to be identified "
 "with a line of work and responsibility that was left to them."
 
-#: .\templates\company.html:49
+#: .\templates\company.html:53
 msgid ""
 "Hoy atendemos a nuestros clientes de muy variadas características en una "
 "amplia región, privilegiando el trato personalizado y las diferentes "
@@ -168,7 +174,7 @@ msgstr ""
 "Today we serve our clients who have varied characteristics, treating each "
 "individual according to their needs."
 
-#: .\templates\company.html:50
+#: .\templates\company.html:54
 msgid ""
 "El personal técnico y administrativo debidamente capacitado y los modernos "
 "equipamientos, hacen posible un trato y un servicio eficiente. Gracias a "
@@ -180,15 +186,15 @@ msgstr ""
 "can provide information that contributes to the transparency of our "
 "commercial operations."
 
-#: .\templates\company.html:88
+#: .\templates\company.html:92
 msgid "Galería de Imágenes"
 msgstr "Picture Gallery"
 
-#: .\templates\company.html:114
+#: .\templates\company.html:118
 msgid "VER MAS IMÁGENES"
 msgstr "SEE MORE PICTURES"
 
-#: .\templates\company.html:119
+#: .\templates\company.html:123
 msgid ""
 "Si es de vuestro interes, conozca la historia de la empresa a través de las "
 "palabras de <span style=\"border-bottom: 1px dotted grey;\">José Antonio</"
@@ -198,113 +204,96 @@ msgstr ""
 "through <span style=\"border-bottom: 1px dotted grey;\">José Antonio</"
 "span>'s words, a member of the third generation of the Buratovich family:"
 
-#: .\templates\contact.html:22
+#: .\templates\contact.html:33
 msgid ""
-"Ante cualquier consulta o sugerencia puede comunicarse via correo "
-"electrónico a la dirección: <a href=\"mailto:buratovich@buratovich.com?"
-"subject=Contacto\"><i class=\"fa fa-paper-plane\" aria-hidden=\"true\"></i> "
-"buratovich@buratovich.com</a>"
+"Ante\n"
+"    cualquier consulta o sugerencia puede comunicarse via correo electrónico "
+"a\n"
+"    la dirección:\n"
+"    <a href=\"mailto:buratovich@buratovich.com?subject=Contacto\"\n"
+"      ><i class=\"fa fa-paper-plane\" aria-hidden=\"true\"></i>\n"
+"      buratovich@buratovich.com</a\n"
+"    >"
 msgstr ""
 "If you have any questions or suggestions, you can send an e-mail to: <a href="
 "\"mailto:buratovich@buratovich.com?subject=Contacto\"><i class=\"fa fa-paper-"
 "plane\" aria-hidden=\"true\"></i> buratovich@buratovich.com</a>"
 
-#: .\templates\contact.html:24
+#: .\templates\contact.html:42
 msgid "OFICINAS COMERCIALES"
 msgstr "COMMERCIAL OFFICES"
 
-#: .\templates\contact.html:29
+#: .\templates\contact.html:48
 msgid "Oficina ARRECIFES"
 msgstr "Office in ARRECIFES"
 
-#: .\templates\contact.html:30
-msgid "Ruta 8 y Leandro N. Alem"
-msgstr "Route 8 and Leandro N. Alem"
-
-#: .\templates\contact.html:32 .\templates\contact.html:44
-#: .\templates\contact.html:58 .\templates\contact.html:70
+#: .\templates\contact.html:55 .\templates\contact.html:77
+#: .\templates\contact.html:101 .\templates\contact.html:123
 msgid "Tel."
 msgstr "Phone"
 
-#: .\templates\contact.html:34 .\templates\contact.html:46
-#: .\templates\contact.html:60 .\templates\contact.html:72
+#: .\templates\contact.html:61 .\templates\contact.html:83
+#: .\templates\contact.html:107 .\templates\contact.html:129
 msgid "Ver en el mapa"
 msgstr "See on the map"
 
-#: .\templates\contact.html:41
+#: .\templates\contact.html:70
 msgid "Oficina LOBOS"
 msgstr "Office in LOBOS"
 
-#: .\templates\contact.html:42
+#: .\templates\contact.html:73
 msgid "Ruta 205 e Int.Miguel A.Turdó"
 msgstr "Route 205 and Miguel Turdó"
 
-#: .\templates\contact.html:55
+#: .\templates\contact.html:94
 msgid "Oficina GRAL. PINEDO"
 msgstr "Office in GRAL. PINEDO"
 
-#: .\templates\contact.html:56
+#: .\templates\contact.html:97
 msgid "Ruta Prov. 94 Km 65"
 msgstr "Route 94 Km 65"
 
-#: .\templates\contact.html:67
+#: .\templates\contact.html:116
 msgid "Oficina CHARATA"
 msgstr "Office in CHARATA"
 
-#: .\templates\contact.html:83
+#: .\templates\contact.html:141
 msgid "CONTACTOS POR UNIDAD DE NEGOCIOS"
 msgstr "CONTACT US BY BUSINESS UNITS"
 
-#: .\templates\contact.html:86 .\templates\contact.html:96
+#: .\templates\contact.html:146 .\templates\contact.html:166
 msgid "Acopio de granos"
 msgstr "Grain elevator"
 
-#: .\templates\contact.html:87 .\templates\contact.html:121
+#: .\templates\contact.html:151 .\templates\contact.html:205
 msgid "Comercialización de cereales"
 msgstr "Marketing of cereals"
 
-#: .\templates\contact.html:88 .\templates\contact.html:150
-#: .\templates\index.html:104
-msgid "Exportación"
-msgstr "Exportation"
-
-#: .\templates\contact.html:89 .\templates\contact.html:158
-msgid "Agricultura y Ganadería"
-msgstr "Agriculture and Livestock"
-
-#: .\templates\contact.html:90 .\templates\contact.html:170
+#: .\templates\contact.html:156 .\templates\contact.html:248
 msgid "Administración General"
 msgstr "General Administration"
 
-#: .\templates\contact.html:97
+#: .\templates\contact.html:167
 msgid "Liquidación de Cereales"
 msgstr "Cereals Liquidation"
 
-#: .\templates\contact.html:102
+#: .\templates\contact.html:176
 msgid "Logística"
 msgstr "Logistics"
 
-#: .\templates\contact.html:109
+#: .\templates\contact.html:185
 msgid "Balanza"
 msgstr "Scale"
 
-#: .\templates\contact.html:122
+#: .\templates\contact.html:206
 msgid "Área Comercial"
 msgstr "Commercial Area"
 
-#: .\templates\contact.html:151
-msgid "Contacto Comercial"
-msgstr "Commercial Contact"
-
-#: .\templates\contact.html:159
-msgid "Ing. Producción Agropecuaria"
-msgstr "Ing. Agricultural Production"
-
-#: .\templates\contact.html:171
+#: .\templates\contact.html:249
 msgid "Contador"
 msgstr "Accountant"
 
-#: .\templates\index.html:41
+#: .\templates\index.html:45
 msgid ""
 "Tres plantas de silos altamente calificadas para el <span class=\"highlight"
 "\">acopio</span> y <span class=\"highlight\">acondicionamiento</span> de "
@@ -314,7 +303,7 @@ msgstr ""
 "\">storage</span> and <span class=\"highlight\">conditioning</span> of "
 "grains available for our customers."
 
-#: .\templates\index.html:54
+#: .\templates\index.html:58
 msgid ""
 "Mas de <span class=\"highlight\">100 años</span> de experiencia en la "
 "comercialización de granos y oleaginosas para ofrecerle diferentes "
@@ -326,7 +315,7 @@ msgstr ""
 "\"highlight\">business</span> alternatives: stocking, brokerage, advice, "
 "swaps, forward and available contracts."
 
-#: .\templates\index.html:67
+#: .\templates\index.html:71
 msgid ""
 "Desarrollamos la producción agrícola en distintas regiones de las provincias "
 "de Buenos Aires y Chaco. Nuestros principales cultivos son el <span class="
@@ -346,7 +335,7 @@ msgstr ""
 "\t\t\t\t\t<span class=\"highlight\">Sorghum</span> and <span class="
 "\"highlight\">Cotton</span>."
 
-#: .\templates\index.html:81
+#: .\templates\index.html:85
 msgid ""
 "Desde hace años practicamos la actividad ganadera en la cuenca del Salado en "
 "la provincia de <span class=\"highlight\">Buenos Aires</span>, y en el <span "
@@ -356,7 +345,7 @@ msgstr ""
 "in the province of <span class=\"highlight\">Buenos Aires</span>, and in the "
 "<span class=\"highlight\">Chaco</span>."
 
-#: .\templates\index.html:94
+#: .\templates\index.html:98
 msgid ""
 "Una actividad en constante crecimiento que nos ha permitido conformar una "
 "fuerte red de contactos <span class=\"highlight\">internacionales</span> a "
@@ -369,55 +358,59 @@ msgstr ""
 "export of <span class=\"highlight\">cereals</span>, <span class=\"highlight"
 "\">oilseeds</span> and <span class=\"highlight\">derived products</span>."
 
-#: .\templates\index.html:100
+#: .\templates\index.html:104
 msgid "Acopio"
 msgstr "Elevator"
 
-#: .\templates\index.html:101
+#: .\templates\index.html:105
 msgid "Comercialización"
 msgstr "Commercialization"
 
-#: .\templates\index.html:102
+#: .\templates\index.html:106
 msgid "Agricultura"
 msgstr "Farming"
 
-#: .\templates\index.html:103
+#: .\templates\index.html:107
 msgid "Ganadería"
 msgstr "Livestock"
 
-#: .\templates\index.html:109 .\templates\units.html:28
-#: .\templates\units.html:103
+#: .\templates\index.html:108
+msgid "Exportación"
+msgstr "Exportation"
+
+#: .\templates\index.html:113 .\templates\units.html:47
+#: .\templates\units.html:182
 msgid "ACOPIO"
 msgstr "ELEVATOR"
 
-#: .\templates\index.html:110 .\templates\units.html:97
+#: .\templates\index.html:114 .\templates\units.html:165
 msgid "COMERCIALIZACIÓN"
 msgstr "COMMERCIALIZATION"
 
-#: .\templates\index.html:111
+#: .\templates\index.html:115
 msgid "AGRICULTURA"
 msgstr "FARMING"
 
-#: .\templates\index.html:112
+#: .\templates\index.html:116
 msgid "GANADERÍA"
 msgstr "LIVESTOCK"
 
-#: .\templates\index.html:113 .\templates\units.html:143
+#: .\templates\index.html:117 .\templates\units.html:301
 msgid "EXPORTACIÓN"
-msgstr "EXPORT"
+msgstr "EXPORTATION"
 
-#: .\templates\index.html:123
+#: .\templates\index.html:127
 msgid ""
 "Conoce los valores que nos mantiene en constante crecimiento luego de un "
 "siglo de actividad."
 msgstr ""
 "Know the values that keeps us in constant growth after a century of activity."
 
-#: .\templates\index.html:130
+#: .\templates\index.html:134
 msgid "Contacto y Zonas de Influencia"
 msgstr "Contact and Influence Area"
 
-#: .\templates\index.html:131
+#: .\templates\index.html:135
 msgid ""
 "Operamos en las provincias de Buenos Aires y Chaco. Conoce como podes "
 "contactarnos."
@@ -425,7 +418,7 @@ msgstr ""
 "We operate in the provinces of Buenos Aires and Chaco. Know how you can "
 "contact us."
 
-#: .\templates\index.html:139
+#: .\templates\index.html:143
 msgid ""
 "Acopio y Acondicionamiento, Comercialización, Producción Agrícola, "
 "Exportación, entre otros."
@@ -433,7 +426,7 @@ msgstr ""
 "Collection and Conditioning, Marketing, Agricultural Production, Export, "
 "among others."
 
-#: .\templates\index.html:146
+#: .\templates\index.html:150
 msgid ""
 "\"Nuestro primer <span>objetivo</span> es la realización de un negocio y "
 "nuestro mejor resultado, <span>un buen cliente por muchos años.</span>\""
@@ -441,219 +434,232 @@ msgstr ""
 "\"Our first <span>objective</span> is the business realization and our best "
 "result, <span>a good customer for many years.</span>\""
 
-#: .\templates\index.html:154
+#: .\templates\index.html:158
 msgid "Pizarra"
 msgstr "Board"
 
-#: .\templates\index.html:171 .\templates\units.html:206
+#: .\templates\index.html:175 .\templates\units.html:387
 msgid "Trigo"
 msgstr "Wheat"
 
-#: .\templates\index.html:178
+#: .\templates\index.html:182
 msgid "Trigo Art. 12"
 msgstr "Wheat Art. 12"
 
-#: .\templates\index.html:185
+#: .\templates\index.html:189
 msgid "Maíz"
 msgstr "Corn"
 
-#: .\templates\index.html:192
+#: .\templates\index.html:196
 msgid "Girasol"
 msgstr "Sunflower"
 
-#: .\templates\index.html:199 .\templates\units.html:170
+#: .\templates\index.html:203 .\templates\units.html:345
 msgid "Soja"
 msgstr "Soybean"
 
-#: .\templates\index.html:206
+#: .\templates\index.html:210
 msgid "Sorgo"
 msgstr "Sorghum"
 
-#: .\templates\index.html:223
+#: .\templates\index.html:230
 msgid "Sin Pizarra"
 msgstr "No data"
 
-#: .\templates\index.html:226
+#: .\templates\index.html:234
 msgid "Precios del día"
 msgstr "Daily rates"
 
-#: .\templates\index.html:231
+#: .\templates\index.html:239
 msgid "Ver pizarra del:"
 msgstr "See board:"
 
-#: .\templates\index.html:249
+#: .\templates\index.html:257
 msgid "Monedas"
 msgstr "Currency"
 
-#: .\templates\index.html:257 .\templates\index.html:274
+#: .\templates\index.html:266 .\templates\index.html:287
 msgid "Compra"
 msgstr "Buying"
 
-#: .\templates\index.html:258 .\templates\index.html:275
+#: .\templates\index.html:267 .\templates\index.html:288
 msgid "Venta"
 msgstr "Selling"
 
-#: .\templates\index.html:278
+#: .\templates\index.html:293
 msgid "Sin Cotización"
 msgstr "No data"
 
-#: .\templates\index.html:281
+#: .\templates\index.html:297
 msgid "Cotización del día"
 msgstr "Price quotation"
 
-#: .\templates\index.html:286
+#: .\templates\index.html:302
 msgid "Ver dolar del:"
 msgstr "See the dolar of:"
 
-#: .\templates\index.html:307
+#: .\templates\index.html:323
 msgid "Lluvias"
 msgstr "Rain"
 
-#: .\templates\index.html:317
+#: .\templates\index.html:333
 msgid "Clima"
 msgstr "Weather"
 
-#: .\templates\index.html:328 .\templates\index.html:340
+#: .\templates\index.html:345 .\templates\index.html:361
 msgid "Milímetros"
 msgstr "Millimeters"
 
-#: .\templates\index.html:343
+#: .\templates\index.html:366
 msgid "Sin Lluvias"
 msgstr "No data"
 
-#: .\templates\index.html:346
+#: .\templates\index.html:370
 msgid "Lluvias del día"
 msgstr "Rain of the day"
 
-#: .\templates\index.html:350
+#: .\templates\index.html:374
 msgid "Ver lluvias del:"
 msgstr "See rain of:"
 
-#: .\templates\index.html:363
+#: .\templates\index.html:387
 msgid "Ver registro histórico"
 msgstr "See historic register"
 
-#: .\templates\index.html:394
+#: .\templates\index.html:418
 msgid "Carta de Porte Online"
 msgstr "Transport Documentation"
 
-#: .\templates\index.html:404
+#: .\templates\index.html:428
 msgid "Información Impositiva"
 msgstr "Tax Based Information"
 
-#: .\templates\units.html:24
+#: .\templates\units.html:35
 msgid ""
-"Creamos servicios de calidad que agregan valor a cada parte interviniente de "
-"la actividad agropecuaria."
+"Creamos servicios de calidad que agregan valor a cada\n"
+"      parte interviniente de la actividad agropecuaria."
 msgstr ""
 "We create quality services that add value to each part involved in the "
 "agricultural activity."
 
-#: .\templates\units.html:25
+#: .\templates\units.html:39
 msgid ""
-"Contamos con una amplia experiencia en la comercialización de granos y "
-"oleaginosas que nos permite asesorar a nuestros clientes con las mejores "
-"alternativas de negocios y ofrecerle servicios de logística y acopio que "
-"garantizan el traslado, la calidad y conservación de su cereal."
+"Contamos con una amplia experiencia en la comercialización\n"
+"      de granos y oleaginosas que nos permite asesorar a nuestros clientes "
+"con\n"
+"      las mejores alternativas de negocios y ofrecerle servicios de "
+"logística y\n"
+"      acopio que garantizan el traslado, la calidad y conservación de su\n"
+"      cereal."
 msgstr ""
 "We have extensive experience in the commercialization of grains and oilseeds "
 "that allows us to advise our customers with the best business alternatives "
 "and offer logistic and storage services that guarantee the transfer, quality "
 "and conservation of their grains."
 
-#: .\templates\units.html:30
+#: .\templates\units.html:50
 msgid ""
-"Acompañamos la gestión operativa de nuestros clientes desde su campo hasta "
-"nuestras plantas de acopio, brindando un eficiente servicio de logística y "
-"acarreo, y garantizando la calidad y conservación de su mercadería."
+"Acompañamos la gestión operativa de nuestros clientes\n"
+"      desde su campo hasta nuestras plantas de acopio, brindando un "
+"eficiente\n"
+"      servicio de logística y acarreo, y garantizando la calidad y "
+"conservación\n"
+"      de su mercadería."
 msgstr ""
 "We accompany the operational management of our customers from their field to "
 "our elevator, providing efficient logistics and haulage service, and "
 "guaranteeing the quality and preservation of their merchandise."
 
-#: .\templates\units.html:43
+#: .\templates\units.html:68
 msgid "Planta Gral. Pinedo"
 msgstr "Elevator Gral. Pinedo"
 
-#: .\templates\units.html:46 .\templates\units.html:61
-#: .\templates\units.html:71
+#: .\templates\units.html:80 .\templates\units.html:106
+#: .\templates\units.html:127
 msgid "Ver mapa"
 msgstr "See map"
 
-#: .\templates\units.html:58
+#: .\templates\units.html:94
 msgid "Planta Ruta 8"
 msgstr "Elevator Route 8"
 
-#: .\templates\units.html:68
+#: .\templates\units.html:115
 msgid "Planta Ruta 51"
 msgstr "Elevator Route 51"
 
-#: .\templates\units.html:84
+#: .\templates\units.html:144
 msgid ""
-"A través de una importante flota de camiones contratados brindamos servicio "
-"de logística a nuestros clientes a lo largo de todo el año."
+"A través de una importante flota de camiones\n"
+"            contratados brindamos servicio de logística a nuestros clientes "
+"a lo\n"
+"            largo de todo el año."
 msgstr ""
 "We provide logistics services to our customers through a large fleet of "
 "contracted trucks throughout the year."
 
-#: .\templates\units.html:90
+#: .\templates\units.html:155
 msgid ""
-"La estratégica ubicación de nuestras plantas de acopio nos permite operar "
-"con los principales puertos del país."
+"La estratégica ubicación de nuestras plantas de\n"
+"            acopio nos permite operar con los principales puertos del país.\n"
+"            "
 msgstr ""
 "The strategic location of our collection facilities plants (elevators) "
 "allows us to operate in the main ports of the country."
 
-#: .\templates\units.html:99
+#: .\templates\units.html:168
 msgid ""
-"Mas de 100 años de experiencia en la comercialización de granos, oleaginosas "
-"y otros productos agropecuarios para ofrecerle diferentes alternativas de "
-"negocios: acopio, corretaje, asesoramiento, canjes, contratos forward y "
-"disponible."
+"Mas de 100 años de experiencia en la comercialización de\n"
+"      granos, oleaginosas y otros productos agropecuarios para ofrecerle\n"
+"      diferentes alternativas de negocios: acopio, corretaje, "
+"asesoramiento,\n"
+"      canjes, contratos forward y disponible."
 msgstr ""
 "More than 100 years of experience in the commercialization of grains, "
 "oilseeds and other agricultural products to offer different business "
 "alternatives: stocking, brokerage, advice, swaps, forward and available "
 "contracts."
 
-#: .\templates\units.html:104
+#: .\templates\units.html:191
 msgid "CORRETAJE"
 msgstr "BROKERAGE"
 
-#: .\templates\units.html:105
+#: .\templates\units.html:200
 msgid "ASESORAMIENTO"
 msgstr "ADVICE"
 
-#: .\templates\units.html:108
+#: .\templates\units.html:211
 msgid "CANJES"
 msgstr "SWAPS"
 
-#: .\templates\units.html:109
+#: .\templates\units.html:220
 msgid "CONTRATOS FORWARD"
 msgstr "FORWARD CONTRACTS"
 
-#: .\templates\units.html:110
+#: .\templates\units.html:229
 msgid "DISPONIBLE"
 msgstr "AVAILABLE CONTRACTS"
 
-#: .\templates\units.html:113
+#: .\templates\units.html:239
 msgid "FUTUROS Y OPCIONES"
 msgstr "FUTURE AND OPTIONS"
 
-#: .\templates\units.html:119
+#: .\templates\units.html:246
 msgid "AGRICULTURA Y GANADERÍA"
 msgstr "AGRICULTURE AND LIVESTOCK"
 
-#: .\templates\units.html:121
+#: .\templates\units.html:249
 msgid ""
-"Realizamos una amplia explotación intensiva sembrando mayormente sobre "
-"campos del grupo. Nuestros principales cultivos son el maíz, girasol, trigo, "
-"cebada, arveja, lenteja, soja, sorgo y algodón.\n"
-"\t\tRealizamos una agricultura sustentable y de precisión que nos permite "
-"obtener una mayor protección sobre el suelo y el medio ambiente. "
-"Certificamos nuestros procesos productivos para poder desarrollar las buenas "
-"prácticas agrícolas y mecanismos que promuevan la responsabilidad compartida "
-"entre los distintos actores de la cadena de valor."
+" Realizamos una amplia explotación intensiva sembrando\n"
+"      mayormente sobre campos del grupo. Nuestros principales cultivos son "
+"el\n"
+"      maíz, girasol, trigo, cebada, arveja, lenteja, soja, sorgo y algodón.\n"
+"      Realizamos una agricultura sustentable y de precisión que nos permite\n"
+"      obtener una mayor protección sobre el suelo y el medio ambiente.\n"
+"      Certificamos nuestros procesos productivos para poder desarrollar las\n"
+"      buenas prácticas agrícolas y mecanismos que promuevan la "
+"responsabilidad\n"
+"      compartida entre los distintos actores de la cadena de valor. \n"
+"      "
 msgstr ""
 "We carry out extensive intensive exploitation by planting mostly on fields "
 "of the group. Our main crops are corn, sunflower, wheat, barley, peas, "
@@ -664,66 +670,79 @@ msgstr ""
 "mechanisms that promote shared responsibility among the different actors in "
 "the value chain."
 
-#: .\templates\units.html:127
+#: .\templates\units.html:265
 msgid ""
-"Nuestras actividades se desenvuelven en su mayoría en tierras propias, pero "
-"también trabajamos campos arrendados localizados <strong>estratégicamente</"
-"strong> y con suelos de <strong>alta productividad</strong>.<br>Nos ubicamos "
-"en distintas regiones de las provincias de <strong>Buenos Aires y Chaco</"
-"strong>."
+"Nuestras actividades se desenvuelven en su mayoría\n"
+"              en tierras propias, pero también trabajamos campos arrendados\n"
+"              localizados <strong>estratégicamente</strong> y con suelos de\n"
+"              <strong>alta productividad</strong>.<br />Nos ubicamos en\n"
+"              distintas regiones de las provincias de\n"
+"              <strong>Buenos Aires y Chaco</strong>."
 msgstr ""
 "Our activities are mostly carried out on our own land, but we also work on "
 "<strong>strategically</strong> located leased fields with <strong>high "
 "productivity</strong> soils.<br>We are located in different regions of the "
 "provinces of <strong>Buenos Aires and Chaco</strong>."
 
-#: .\templates\units.html:130
+#: .\templates\units.html:276
 msgid ""
-"Con foco en la <strong>producción sustentable</strong> utilizamos el sistema "
-"de <strong>siembra directa, cultivos de cobertura y alta rotación de los "
-"mismos</strong> para lograr una optima <strong>explotación</strong> y "
-"<strong>rentabilidad</strong> de las tierras."
+"Con foco en la\n"
+"              <strong>producción sustentable</strong> utilizamos el sistema "
+"de\n"
+"              <strong>siembra directa, cultivos de cobertura y alta rotación "
+"de los mismos</strong>\n"
+"              para lograr una optima <strong>explotación</strong> y\n"
+"              <strong>rentabilidad</strong> de las tierras."
 msgstr ""
 "With a focus on <strong>sustainable production</strong> we use the system of "
 "<strong>direct sowing, cover crops and high rotation of the same crops</"
 "strong> to achieve optimal <strong>exploitation</strong> and "
 "<strong>profitability</strong> of the land."
 
-#: .\templates\units.html:133
+#: .\templates\units.html:286
 msgid ""
-"Contamos con un equipo de profesionales <strong>altamente capacitado</"
-"strong> que tiene como objetivo lograr la excelencia en la producción de "
-"nuestros cultivos, empleando el uso de las <strong>últimas tecnologías</"
-"strong> para tal fin."
+"Contamos con un equipo de profesionales\n"
+"              <strong>altamente capacitado</strong> que tiene como objetivo\n"
+"              lograr la excelencia en la producción de nuestros cultivos,\n"
+"              empleando el uso de las <strong>últimas tecnologías</strong> "
+"para\n"
+"              tal fin."
 msgstr ""
 "We have a team of <strong>highly trained</strong> professionals whose "
 "objective is to achieve excellence in the production of our crops, using the "
 "<strong>latest technologies</strong> for this purpose."
 
-#: .\templates\units.html:145
+#: .\templates\units.html:304
 msgid ""
-"Disponemos de una red de compradores del exterior para realizar negocios FOB "
-"a casi todo el mundo. Contamos con puerto seco en nuestras plantas de silo "
-"que nos permite consolidar la carga de los distintos productos "
-"agropecuarios, a granel o en contenedores, en su lugar de origen."
+"Disponemos de una red de compradores del exterior para\n"
+"      realizar negocios FOB a casi todo el mundo. Contamos con puerto seco "
+"en\n"
+"      nuestras plantas de silo que nos permite consolidar la carga de los\n"
+"      distintos productos agropecuarios, a granel o en contenedores, en su "
+"lugar\n"
+"      de origen."
 msgstr ""
 "We have a network of buyers from abroad to conduct business FOB to almost "
 "everyone. We have dry port in our silo plants that allows us to consolidate "
 "the load of the different agricultural products, in bulk or in containers, "
 "in their place of origin."
 
-#: .\templates\units.html:150
+#: .\templates\units.html:314
 msgid "COMMODITIES"
 msgstr "COMMODITIES"
 
-#: .\templates\units.html:151
+#: .\templates\units.html:316
 msgid ""
-"En la búsqueda de expandir nuestro rango de acción y continuar creciendo "
-"como empresa, decidimos comenzar a gestionar nuestras propias "
-"<strong>operaciones de agro exportación</strong>, llegando así a ser activos "
-"protagonistas en cada una de las actividades intervinientes de la cadena "
-"agropecuaria al producir, acopiar, comercializar y exportar nuestros "
-"productos."
+"En la búsqueda de expandir nuestro rango de acción\n"
+"              y continuar creciendo como empresa, decidimos comenzar a "
+"gestionar\n"
+"              nuestras propias <strong>operaciones de agro exportación</"
+"strong>,\n"
+"              llegando así a ser activos protagonistas en cada una de las\n"
+"              actividades intervinientes de la cadena agropecuaria al "
+"producir,\n"
+"              acopiar, comercializar y exportar nuestros productos.\n"
+"              "
 msgstr ""
 "In the search to expand our range of action and continue growing as a "
 "company, we decided to start managing our own <strong>agro export "
@@ -731,77 +750,80 @@ msgstr ""
 "activities involved in the agricultural chain by producing, collecting, "
 "doing marketing and exporting our products."
 
-#: .\templates\units.html:158
+#: .\templates\units.html:331
 msgid "Algodón"
 msgstr "Cotton"
 
-#: .\templates\units.html:164
+#: .\templates\units.html:338
 msgid "Arveja"
 msgstr "Peas"
 
-#: .\templates\units.html:176
+#: .\templates\units.html:352
 msgid "Semilla de Algodón"
 msgstr "Cottonseed"
 
-#: .\templates\units.html:182
+#: .\templates\units.html:359
 msgid "Maiz"
 msgstr "Corn"
 
-#: .\templates\units.html:188
+#: .\templates\units.html:366
 msgid "Harina de Soja"
 msgstr "Balanced Soybean Meal"
 
-#: .\templates\units.html:194
+#: .\templates\units.html:373
 msgid "Cebada"
 msgstr "Barley"
 
-#: .\templates\units.html:200
+#: .\templates\units.html:380
 msgid "Poroto Mung"
 msgstr "Mung Peas"
 
-#: .\templates\units.html:210
+#: .\templates\units.html:391
 msgid "Entre los productos exportados podemos citar:"
 msgstr "Among the exported products we can mention:"
 
-#: .\templates\units.html:211
+#: .\templates\units.html:393
 msgid ""
-"<strong>Algodón</strong>, <strong>Semilla de Algodón</strong>, "
-"<strong>Arveja</strong>, <strong>Soja</strong>, <strong>Balanced Soybean "
-"Meal</strong>, <strong>Maíz</strong>, <strong>Maíz Quebrado</strong>, "
-"<strong>Cebada</strong> y <strong>Trigo</strong>."
+"<strong>Algodón</strong>,\n"
+"              <strong>Semilla de Algodón</strong>, <strong>Arveja</strong>,\n"
+"              <strong>Soja</strong>, <strong>Balanced Soybean Meal</"
+"strong>,\n"
+"              <strong>Maíz</strong>, <strong>Maíz Quebrado</strong>,\n"
+"              <strong>Cebada</strong> y <strong>Trigo</strong>."
 msgstr ""
 "<strong>Cotton</strong>, <strong>Cottonseed</strong>, <strong>Pea</strong>, "
 "<strong>Soybean</strong>, <strong>Balanced Soybean Meal</strong>, "
 "<strong>Corn</strong>, <strong>Broken Corn</strong>, <strong>Barley</strong> "
 "and <strong>Wheat</strong>."
 
-#: .\templates\units.html:220
+#: .\templates\units.html:409
 msgid ""
-"Hemos creado vínculos comerciales con clientes de <strong>mas de 20 países</"
-"strong> alrededor de todo el mundo."
+"Hemos creado vínculos comerciales con clientes de\n"
+"            <strong>mas de 20 países</strong> alrededor de todo el mundo."
 msgstr ""
 "We have created business links with clients from <strong>more than 20 "
 "countries</strong> around the world."
 
-#: .\templates\units.html:226
+#: .\templates\units.html:419
 msgid ""
-"Exportamos una variedad de commodities agrícolas como <strong>Arveja, "
-"Algodón, Semilla de Algodón, Maíz, Maíz Quebrado, Soja, Harina de Soja "
-"Balanceada, Trigo y Cebada</strong>."
+"Exportamos una variedad de commodities agrícolas\n"
+"            como\n"
+"            <strong\n"
+"              >Arveja, Algodón, Semilla de Algodón, Maíz, Maíz Quebrado, "
+"Soja,\n"
+"              Harina de Soja Balanceada, Trigo y Cebada</strong\n"
+"            >."
 msgstr ""
 "We export a variety of agricultural commodities like <strong>Peas, Cotton, "
 "Cottonseed, Corn, Broken Corn, Soybeans, Balanced Soybean Meal, Wheat and "
 "Barley</strong>."
 
-#: .\templates\units.html:232
+#: .\templates\units.html:433
 msgid ""
-"Estamos presentes en cada eslabón de la actividad agropecuaria, para "
-"controlar y asegurar la calidad de los productos que exportamos."
+"Estamos presentes en cada eslabón de la actividad\n"
+"            agropecuaria, para controlar y asegurar la calidad de los "
+"productos\n"
+"            que exportamos."
 msgstr ""
 "We are present in every link of agricultural activity, to control and ensure "
 "the quality of the products we export."
-
-#, fuzzy
-#~| msgid "Ruta 8 Km 176.5 - Arrecifes, Buenos Aires (2740)"
-#~ msgid "Ruta 8 Km 176.5 - Arrecifes, Bs. As."
-#~ msgstr "Route 8 Km 176.5 – Arrecifes, Buenos Aires (2740)"
