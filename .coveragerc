@@ -1,0 +1,23 @@
+[run]
+omit =
+    # omit anything in a .local directory anywhere
+    */.local/*
+    # omit everything in /usr
+    /usr/*
+    # omit files
+    *__init__.py
+    bh/settings.py
+    manage.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self.debug:
+    if settings.DEBUG
+    raise AssertionError
+    raise NotImplementedError
+    if 0:
+    if __name__ == .__main__.:
+    class .*\bProtocol\):
+    @(abc\.)?abstractmethod
