@@ -1,3 +1,5 @@
+import datetime
+
 from mixer.backend.django import mixer
 
 from django.test import TestCase
@@ -7,7 +9,9 @@ from django.db.models.signals import pre_save
 from website.signals import postSave_User, preSave_User
 
 from django.contrib.auth.models import User 
-from .models import UserInfo, IncomeQuality, TicketsAnalysis, Deliveries, Sales
+from .models import UserInfo
+from .models import IncomeQuality, TicketsAnalysis, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte
+from .models import Currencies, Board, City
 
 # Model Tests
 
@@ -73,3 +77,70 @@ class SalesModelTest(TestCase):
         self.assertTrue(isinstance(self.sale, Sales))
         self.assertEqual(str(self.sale), self.sale.voucher)
         self.assertEqual(str(self.sale), 'VT 0001 00022925')
+
+
+class SpeciesHarvestModelTest(TestCase):
+
+    def setUp(self):
+        self.speciesharvest = mixer.blend(SpeciesHarvest, species_description='TRIGO COSECHA 21/22')
+    
+    def test_speciesharvest_str(self):
+        self.assertTrue(isinstance(self.speciesharvest, SpeciesHarvest))
+        self.assertEqual(str(self.speciesharvest), self.speciesharvest.species_description)
+        self.assertEqual(str(self.speciesharvest), 'TRIGO COSECHA 21/22')
+
+
+class AppliedModelTest(TestCase):
+
+    def setUp(self):
+        self.applied = mixer.blend(Applied, voucher='FP 0003 00002519')
+    
+    def test_applied_str(self):
+        self.assertTrue(isinstance(self.applied, Applied))
+        self.assertEqual(str(self.applied), self.applied.voucher)
+        self.assertEqual(str(self.applied), 'FP 0003 00002519')
+
+
+class CtaCteModelTest(TestCase):
+
+    def setUp(self):
+        self.ctacte = mixer.blend(CtaCte, voucher='OP 0001 00067854')
+    
+    def test_ctacte_str(self):
+        self.assertTrue(isinstance(self.ctacte, CtaCte))
+        self.assertEqual(str(self.ctacte), self.ctacte.voucher)
+        self.assertEqual(str(self.ctacte), 'OP 0001 00067854')
+
+
+class CurrenciesModelTest(TestCase):
+
+    def setUp(self):
+        self.today = datetime.datetime.today()
+        self.currency = mixer.blend(Currencies, date=self.today)
+    
+    def test_currencies_str(self):
+        self.assertTrue(isinstance(self.currency, Currencies))
+        self.assertEqual(str(self.currency), self.currency.date.strftime('%m/%d/%Y'))
+        self.assertEqual(str(self.currency), self.today.strftime('%m/%d/%Y'))
+
+
+class BoardModelTest(TestCase):
+
+    def setUp(self):
+        self.today = datetime.datetime.today()
+        self.board = mixer.blend(Board, date=self.today)
+    
+    def test_board_str(self):
+        self.assertTrue(isinstance(self.board, Board))
+        self.assertEqual(str(self.board), self.board.date.strftime('%m/%d/%Y'))
+        self.assertEqual(str(self.board), self.today.strftime('%m/%d/%Y'))
+
+
+class CityModelTest(TestCase):
+
+    def setUp(self):
+        self.city = mixer.blend(City, city=mixer.faker.city())
+    
+    def test_city_str(self):
+        self.assertTrue(isinstance(self.city, City))
+        self.assertEqual(str(self.city), self.city.city)
