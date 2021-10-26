@@ -9,9 +9,9 @@ from django.db.models.signals import pre_save
 from website.signals import postSave_User, preSave_User
 
 from django.contrib.auth.models import User 
-from .models import UserInfo
-from .models import IncomeQuality, TicketsAnalysis, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte
-from .models import Currencies, Board, City
+from website.models import UserInfo
+from website.models import IncomeQuality, TicketsAnalysis, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte
+from website.models import Currencies, Board, City, Rain, RainDetail, Notifications, ViewedNotifications, AccessLog, Careers
 
 # Model Tests
 
@@ -136,11 +136,79 @@ class BoardModelTest(TestCase):
         self.assertEqual(str(self.board), self.today.strftime('%m/%d/%Y'))
 
 
-class CityModelTest(TestCase):
+class RainModelTest(TestCase):
 
     def setUp(self):
+        self.today = datetime.datetime.today()
         self.city = mixer.blend(City, city=mixer.faker.city())
+        self.rain = mixer.blend(Rain, date=self.today)
+        self.rain_detail = mixer.blend(RainDetail, rain=self.rain, city=self.city)
     
     def test_city_str(self):
         self.assertTrue(isinstance(self.city, City))
         self.assertEqual(str(self.city), self.city.city)
+
+    def test_rain_str(self):
+        self.assertTrue(isinstance(self.rain, Rain))
+        self.assertEqual(str(self.rain), self.rain.date.strftime('%m/%d/%Y'))
+        self.assertEqual(str(self.rain), self.today.strftime('%m/%d/%Y'))
+    
+    def test_raindetail_str(self):
+        self.assertTrue(isinstance(self.rain_detail, RainDetail))
+        self.assertEqual(str(self.rain_detail), self.rain_detail.city.city)
+        self.assertEqual(str(self.rain_detail), self.city.city)
+
+
+class NotificationsModelTest(TestCase):
+
+    def setUp(self):
+        # Disconnect signals
+        pre_save.disconnect(receiver=preSave_User, sender=User, dispatch_uid='website.signals.preSave_User')
+        post_save.disconnect(receiver=postSave_User, sender=User, dispatch_uid='website.signals.postSave_User')
+
+        user = User.objects.create_user(username='usertest', email='test@test.com', password='mypassword')
+        user_info = UserInfo.objects.create(
+            user = user,
+            algoritmo_code = 1,
+            company_name = 'Test Company'
+        )
+        self.notification = mixer.blend(Notifications, title='Notification Test')
+        self.viewed_notification = mixer.blend(ViewedNotifications, notification=self.notification, user=user)
+    
+    def test_notifications_str(self):
+        self.assertTrue(isinstance(self.notification, Notifications))
+        self.assertEqual(str(self.notification), self.notification.title)
+        self.assertEqual(str(self.notification), 'Notification Test')
+    
+    def test_viewednotifications_str(self):
+        self.assertTrue(isinstance(self.viewed_notification, ViewedNotifications))
+        self.assertEqual(str(self.viewed_notification), self.viewed_notification.user.userinfo.company_name)
+        self.assertEqual(str(self.viewed_notification), 'Test Company')
+
+
+class AccessLogModelTest(TestCase):
+
+    def setUp(self):
+        # Disconnect signals
+        pre_save.disconnect(receiver=preSave_User, sender=User, dispatch_uid='website.signals.preSave_User')
+        post_save.disconnect(receiver=postSave_User, sender=User, dispatch_uid='website.signals.postSave_User')
+
+        user = User.objects.create_user(username='usertest', email='test@test.com', password='mypassword')
+        self.today = datetime.datetime.today()
+        self.access_log = mixer.blend(AccessLog, logged=self.today, user=user)
+    
+    def test_accesslog_str(self):
+        self.assertTrue(isinstance(self.access_log, AccessLog))
+        self.assertEqual(str(self.access_log), self.access_log.logged.strftime('%m/%d/%Y'))
+        self.assertEqual(str(self.access_log), self.today.strftime('%m/%d/%Y'))
+
+
+class CareersModelTest(TestCase):
+
+    def setUp(self):
+        self.career = mixer.blend(Careers, title='Test Career')
+    
+    def test_career_str(self):
+        self.assertTrue(isinstance(self.career, Careers))
+        self.assertEqual(str(self.career), self.career.title)
+        self.assertEqual(str(self.career), 'Test Career')
