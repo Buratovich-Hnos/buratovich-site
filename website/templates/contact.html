@@ -40,7 +40,7 @@
   </p>
   <article class="offices">
     <h2>{% trans "OFICINAS COMERCIALES" %}</h2>
-    <div class="offices-bas">
+    <div class="offices-list">
       <div>
         <img src="{% static "img/office_arrecifes.jpg" %}" alt=""><!--
 				-->
@@ -62,30 +62,6 @@
           </div>
         </div>
       </div>
-      <div>
-        <img src="{% static "img/office_lobos.jpg" %}" alt=""><!--
-				-->
-        <div class="office-info">
-          <h3>{% trans "Oficina LOBOS" %}</h3>
-          <p>
-            <i class="fa fa-map-marker" aria-hidden="true"></i> 
-            {% trans "Ruta 205 e Int.Miguel A.Turdó" %}
-          </p>
-          <p><i class="fa fa-globe" aria-hidden="true"></i> Buenos Aires</p>
-          <p>
-            <i class="fa fa-phone" aria-hidden="true"></i> {% trans "Tel." %}
-            02478-15-442040
-          </p>
-          <div class="map-link">
-            <a href="https://goo.gl/maps/mdMVHv2Aboo" target="_blank"
-              ><i class="fa fa-street-view" aria-hidden="true"></i> 
-              {% trans "Ver en el mapa" %}</a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="offices-cha">
       <div>
         <img src="{% static "img/office_pinedo.jpg" %}" alt=""><!--
 				-->
@@ -175,9 +151,15 @@
           <h4>{% trans "Logística" %}</h4>
           <h5><i class="fa fa-map-marker" aria-hidden="true"></i> Arrecifes</h5>
           <div>
-            <p>Enzo Lolo</p>
+            <p>Maximiliano García</p>
             <p>
-              <a href="mailto:elolo@buratovich.com">elolo@buratovich.com</a>
+              <a href="mailto:logisticacomercial@buratovich.com">logisticacomercial@buratovich.com</a>
+            </p>
+          </div>
+          <div>
+            <p>Sebastián Lemos</p>
+            <p>
+              <a href="mailto:cupos@buratovich.com">cupos@buratovich.com</a>
             </p>
           </div>
           <div>
@@ -220,15 +202,6 @@
             <p>Andrés Bianco</p>
             <p>
               <a href="mailto:abianco@buratovich.com">abianco@buratovich.com</a>
-            </p>
-          </div>
-          <h5><i class="fa fa-map-marker" aria-hidden="true"></i> Lobos</h5>
-          <div>
-            <p>Ramiro Etchart</p>
-            <p>
-              <a href="mailto:retchart@buratovich.com"
-                >retchart@buratovich.com</a
-              >
             </p>
           </div>
           <h5>
@@ -337,13 +310,6 @@
       map: basMap,
       title: 'ARRECIFES',
       icon: '{% static "img/ar_marker.png" %}',
-    });
-
-    var lobos = new google.maps.Marker({
-      position: loLatLng,
-      map: basMap,
-      title: 'LOBOS',
-      icon: '{% static "img/lo_marker.png" %}',
     });
   }
 </script>

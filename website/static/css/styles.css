@@ -650,55 +650,15 @@ footer .foot:last-child {
 #company .infography .second-col:last-child {
   margin-right: 0%;
 }
-#contact .offices .offices-bas,
-#contact .offices .offices-cha {
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 49.5%;
-  margin-left: 0%;
-  margin-right: 1%;
+#contact .offices .offices-list {
+  display: flex;
+  justify-content: space-around;
 }
-#contact .offices .offices-bas:before,
-#contact .offices .offices-cha:before,
-#contact .offices .offices-bas:after,
-#contact .offices .offices-cha:after {
-  content: '';
-  display: table;
+#contact .offices .offices-list > div {
+  margin-right: 1em;
 }
-#contact .offices .offices-bas:after,
-#contact .offices .offices-cha:after {
-  clear: both;
-}
-#contact .offices .offices-bas:last-child,
-#contact .offices .offices-cha:last-child {
-  margin-right: 0%;
-}
-#contact .offices .offices-bas > div,
-#contact .offices .offices-cha > div {
-  *zoom: 1;
-  float: left;
-  clear: none;
-  text-align: inherit;
-  width: 49%;
-  margin-left: 0%;
-  margin-right: 2%;
-}
-#contact .offices .offices-bas > div:before,
-#contact .offices .offices-cha > div:before,
-#contact .offices .offices-bas > div:after,
-#contact .offices .offices-cha > div:after {
-  content: '';
-  display: table;
-}
-#contact .offices .offices-bas > div:after,
-#contact .offices .offices-cha > div:after {
-  clear: both;
-}
-#contact .offices .offices-bas > div:last-child,
-#contact .offices .offices-cha > div:last-child {
-  margin-right: 0%;
+#contact .offices .offices-list > div:last-child {
+  margin-right: 0;
 }
 #contact .areas .column {
   *zoom: 1;
@@ -3731,24 +3691,10 @@ footer .footer-rd-nav {
   #company .imgs img:first-child {
     display: none;
   }
-  #contact .offices .offices-bas > div,
-  #contact .offices .offices-cha > div {
-    width: 100%;
-  }
-  #contact .offices .offices-bas > div:first-child,
-  #contact .offices .offices-cha > div:first-child {
-    margin-bottom: 1em;
-  }
-  #contact .offices .offices-bas img,
-  #contact .offices .offices-cha img,
-  #contact .offices .offices-bas .office-info,
-  #contact .offices .offices-cha .office-info {
+  #contact .offices .offices-list img,
+  #contact .offices .offices-list .office-info {
     display: inline-block;
     vertical-align: top;
-  }
-  #contact .offices .offices-bas img,
-  #contact .offices .offices-cha img {
-    width: 45%;
   }
 }
 @media screen and (min-width: 1025px) {
@@ -3876,21 +3822,12 @@ footer .footer-rd-nav {
   #contact .offices {
     padding: 0 0.5em;
   }
-  #contact .offices .offices-bas,
-  #contact .offices .offices-cha {
-    width: 49%;
-  }
-  #contact .offices .offices-bas img,
-  #contact .offices .offices-cha img,
-  #contact .offices .offices-bas .office-info,
-  #contact .offices .offices-cha .office-info {
+  #contact .offices .offices-list img,
+  #contact .offices .offices-list .office-info {
     display: block;
     margin: 0 auto;
     text-align: center;
     width: 100%;
-  }
-  #contact .offices .offices-bas {
-    margin-right: 2%;
   }
 }
 @media screen and (max-width: 930px) and (min-width: 630px) {
@@ -4139,6 +4076,14 @@ footer .footer-rd-nav {
   #contact .areas {
     padding: 0 1em;
   }
+  #contact .offices .offices-list {
+    flex-direction: column;
+  }
+  #contact .offices .offices-list > div {
+    margin-bottom: 1em;
+    margin-right: 0;
+  }
+
   #contact .areas .contact-buttons,
   #contact .areas .contact-columns {
     display: inline-block;
@@ -4370,12 +4315,10 @@ footer .footer-rd-nav {
   #contact .data-contact {
     text-align: center;
   }
-  #contact .offices .offices-bas > div,
-  #contact .offices .offices-cha > div {
+  #contact .offices .offices-list > div {
     padding-bottom: 0.5em;
   }
-  #contact .offices .offices-bas > div .office-info .map-link,
-  #contact .offices .offices-cha > div .office-info .map-link {
+  #contact .offices .offices-list > div .office-info .map-link {
     display: block;
   }
   #contact .maps {
@@ -4691,17 +4634,10 @@ footer .footer-rd-nav {
     font-size: 1.1em;
     padding: 2em 1em 0 1em;
   }
-  #contact .offices .offices-bas,
-  #contact .offices .offices-cha {
-    margin: 0;
-    width: 100%;
-  }
-  #contact .offices .offices-bas > div,
-  #contact .offices .offices-cha > div {
+  #contact .offices .offices-list > div {
     margin-bottom: 2em;
   }
-  #contact .offices .offices-bas > div:first-child,
-  #contact .offices .offices-cha > div:first-child {
+  #contact .offices .offices-list > div:first-child {
     margin-bottom: 2em;
   }
   #bussines-units .unit {
