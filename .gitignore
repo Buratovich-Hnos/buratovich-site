@@ -5,6 +5,7 @@ node_modules/
 staticfiles/
 mediafiles/
 db.sqlite3
+sources/
 
 # Fixtures and initial data
 data.json
@@ -112,3 +113,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# VS Code
+.vscode
