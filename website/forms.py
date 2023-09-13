@@ -10,7 +10,8 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 from tinymce.widgets import TinyMCE
 
-from website.models import UserInfo, Notifications, Careers
+from website.models import Careers
+from extranet.models import UserInfo, Notifications
 
 
 class CustomAuthenticationForm(AuthenticationForm):

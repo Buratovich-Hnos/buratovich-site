@@ -36,23 +36,16 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 from website.forms import CP, ExtranetClientSelectionForm
-from website.models import CtaCte
-from website.models import Deliveries
-from website.models import Sales
-from website.models import SpeciesHarvest
-from website.models import Applied
-from website.models import UserInfo
-from website.models import Notifications
-from website.models import ViewedNotifications
 from website.models import Currencies
 from website.models import Board
-from website.models import TicketsAnalysis, IncomeQuality
 from website.models import City
 from website.models import Rain
 from website.models import RainDetail
 from website.models import Careers
 from website.tokens import account_activation_token
-from website import import_tasks
+from extranet import import_tasks
+from extranet.models import IncomeQuality, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte, TicketsAnalysis, UserInfo
+from extranet.models import Notifications, ViewedNotifications
 
 from bh import settings
 

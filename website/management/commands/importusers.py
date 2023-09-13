@@ -10,11 +10,11 @@ from django.db import IntegrityError
 
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
-from website.signals import postSave_User, preSave_User
+from extranet.signals import postSave_User, preSave_User
 from website.tokens import account_activation_token
 from django.utils.http import urlsafe_base64_encode
 
-from website.models import UserInfo
+from extranet.models import UserInfo
 
 
 class Command(BaseCommand):
@@ -31,8 +31,8 @@ class Command(BaseCommand):
 			return texto
 
 		# Disconnect signals
-		pre_save.disconnect(receiver= preSave_User, sender=User, dispatch_uid='website.signals.preSave_User')
-		post_save.disconnect(receiver= postSave_User, sender=User, dispatch_uid='website.signals.postSave_User')
+		pre_save.disconnect(receiver= preSave_User, sender=User, dispatch_uid='extranet.signals.preSave_User')
+		post_save.disconnect(receiver= postSave_User, sender=User, dispatch_uid='extranet.signals.postSave_User')
 
 		txt = os.path.join(settings.BASE_DIR, 'cuentas.txt')
 

@@ -2,7 +2,7 @@
 
 from django.core.management.base import BaseCommand, CommandError
 
-from website import import_tasks
+from extranet import import_tasks
 
 class Command(BaseCommand):
 	help = 'Import txt data to update extranet'

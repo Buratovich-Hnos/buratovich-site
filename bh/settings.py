@@ -59,7 +59,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'tinymce',
     'el_pagination',
-    'website.apps.WebsiteConfig'
+    'website.apps.WebsiteConfig',
+    'extranet.apps.ExtranetConfig'
 ]
 
 MIDDLEWARE = [

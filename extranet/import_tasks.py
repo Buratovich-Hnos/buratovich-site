@@ -5,13 +5,7 @@ import re
 
 from django.conf import settings
 
-from website.models import TicketsAnalysis
-from website.models import CtaCte
-from website.models import Deliveries
-from website.models import Sales
-from website.models import Applied
-from website.models import SpeciesHarvest
-from website.models import IncomeQuality
+from extranet.models import IncomeQuality, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte, TicketsAnalysis
 
 BATCH_SIZE = 10000
 

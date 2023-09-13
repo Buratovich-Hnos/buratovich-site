@@ -14,11 +14,11 @@ from django.template.loader import render_to_string
 from website.tokens import account_activation_token
 from django.utils.http import urlsafe_base64_encode
 
-from website.models import AccessLog
+from extranet.models import AccessLog
 
 
 # Signal to send after user creation
-@receiver(post_save, sender=User, dispatch_uid='website.signals.postSave_User')
+@receiver(post_save, sender=User, dispatch_uid='extranet.signals.postSave_User')
 def postSave_User(sender, instance, created, **kwargs):
     if created == True and not instance.is_staff:
         token = account_activation_token.make_token(instance)
@@ -48,7 +48,7 @@ def postSave_User(sender, instance, created, **kwargs):
 
 
 # Signal to send before user creation
-@receiver(pre_save, sender=User, dispatch_uid='website.signals.preSave_User')
+@receiver(pre_save, sender=User, dispatch_uid='extranet.signals.preSave_User')
 def preSave_User(sender, instance, **kwargs):
     # If instance have a 'pk' then is not a new user
     if instance.pk is None and not instance.is_staff:

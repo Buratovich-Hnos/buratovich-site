@@ -4,8 +4,8 @@ from mixer.backend.django import mixer
 
 from django.test import TestCase
 
-from website.models import IncomeQuality, TicketsAnalysis, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte
-from website.import_tasks import evalDate, evalDateHour, evalFloat, evalInt, evalText, evalTextUTF8
+from extranet.models import IncomeQuality, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte, TicketsAnalysis
+from extranet.import_tasks import evalDate, evalDateHour, evalFloat, evalInt, evalText, evalTextUTF8
 
 class UtilFunctionsTest(TestCase):
 
