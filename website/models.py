@@ -1,4 +1,5 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 
 class Currencies(models.Model):
@@ -95,8 +96,8 @@ class RainDetail(models.Model):
 class Careers(models.Model):
     title = models.CharField(verbose_name='Título', max_length=80)
     active = models.BooleanField(verbose_name='Activo / Inactivo')
-    description = models.TextField(verbose_name='Descripción')
-    requirements = models.TextField(verbose_name='Requerimientos')
+    description = HTMLField(verbose_name='Descripción')
+    requirements = HTMLField(verbose_name='Requerimientos')
 
     def __str__(self):
         return self.title
