@@ -201,10 +201,6 @@ RS_PORT = os.getenv('RS_PORT')
 RS_USER = os.getenv('RS_USER')
 RS_PASS = os.getenv('RS_PASS')
 
-# CP Online settings
-CP_CONTENT_TYPES = ['application/pdf',]
-CP_MAX_UPLOAD_SIZE = 2621440 #2.5 Mb
-
 
 # Extranet files
 EXTRANET_DIR = os.getenv('FTP_DIR')

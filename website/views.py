@@ -1,7 +1,5 @@
 import datetime
-from collections import OrderedDict
 import json
-import csv
 import io
 from monthdelta import monthdelta
 
@@ -12,7 +10,7 @@ from django.views.generic.list import MultipleObjectMixin
 from django.views.generic import View, ListView
 from django.views.generic.edit import FormView
 from django.views.defaults import page_not_found, server_error
-from django.http import JsonResponse, HttpResponse, StreamingHttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.http import Http404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -30,180 +28,21 @@ from django.urls import reverse
 from django.template import loader
 
 from PyPDF2 import PdfFileWriter, PdfFileReader
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
 import requests
 from requests.auth import HTTPBasicAuth
 
-from website.forms import CP, ExtranetClientSelectionForm
+from website.forms import ExtranetClientSelectionForm
 from website.models import Currencies
 from website.models import Board
-from website.models import City
 from website.models import Rain
 from website.models import RainDetail
 from website.models import Careers
 from website.tokens import account_activation_token
 from extranet import import_tasks
-from extranet.models import IncomeQuality, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte, TicketsAnalysis, UserInfo
+from extranet.models import IncomeQuality, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte, TicketsAnalysis
 from extranet.models import Notifications, ViewedNotifications
 
 from bh import settings
-
-from django.http import FileResponse
-
-
-def cp(request):
-
-    def proccess_cp(file, form):
-
-        #CONST
-        species_dict = {
-            '0000': '------',
-            'ALGO': 'Algodón',
-            'AVEN': 'Avena',
-            'CART': 'Cártamo',
-            'CEBA': 'Cebada',
-            'CECE': 'Cebada Cervecera',
-            'COLZ': 'Colza',
-            'COL0': 'Colza Doble 00',
-            'CUAR': 'Cuarta de Cebada',
-            'GIRA': 'Girasol',
-            'LINO': 'Lino',
-            'MAIZ': 'Maíz',
-            'MAMA': 'Maíz Mav',
-            'MAPI': 'Maíz Pisingallo',
-            'MANI': 'Maní',
-            'SOJA': 'Soja',
-            'SORG': 'Sorgo',
-            'TRIG': 'Trigo',
-            'TRIC': 'Trigo Candeal',
-            'TRIP': 'Trigo Pan',
-        }
-
-        harvest_dict = {'0000': '------'}
-        date = datetime.datetime.now().year
-        for year in range(date-3,date+1):
-            harvest_dict[str(year)[-2:] + str(year+1)[-2:]] = str(year)[-2:] + '/' + str(year+1)[-2:]
-
-        # Init InMemory PDF file & canvas
-        packet = io.BytesIO()
-        can = canvas.Canvas(packet, pagesize=A4)
-
-        # Init fields through form data
-        ownership_line = form.get('ownership_line', None)
-        if ownership_line:
-            ownership_height = 20
-        else:
-            ownership_height = 0
-
-        destination_load = form.get('destination_load', None)
-        species = species_dict.get(form['species'], None)
-        harvest = harvest_dict.get(form['harvest'], None)
-
-        fcarga_year = str(datetime.datetime.strptime(form['load_date'], "%Y-%m-%d").date().year)
-        fcarga_month = ('0'+str(datetime.datetime.strptime(form['load_date'], "%Y-%m-%d").date().month))[-2:]
-        fcarga_day = ('0'+str(datetime.datetime.strptime(form['load_date'], "%Y-%m-%d").date().day))[-2:]
-
-        observations = can.beginText()
-        observations.setTextOrigin(410, 430 - ownership_height)
-        observations.textLines(form['observations'])
-
-        # Write form fields to canvas
-        can.setFont('Helvetica', 12)
-        can.drawString(235, 747, form['ctg'])
-        can.drawString(320, 747, form['renspa'])
-        can.setFont('Helvetica', 10)
-        can.drawString(506, 761, fcarga_day)
-        can.drawString(524, 761, fcarga_month)
-        can.drawString(541, 761, fcarga_year)
-        can.drawString(183, 683 - ownership_height, form['intermediary'])
-        can.drawString(183, 663 - ownership_height, form['sender'])
-        can.drawString(183, 643 - ownership_height, form['broker'])
-        can.drawString(183, 623 - ownership_height, form['mat'])
-        can.drawString(183, 603 - ownership_height, form['broker_seller'])
-        can.drawString(183, 583 - ownership_height, form['representative'])
-        can.drawString(183, 563 - ownership_height, form['addressee'])
-        can.drawString(183, 543 - ownership_height, form['destination'])
-        can.drawString(183, 523 - ownership_height, form['freight_broker'])
-        can.drawString(183, 504 - ownership_height, form['carrier'])
-        can.drawString(183, 484 - ownership_height, form['driver'])
-        can.drawString(471, 684 - ownership_height, form['intermediary_cuit'])
-        can.drawString(471, 664 - ownership_height, form['sender_cuit'])
-        can.drawString(471, 644 - ownership_height, form['broker_cuit'])
-        can.drawString(471, 624 - ownership_height, form['mat_cuit'])
-        can.drawString(471, 604 - ownership_height, form['broker_seller_cuit'])
-        can.drawString(471, 584 - ownership_height, form['representative_cuit'])
-        can.drawString(471, 564 - ownership_height, form['addressee_cuit'])
-        can.drawString(471, 544 - ownership_height, form['destination_cuit'])
-        can.drawString(471, 524 - ownership_height, form['freight_broker_cuit'])
-        can.drawString(471, 505 - ownership_height, form['carrier_cuit'])
-        can.drawString(471, 486 - ownership_height, form['driver_cuit'])
-        can.drawString(370, 460 - ownership_height, harvest)
-        can.drawString(130, 460 - ownership_height, species.upper())
-        can.drawString(246, 460 - ownership_height, form['species_type'])
-        can.drawString(500, 460 - ownership_height, form['contract'])
-        if destination_load:
-            can.drawString(133, 430 - ownership_height, 'X')
-        can.drawString(125, 410 - ownership_height, form['estimated_kg'])
-        if form['quality'] == 'DECLARACION':
-            can.drawString(257, 445 - ownership_height, 'X')
-        elif form['quality'] == 'CONFORME':
-            can.drawString(257, 427 - ownership_height, 'X')
-        else:
-            can.drawString(257, 411 - ownership_height, 'X')
-        can.drawString(353, 442 - ownership_height, form['gross_kg'])
-        can.drawString(353, 425 - ownership_height, form['tare_kg'])
-        can.drawString(353, 409 - ownership_height, form['net_kg'])
-        can.drawText(observations)
-        can.drawString(423, 395 - ownership_height, form['stablishment'])
-        can.drawString(423, 381 - ownership_height, form['city'])
-        can.drawString(423, 367 - ownership_height, form['state'])
-        can.drawString(110, 375 - ownership_height, form['address'])
-        can.drawString(360, 349 - ownership_height, form['destination_city'])
-        can.drawString(360, 332 - ownership_height, form['destination_state'])
-        can.drawString(80, 332 - ownership_height, form['destination_address'])
-        can.drawString(345, 311 - ownership_height, form['freight_payer'])
-        can.drawString(95, 294 - ownership_height, form['truck'])
-        can.drawString(95, 277 - ownership_height, form['trailer'])
-        can.drawString(95, 260 - ownership_height, form['km'])
-        can.drawString(242, 277 - ownership_height, form['ref_rate'])
-        can.drawString(242, 260 - ownership_height, form['rate'])
-        can.setFont('Helvetica', 8)
-        can.drawString(463, 18 - ownership_height, form['fumigant_dni'])
-        can.drawString(293, 18 - ownership_height, form['fumigant_observation'])
-        can.save()
-
-        # Move to the beginning of the StringIO buffer
-        packet.seek(0)
-        new_pdf = PdfFileReader(packet)
-        # Get the canvas content
-        new_pdf_page = new_pdf.getPage(0)
-        existing_pdf = PdfFileReader(file)
-        output = PdfFileWriter()
-        for numpage in range(0, existing_pdf.getNumPages()):
-            page = existing_pdf.getPage(numpage)
-            # Merge uploaded PDF page with canvas content
-            page.mergePage(new_pdf_page)
-            page.compressContentStreams()
-            # Save pages to new PDF
-            output.addPage(page)
-        # Write final PDF to buffer
-        output.write(packet)
-        # Return buffer stream
-        return packet.getvalue()
-
-    if request.method == 'POST':
-        form = CP(request.POST, request.FILES)
-        if form.is_valid():
-            file = request.FILES['cp']
-            cp = proccess_cp(file, request.POST)
-            name = file.name
-            response = HttpResponse(cp, content_type='application/pdf')
-            response['Content-Disposition'] = 'attachment; filename="%s"' % name
-            return response
-    else:
-        form = CP()
-    return render(request, 'cp.html', {'form': form})
 
 
 def handler404(request, exception):

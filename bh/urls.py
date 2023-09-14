@@ -40,7 +40,6 @@ urlpatterns = [
     path('impuestos/', TemplateView.as_view(template_name='taxes.html'), name='taxes'),
     path('unidades-de-negocio/', TemplateView.as_view(template_name='units.html'), name='units'),
     path('trabaja-con-nosotros/', views.CareersView.as_view(), name='cv'),
-    path('cp/', views.cp, name='cp'),
 
     path('login/', views.CustomLoginView.as_view(template_name='login.html', authentication_form=CustomAuthenticationForm), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),

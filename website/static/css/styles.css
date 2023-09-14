@@ -1533,24 +1533,16 @@ footer .footer-rd-nav {
   border-top: 6px solid #fff;
   overflow: hidden;
 }
-#home .misc .cponline {
-  border-right: 1px solid #ccc;
-}
-#home .misc .cponline div {
-  right: 3em;
-}
 #home .misc .tax div {
   left: 3em;
 }
-#home .misc .tax,
-#home .misc .cponline {
+#home .misc .tax {
   margin: 3em 0;
   max-height: 230px;
   min-height: 60px;
   position: relative;
 }
-#home .misc .tax div,
-#home .misc .cponline div {
+#home .misc .tax div {
   background-color: #fff;
   border-radius: 3px;
   bottom: 0;
@@ -1560,27 +1552,22 @@ footer .footer-rd-nav {
   text-align: right;
   top: 0;
 }
-#home .misc .tax div:hover,
-#home .misc .cponline div:hover {
+#home .misc .tax div:hover {
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
 }
-#home .misc .tax div:hover .misc-icon i,
-#home .misc .cponline div:hover .misc-icon i {
+#home .misc .tax div:hover .misc-icon i {
   color: #018d34;
 }
-#home .misc .tax div span,
-#home .misc .cponline div span {
+#home .misc .tax div span {
   display: inline-block;
   position: relative;
   vertical-align: top;
 }
-#home .misc .tax div span.misc-icon,
-#home .misc .cponline div span.misc-icon {
+#home .misc .tax div span.misc-icon {
   height: 100%;
   padding-left: 0.5em;
 }
-#home .misc .tax div span.misc-icon i,
-#home .misc .cponline div span.misc-icon i {
+#home .misc .tax div span.misc-icon i {
   display: block;
   position: relative;
   top: 50%;
@@ -1591,24 +1578,21 @@ footer .footer-rd-nav {
   font-size: 2em;
   transition: 0.5s ease-out;
 }
-#home .misc .tax div span.misc-link,
-#home .misc .cponline div span.misc-link {
+#home .misc .tax div span.misc-link {
   margin-left: 0.5em;
   padding-right: 0.5em;
   position: relative;
   text-align: left;
   transition: 0.3s ease-out;
 }
-#home .misc .tax div span.misc-link a,
-#home .misc .cponline div span.misc-link a {
+#home .misc .tax div span.misc-link a {
   display: block;
   color: #3c433e;
   height: 100%;
   line-height: 3.5em;
   transition: 0.5s ease-out;
 }
-#home .misc .tax div span.misc-link a.send-cv,
-#home .misc .cponline div span.misc-link a.send-cv {
+#home .misc .tax div span.misc-link a.send-cv {
   opacity: 0;
 }
 #historic-rain {
@@ -3404,120 +3388,6 @@ footer .footer-rd-nav {
   max-width: 500px;
   width: 100%;
 }
-#cp form {
-  display: table;
-  width: 100%;
-}
-#cp form div.title {
-  border-bottom: 1px solid #018d34;
-  border-radius: 3px;
-  margin-bottom: 2em;
-}
-#cp form div.title i,
-#cp form div.title h3 {
-  display: inline-block;
-  font-size: 1.2em;
-  vertical-align: baseline;
-}
-#cp form div.title i {
-  background-color: #018d34;
-  border-radius: 3px;
-  color: #fff;
-  margin-right: 0.5em;
-  padding: 0.4em 0.5em 0.3em 0.5em;
-}
-#cp form div.title h3 {
-  color: #018d34;
-}
-#cp form div.subtitle {
-  margin: 2em 0;
-}
-#cp form div.subtitle h4 {
-  background-color: #ccc;
-  border-radius: 3px;
-  color: #065a7a;
-  display: inline;
-  padding: 0.3em 1em;
-}
-#cp form p:not(.errors-field) {
-  display: table-row;
-  font-size: 0.9em;
-}
-#cp form p:not(.errors-field).name span:nth-child(1) input {
-  width: 300px;
-}
-#cp form p:not(.errors-field).pro-des input {
-  width: 300px;
-}
-#cp form p:not(.errors-field).radio span {
-  margin: 0 1em;
-}
-#cp form p:not(.errors-field).radio span input {
-  margin-left: 0.5em;
-}
-#cp form p:not(.errors-field) label {
-  display: table-cell;
-  padding: 0.5em 0.8em 0.5em 0;
-  text-align: right;
-  width: 200px;
-}
-#cp form p:not(.errors-field) input {
-  display: table-cell;
-}
-#cp form p:not(.errors-field) textarea {
-  display: table-cell;
-  height: 50px;
-  vertical-align: top;
-}
-#cp form p:not(.errors-field) input:not([type='file']),
-#cp form p:not(.errors-field) textarea,
-#cp form p:not(.errors-field) select {
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-#cp input[type='submit'] {
-  background-color: #018d34;
-  border: none;
-  border-radius: 3px;
-  color: #fff;
-  cursor: pointer;
-  display: block;
-  margin: 1.5em auto 3em auto;
-  padding: 0.5em 0.8em;
-  transition: 0.3s ease-out;
-}
-#cp input[type='submit']:hover {
-  background-color: #065a7a;
-}
-#cp .box,
-#cp .errors {
-  border-radius: 3px;
-  margin: 1em 2em;
-  padding: 1em;
-}
-#cp .box {
-  border: 1px solid #ccc;
-}
-#cp .errors {
-  background-color: rgba(255, 0, 0, 0.1);
-  border: 1px solid rgba(255, 0, 0, 0.3);
-  font-size: 0.9em;
-}
-#cp .errors p.errors-field {
-  margin: 0.4em 0;
-}
-#cp .errors p.errors-description {
-  display: block;
-  font-size: 1.1em;
-  margin-bottom: 1.2em;
-}
-#cp .errors ul {
-  margin-bottom: 1.2em;
-  padding-left: 2em;
-}
-#cp .errors ul li {
-  list-style-type: disc;
-}
 #updated .text {
   padding-top: 8em;
 }
@@ -4031,15 +3901,10 @@ footer .footer-rd-nav {
   #home .misc > div:first-child {
     margin-bottom: 1.3em;
   }
-  #home .misc > div .cponline {
-    border: 0;
-  }
-  #home .misc > div .cponline,
   #home .misc > div .tax {
     margin: 0 auto;
     font-size: 0.9em;
   }
-  #home .misc > div .cponline div,
   #home .misc > div .tax div {
     left: 0;
     margin: 0 auto;
@@ -4664,7 +4529,6 @@ footer .footer-rd-nav {
   }
 }
 @media screen and (max-width: 420px) {
-  #home .misc > div .cponline div,
   #home .misc > div .tax div {
     width: 100%;
   }
