@@ -250,9 +250,9 @@ ADMIN_REORDER = (
     {'app': 'auth', 'models': ('auth.User', 'auth.Group')},
     {'app': 'website', 'models': ('website.Currencies', 'website.Board'), 'label': 'Moneda y Pizarras'},
     {'app': 'website', 'models': ('website.City', 'website.Rain'), 'label': 'Lluvias'},
-    {'app': 'website', 'models': ('website.Notifications', 'website.ViewedNotifications'), 'label': 'Notificaciones'},
+    {'app': 'extranet', 'models': ('website.Notifications', 'website.ViewedNotifications'), 'label': 'Notificaciones'},
     {'app': 'website', 'models': ('website.Careers',), 'label': 'Busquedas Laborales'},
-    {'app': 'website', 'models': ('website.AccessLog',), 'label': 'Accesos'},
+    {'app': 'extranet', 'models': ('website.AccessLog',), 'label': 'Accesos'},
 )
 
 
