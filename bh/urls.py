@@ -20,7 +20,12 @@ from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import LogoutView, PasswordChangeDoneView
 
-from website import views
+from website.views import IndexView, HistoricRainView, CareersView, DownloadRainView
+from website.views import CurrencyView, BoardView, RainView
+from extranet.views import CustomLoginView, AccountActivationView, ChangePasswordView, ExtranetView, NotificationsView
+from extranet.views import CtaCteView, AppliedView, DeliveriesView, SalesView, DownloadCtaCteCSVView
+from extranet.views import DownloadAppliedCSVView, DownloadDeliveriesCSVView, DownloadSalesCSVView, DownloadPDFView
+from extranet.views import importdata
 from extranet.forms import CustomAuthenticationForm
 
 def trigger_error(request):
@@ -32,40 +37,40 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
 
-    path('', views.IndexView.as_view(), name='home'),
+    path('', IndexView.as_view(), name='home'),
     path('empresa/', TemplateView.as_view(template_name='company.html'), name='company'),
     path('galeria/', TemplateView.as_view(template_name='gallery.html'), name='gallery'),
     path('contacto/', TemplateView.as_view(template_name='contact.html'), name='contact'),
-    path('lluvias-historico/', views.HistoricRainView.as_view(), name='historic_rain'),
+    path('lluvias-historico/', HistoricRainView.as_view(), name='historic_rain'),
     path('impuestos/', TemplateView.as_view(template_name='taxes.html'), name='taxes'),
     path('unidades-de-negocio/', TemplateView.as_view(template_name='units.html'), name='units'),
-    path('trabaja-con-nosotros/', views.CareersView.as_view(), name='cv'),
+    path('trabaja-con-nosotros/', CareersView.as_view(), name='cv'),
 
-    path('login/', views.CustomLoginView.as_view(template_name='login.html', authentication_form=CustomAuthenticationForm), name='login'),
+    path('login/', CustomLoginView.as_view(template_name='login.html', authentication_form=CustomAuthenticationForm), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('activar-cuenta/<slug:uidb64>/<slug:token>/', views.AccountActivationView.as_view(), name='activate_account'),
-    path('cuenta/cambiar-password/', views.ChangePasswordView.as_view(), name='change_password'),
+    path('activar-cuenta/<slug:uidb64>/<slug:token>/', AccountActivationView.as_view(), name='activate_account'),
+    path('cuenta/cambiar-password/', ChangePasswordView.as_view(), name='change_password'),
     path('cuenta/password-actualizada/', PasswordChangeDoneView.as_view(template_name='change_password_done.html'), name='password_change_done'),
 
-    path('extranet/', views.ExtranetView.as_view(), name='extranet'),
-    path('extranet/notificaciones/', views.NotificationsView.as_view(), name='notifications'),
-    path('extranet/ctacte/pesos/<str:ctacte_type>/', views.CtaCteView.as_view(), name='ctacte'),
-    path('extranet/ctacte/aplicada/', views.AppliedView.as_view(), name='applied'),
-    path('extranet/entregas/', views.DeliveriesView.as_view(), name='deliveries'),
-    path('extranet/ventas/', views.SalesView.as_view(), name='sales'),
+    path('extranet/', ExtranetView.as_view(), name='extranet'),
+    path('extranet/notificaciones/', NotificationsView.as_view(), name='notifications'),
+    path('extranet/ctacte/pesos/<str:ctacte_type>/', CtaCteView.as_view(), name='ctacte'),
+    path('extranet/ctacte/aplicada/', AppliedView.as_view(), name='applied'),
+    path('extranet/entregas/', DeliveriesView.as_view(), name='deliveries'),
+    path('extranet/ventas/', SalesView.as_view(), name='sales'),
 
-    path('download/rain/', views.DownloadRainView.as_view(), name='download_rain'),
-    path('download/pesos/<str:ctacte_type>/', views.DownloadCtaCteCSVView.as_view(), name='download_ctacte'),
-    path('download/ctacte/aplicada/', views.DownloadAppliedCSVView.as_view(), name='download_applied'),
-    path('download/entregas/', views.DownloadDeliveriesCSVView.as_view(), name='download_deliveries'),
-    path('download/ventas/', views.DownloadSalesCSVView.as_view(), name='download_sales'),
-    path('download/', views.DownloadPDFView.as_view(), name='download_pdf'),
+    path('download/rain/', DownloadRainView.as_view(), name='download_rain'),
+    path('download/pesos/<str:ctacte_type>/', DownloadCtaCteCSVView.as_view(), name='download_ctacte'),
+    path('download/ctacte/aplicada/', DownloadAppliedCSVView.as_view(), name='download_applied'),
+    path('download/entregas/', DownloadDeliveriesCSVView.as_view(), name='download_deliveries'),
+    path('download/ventas/', DownloadSalesCSVView.as_view(), name='download_sales'),
+    path('download/', DownloadPDFView.as_view(), name='download_pdf'),
 
-    path('monedas/', views.CurrencyView.as_view(), name='currency'),
-    path('pizarras/', views.BoardView.as_view(), name='board'),
-    path('lluvias/', views.RainView.as_view(), name='rain'),
+    path('monedas/', CurrencyView.as_view(), name='currency'),
+    path('pizarras/', BoardView.as_view(), name='board'),
+    path('lluvias/', RainView.as_view(), name='rain'),
 
-    path('importar/<str:datatype>/', views.importdata, name='import_data'),
+    path('importar/<str:datatype>/', importdata, name='import_data'),
 
     # path('400/', views.handler404, name='handler400'),
     # path('404/', views.handler404, name='handler404'),
