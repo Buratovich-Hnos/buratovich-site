@@ -21,7 +21,7 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.views import LogoutView, PasswordChangeDoneView
 
 from website import views
-from website.forms import CustomAuthenticationForm
+from extranet.forms import CustomAuthenticationForm
 
 def trigger_error(request):
     division_by_zero = 1 / 0

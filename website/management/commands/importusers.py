@@ -11,7 +11,7 @@ from django.db import IntegrityError
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
 from extranet.signals import postSave_User, preSave_User
-from website.tokens import account_activation_token
+from extranet.tokens import account_activation_token
 from django.utils.http import urlsafe_base64_encode
 
 from extranet.models import UserInfo

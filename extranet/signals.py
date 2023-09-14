@@ -11,7 +11,7 @@ from django.core.mail import BadHeaderError
 import smtplib
 from django.template.loader import render_to_string
 
-from website.tokens import account_activation_token
+from extranet.tokens import account_activation_token
 from django.utils.http import urlsafe_base64_encode
 
 from extranet.models import AccessLog
