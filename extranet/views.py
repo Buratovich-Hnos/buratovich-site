@@ -14,7 +14,7 @@ from django.db.models.functions import Coalesce, Replace
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views.generic import View, ListView
 from django.views.generic.edit import FormView
@@ -72,7 +72,7 @@ class AccountActivationView(View):
         try:
             uidb64 = kwargs['uidb64']
             token = kwargs['token']
-            uid = force_text(urlsafe_base64_decode(uidb64))
+            uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
