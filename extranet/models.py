@@ -78,10 +78,10 @@ class TicketsAnalysis(models.Model):
 class IncomeQuality(models.Model):
     species = models.CharField(max_length=4, verbose_name='Especie')
     harvest = models.CharField(max_length=4, verbose_name='Cosecha')
-    ticket = models.CharField(max_length=16, verbose_name='Ticket')
+    ticket = models.CharField(max_length=16, verbose_name='Ticket', db_index=True)
     income = models.CharField(max_length=16, verbose_name='Ingreso')
     cp = models.CharField(max_length=16, verbose_name='Carta de Porte')
-    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo')               # 100712 EL PIGUEL S.A.
+    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo', db_index=True)               # 100712 EL PIGUEL S.A.
     name = models.CharField(max_length=150, verbose_name='Razón Social')
     field = models.IntegerField(verbose_name='Campo')                                   # 469 EL EMBARCADERO
     field_description = models.CharField(max_length=100, verbose_name='Nombre de Campo')
@@ -118,7 +118,7 @@ class IncomeQuality(models.Model):
     quality_reduction = models.IntegerField(verbose_name='Merma de Calidad')
     grade = models.IntegerField(verbose_name='Grado')
     factor = models.FloatField(verbose_name='Factor')
-    speciesharvest = models.CharField(max_length=8, verbose_name='Especie Cosecha', null=True)
+    speciesharvest = models.CharField(max_length=8, verbose_name='Especie Cosecha', null=True, db_index=True)
     bonus_item_1 = models.FloatField(verbose_name='Bonificación Rubro 1')
     bonus_item_2 = models.FloatField(verbose_name='Bonificación Rubro 2')
     bonus_item_3 = models.FloatField(verbose_name='Bonificación Rubro 3')
@@ -161,12 +161,12 @@ class IncomeQuality(models.Model):
 
 
 class Deliveries(models.Model):
-    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo')
+    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo', db_index=True)
     name = models.CharField(max_length=150, verbose_name='Razón Social')
-    indicator = models.CharField(max_length=1, verbose_name='Indicador')
+    indicator = models.CharField(max_length=6, verbose_name='Indicador')
     species = models.CharField(max_length=4, verbose_name='Especie')
     harvest = models.CharField(max_length=4, verbose_name='Cosecha')
-    speciesharvest = models.CharField(max_length=8, verbose_name='Especie Cosecha', null=True)
+    speciesharvest = models.CharField(max_length=8, verbose_name='Especie Cosecha', null=True, db_index=True)
     species_description = models.CharField(max_length=50, verbose_name='Especie y Cosecha')
     field = models.IntegerField(verbose_name='Codigo de Campo')
     field_description = models.CharField(max_length=100, verbose_name='Nombre de Campo')
@@ -205,12 +205,12 @@ class Deliveries(models.Model):
 
 
 class Sales(models.Model):
-    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo')
+    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo', db_index=True)
     name = models.CharField(max_length=150, verbose_name='Razón Social')
-    indicator = models.CharField(max_length=1, verbose_name='Indicador')
+    indicator = models.CharField(max_length=6, verbose_name='Indicador')
     species = models.CharField(max_length=4, verbose_name='Especie')
     harvest = models.CharField(max_length=4, verbose_name='Cosecha')
-    speciesharvest = models.CharField(max_length=8, verbose_name='Especie Cosecha', null=True)
+    speciesharvest = models.CharField(max_length=8, verbose_name='Especie Cosecha', null=True, db_index=True)
     species_description = models.CharField(max_length=50, verbose_name='Especie y Cosecha')
     field = models.IntegerField(verbose_name='Codigo de Campo')
     field_description = models.CharField(max_length=100, verbose_name='Nombre de Campo')
@@ -265,16 +265,22 @@ class SpeciesHarvest(models.Model):
 
 
 class Applied(models.Model):
-    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo')
+    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo', db_index=True)
     name = models.CharField(max_length=150, verbose_name='Razón Social')
+    amount_pesos = models.FloatField(verbose_name='Importe del Comprobante en Pesos')
     movement_type = models.CharField(max_length=7, verbose_name='Tipo Movimiento')
+    affected_voucher = models.CharField(max_length=16, null=True, verbose_name='Comprobante Afectado')
     voucher = models.CharField(max_length=16, verbose_name='Comprobante')
     voucher_date = models.DateField(null=True, verbose_name='Fecha Comprobante')
-    expiration_date = models.DateField(null=True, verbose_name='Fecha Vencimiento')
-    issue_date = models.DateField(null=True, verbose_name='Fecha Emision')
+    affected_date = models.DateField(null=True, blank=True, verbose_name='Fecha Afectación')
+    expiration_date = models.DateField(null=True, verbose_name='Fecha Vencimiento', db_index=True)
+    issue_date = models.DateField(null=True, verbose_name='Fecha Emision', db_index=True)
     concept = models.CharField(max_length=200, verbose_name='Concepto')
     cta_cte = models.CharField(max_length=1, verbose_name='Codigo de Cta. Cte.')
     cta_cte_description = models.CharField(max_length=50, verbose_name='Descripcion de Cta. Cte.')
+    amount_dolar = models.FloatField(verbose_name='Importe del Comprobante en Dólar')
+    affected_balance = models.CharField(max_length=10, verbose_name='Saldo a Afectar')
+    link = models.CharField(max_length=120, null=True, verbose_name='Link')
     currency = models.CharField(max_length=1, verbose_name='Moneda')
     amount_sign = models.FloatField(verbose_name='Importe Signo')
     exchange_rate = models.FloatField(verbose_name='Tipo de Cambio Emisión')
@@ -288,18 +294,25 @@ class Applied(models.Model):
 
 
 class CtaCte(models.Model):
-    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo')
+    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo', db_index=True)
     name = models.CharField(max_length=150, verbose_name='Razón Social')
+    initial_balance_pesos = models.FloatField(verbose_name='Saldo Inicial Pesos')
+    initial_balance_usd = models.FloatField(verbose_name='Saldo Inicial Dólar')
     initial_balance_countable = models.FloatField(verbose_name='Saldo Inicial Contable')
     balance = models.FloatField(verbose_name='Saldo')
     voucher = models.CharField(max_length=16, verbose_name='Comprobante')
     voucher_date = models.DateField(null=True, verbose_name='Fecha Comprobante')
     concept = models.CharField(max_length=200, verbose_name='Concepto')
     currency = models.CharField(max_length=1, verbose_name='Moneda')
+    amount_pesos = models.FloatField(verbose_name='Importe del Comprobante en Pesos')
     movement_type = models.CharField(max_length=7, verbose_name='Tipo Movimiento')
     exchange_rate = models.FloatField(verbose_name='Tipo de Cambio Emisión')
-    date_1 = models.DateField(null=True, verbose_name='Fecha Vencimiento')
-    date_2 = models.DateField(null=True, verbose_name='Fecha Emisión')
+    adjust_exchange_rate = models.FloatField(verbose_name='Tipo de Cambio Ajuste')
+    date_1 = models.DateField(null=True, verbose_name='Fecha Vencimiento', db_index=True)
+    date_2 = models.DateField(null=True, verbose_name='Fecha Emisión', db_index=True)
+    amount_dolar = models.FloatField(verbose_name='Importe del Comprobante en Dólar')
+    affected_balance = models.CharField(max_length=10, verbose_name='Saldo a Afectar')
+    link = models.CharField(max_length=120, null=True, verbose_name='Link')
     amount_sign = models.FloatField(verbose_name='Importe Signo')
     cta_cte = models.CharField(max_length=80, verbose_name='Tipo Cta. Cte.')
     cta_cte_name = models.CharField(max_length=80, verbose_name='Descripcion Cta. Cte.')
