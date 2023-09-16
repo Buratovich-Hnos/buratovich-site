@@ -24,7 +24,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 from extranet import import_tasks
-from extranet.forms import ExtranetClientSelectionForm
+from extranet.forms import ExtranetClientSelectionForm, CustomAuthenticationForm
 from extranet.models import IncomeQuality, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte, TicketsAnalysis
 from extranet.models import Notifications, ViewedNotifications
 from extranet.tokens import account_activation_token
@@ -59,6 +59,9 @@ def importdata(request, datatype):
 
 
 class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    authentication_form = CustomAuthenticationForm
+
     def form_valid(self, form):
         """Security check complete. Log the user in."""
         login(self.request, form.get_user())

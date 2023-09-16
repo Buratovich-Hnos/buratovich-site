@@ -26,7 +26,6 @@ from extranet.views import CustomLoginView, AccountActivationView, ChangePasswor
 from extranet.views import CtaCteView, AppliedView, DeliveriesView, SalesView, DownloadCtaCteCSVView
 from extranet.views import DownloadAppliedCSVView, DownloadDeliveriesCSVView, DownloadSalesCSVView, DownloadPDFView
 from extranet.views import importdata
-from extranet.forms import CustomAuthenticationForm
 
 def trigger_error(request):
     division_by_zero = 1 / 0
@@ -46,7 +45,7 @@ urlpatterns = [
     path('unidades-de-negocio/', TemplateView.as_view(template_name='units.html'), name='units'),
     path('trabaja-con-nosotros/', CareersView.as_view(), name='cv'),
 
-    path('login/', CustomLoginView.as_view(template_name='login.html', authentication_form=CustomAuthenticationForm), name='login'),
+    path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('activar-cuenta/<slug:uidb64>/<slug:token>/', AccountActivationView.as_view(), name='activate_account'),
     path('cuenta/cambiar-password/', ChangePasswordView.as_view(), name='change_password'),
