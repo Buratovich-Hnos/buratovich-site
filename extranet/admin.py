@@ -85,7 +85,7 @@ class ViewedNotificationsAdmin(admin.ModelAdmin):
 class AccessLogAdmin(admin.ModelAdmin):
     list_display = ('user', 'algoritmo_code', 'logged')
     list_filter = ('user', 'algoritmo_code', 'logged')
-
+    date_hierarchy = 'logged'
 
 
 # Register models
