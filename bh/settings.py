@@ -189,7 +189,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 #Token Lifetime
-PASSWORD_RESET_TIMEOUT_DAYS = 360
+PASSWORD_RESET_TIMEOUT = 2592000 # 30 days
 
 
 # Use this backend to support is_active flag
