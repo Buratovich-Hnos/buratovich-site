@@ -41,6 +41,7 @@ class ViewedNotifications(models.Model):
     notification = models.ForeignKey(Notifications, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     viewed = models.BooleanField(verbose_name='Notificación vista', default=False)
+    date = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name='Fecha/Hora de visualización')
 
     def __str__(self):
         return self.user.userinfo.company_name

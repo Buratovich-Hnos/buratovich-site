@@ -73,7 +73,7 @@ class NotificationsAdmin(admin.ModelAdmin):
 
 
 class ViewedNotificationsAdmin(admin.ModelAdmin):
-    list_display = ('get_company_name', 'notification',)
+    list_display = ('get_company_name', 'notification', 'date',)
 
     def get_company_name(self, obj):
         return obj.user.userinfo.company_name
