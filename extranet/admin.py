@@ -4,7 +4,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from extranet.forms import UserCreationForm, NotificationCreationForm
+from extranet.forms import UserCreationForm
 from extranet.models import UserInfo, Notifications, ViewedNotifications, AccessLog
 
 
@@ -55,13 +55,20 @@ class UserAdmin(BaseUserAdmin):
 
 
 class NotificationsAdmin(admin.ModelAdmin):
-    form = NotificationCreationForm
     list_display = ('title', 'notifications_html', 'active', 'date_from', 'date_to',)
+
+    fieldsets = (
+        (None, {
+            'fields': ('active',)
+        }),
+        ('', {
+            'fields': ('title', 'notification', 'date_from', 'date_to',),
+        })
+    )
 
     def notifications_html(self, obj):
         return mark_safe(obj.notification)
 
-    notifications_html.allow_tags = True
     notifications_html.short_description = 'Notificación'
 
 

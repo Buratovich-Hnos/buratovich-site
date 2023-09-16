@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from tinymce.models import HTMLField
+
 
 # User related info
 class UserInfo(models.Model):
@@ -22,7 +24,7 @@ class UserInfo(models.Model):
 class Notifications(models.Model):
     date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha')
     title = models.CharField(max_length=200, verbose_name='Titulo')
-    notification = models.TextField(verbose_name='Notificación')
+    notification = HTMLField(verbose_name='Notificación')
     active = models.BooleanField(verbose_name='Activa/Inactiva', default=True)
     date_from = models.DateField(verbose_name='Vigencia Desde')
     date_to = models.DateField(verbose_name='Vigencia Hasta')
