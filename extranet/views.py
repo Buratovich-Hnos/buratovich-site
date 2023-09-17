@@ -1,6 +1,6 @@
 import datetime
 import io
-from monthdelta import monthdelta
+from dateutil.relativedelta import relativedelta
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login, update_session_auth_hash
@@ -217,7 +217,7 @@ class CtaCteView(LoginRequiredMixin, DateFilterBaseView):
         else:
             self.date_field = 'date_1'
         if self.get_since_date() is None and self.get_until_date() is None:
-            self.since_date = (datetime.datetime.today() - monthdelta(1)).strftime(self.date_format)
+            self.since_date = (datetime.datetime.today() - relativedelta(months=+1)).strftime(self.date_format)
             self.initial = True
         self.object_list = self.get_queryset()
         context = self.get_context_data()
