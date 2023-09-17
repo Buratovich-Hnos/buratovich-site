@@ -235,7 +235,14 @@ class CtaCteView(LoginRequiredMixin, DateFilterBaseView):
             lookup_ib = {
                 '%s__lt' % date_field: since
             }
-            initial_balance = CtaCte.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Coalesce(Sum('amount_sign'),0))
+            initial_balance = CtaCte.objects\
+                .filter(algoritmo_code=algoritmo_code)\
+                .filter(**lookup_ib)\
+                .aggregate(
+                    ib=Coalesce(Sum('amount_sign'), 0, output_field=FloatField()),
+                    ib_pesos=Coalesce(Sum('amount_pesos'), 0, output_field=FloatField()),
+                    ib_dolar=Coalesce(Sum('amount_dolar'), 0, output_field=FloatField())
+                )
         if until and since:
             lookup_kwargs = {
                 '%s__gte' % date_field: since,
@@ -252,9 +259,11 @@ class CtaCteView(LoginRequiredMixin, DateFilterBaseView):
         queryset = CtaCte.objects\
             .filter(algoritmo_code=algoritmo_code)\
             .filter(**lookup_kwargs)\
-            .annotate(ib=Value(initial_balance.get('ib', 0), output_field=FloatField()))\
+            .annotate(ib=Value(initial_balance.get('ib', 0), output_field=FloatField()), ib_pesos=Value(initial_balance.get('ib_pesos', 0), output_field=FloatField()), ib_dolar=Value(initial_balance.get('ib_dolar', 0), output_field=FloatField()))\
             .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_sign').asc()]) + F('initial_balance_countable') + F('ib'))\
-            .values('date_1', 'date_2', 'voucher', 'concept', 'movement_type', 'amount_sign', 'initial_balance_countable', 'ib', 'row_balance').order_by('%s' % date_field, 'voucher', 'amount_sign')
+            .annotate(row_balance_pesos=Window(Sum('amount_pesos'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_pesos').asc()]) + F('initial_balance_pesos') + F('ib_pesos'))\
+            .annotate(row_balance_dolar=Window(Sum('amount_dolar'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_dolar').asc()]) + F('initial_balance_usd') + F('ib_dolar'))\
+            .values('date_1', 'date_2', 'voucher', 'concept', 'exchange_rate', 'adjust_exchange_rate', 'movement_type', 'affected_balance', 'link', 'amount_sign', 'amount_pesos', 'amount_dolar', 'initial_balance_countable', 'ib', 'ib_pesos', 'ib_dolar', 'row_balance', 'row_balance_pesos', 'row_balance_dolar').order_by('%s' % date_field, 'voucher', 'amount_sign')
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -279,7 +288,14 @@ class AppliedView(LoginRequiredMixin, DateFilterBaseView):
             lookup_ib = {
                 '%s__lt' % date_field: since
             }
-            initial_balance = Applied.objects.filter(algoritmo_code=algoritmo_code).filter(**lookup_ib).aggregate(ib=Coalesce(Sum('amount_sign'),0))
+            initial_balance = Applied.objects\
+                .filter(algoritmo_code=algoritmo_code)\
+                .filter(**lookup_ib)\
+                .aggregate(
+                    ib=Coalesce(Sum('amount_sign'), 0, output_field=FloatField()),
+                    ib_pesos=Coalesce(Sum('amount_pesos'), 0, output_field=FloatField()),
+                    ib_dolar=Coalesce(Sum('amount_dolar'), 0, output_field=FloatField())
+                )
         if until and since:
             lookup_kwargs = {
                 '%s__gte' % date_field: since,
@@ -296,9 +312,14 @@ class AppliedView(LoginRequiredMixin, DateFilterBaseView):
         queryset = Applied.objects\
             .filter(algoritmo_code=algoritmo_code)\
             .filter(**lookup_kwargs)\
-            .annotate(ib=Value(initial_balance.get('ib', 0), output_field=FloatField()))\
-            .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('%s' % date_field).asc(), F('voucher').asc(), F('amount_sign').asc()]) + F('ib'))\
-            .values('expiration_date', 'issue_date', 'voucher', 'concept', 'movement_type', 'amount_sign', 'ib', 'row_balance').order_by('%s' % date_field, 'voucher', 'amount_sign')
+            .annotate(ib=Value(initial_balance.get('ib', 0), output_field=FloatField()), ib_pesos=Value(initial_balance.get('ib_pesos', 0), output_field=FloatField()), ib_dolar=Value(initial_balance.get('ib_dolar', 0), output_field=FloatField()))\
+            .annotate(row_balance=Window(Sum('amount_sign'), order_by=[F('affected_date').asc(), F('affected_voucher').asc(), F('expiration_date').asc(), F('voucher').asc(), F('amount_sign').asc()]) + F('ib'))\
+            .annotate(row_balance_pesos=Window(Sum('amount_pesos'), order_by=[F('affected_date').asc(), F('affected_voucher').asc(), F('expiration_date').asc(), F('voucher').asc(), F('amount_pesos').asc()]) + F('ib_pesos'))\
+            .annotate(row_balance_dolar=Window(Sum('amount_dolar'), order_by=[F('affected_date').asc(), F('affected_voucher').asc(), F('expiration_date').asc(), F('voucher').asc(), F('amount_dolar').asc()]) + F('ib_dolar'))\
+            .values('affected_date', 'affected_voucher', 'expiration_date', 'issue_date', 'voucher', 'concept', 'exchange_rate', 'movement_type', 'affected_balance', 'amount_sign', 'amount_pesos', 'amount_dolar', 'ib', 'ib_pesos', 'ib_dolar', 'row_balance', 'row_balance_pesos', 'row_balance_dolar')\
+            .order_by('affected_date', 'affected_voucher', 'expiration_date', 'voucher', 'amount_sign')\
+            .annotate(affected_balance_pesos=Window(Sum('amount_pesos'), partition_by=[F('affected_date'), F('affected_voucher')], order_by=[F('affected_date').asc(), F('affected_voucher').asc(), F('expiration_date').asc(), F('voucher').asc(), F('amount_pesos').asc()]))\
+            .annotate(affected_balance_dolar=Window(Sum('amount_dolar'), partition_by=[F('affected_date'), F('affected_voucher')], order_by=[F('affected_date').asc(), F('affected_voucher').asc(), F('expiration_date').asc(), F('voucher').asc(), F('amount_pesos').asc()]))
         return queryset
 
 
