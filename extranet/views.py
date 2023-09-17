@@ -13,7 +13,7 @@ from django.db.models import Q, Sum, Count, F, Window, Value, FloatField
 from django.db.models.functions import Coalesce, Replace
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views.generic import View, ListView
@@ -98,6 +98,7 @@ class AccountActivationView(View):
 
 class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
     form_class = SetPasswordForm
+    success_url = reverse_lazy('extranet')
     template_name = 'change_password.html'
 
     def form_valid(self, form):
