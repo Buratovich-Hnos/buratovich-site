@@ -336,3 +336,27 @@ class AccessLog(models.Model):
     class Meta:
         verbose_name = 'Log de Acceso'
         verbose_name_plural = 'Log de Acceso'
+
+
+class Stock(models.Model):
+    algoritmo_code = models.IntegerField(verbose_name='Cuenta Algoritmo', db_index=True)
+    name = models.CharField(max_length=150, verbose_name='Razón Social')
+    species = models.CharField(max_length=4, verbose_name='Especie')
+    harvest = models.CharField(max_length=4, verbose_name='Cosecha')
+    speciesharvest = models.CharField(max_length=8, verbose_name='Especie Cosecha', null=True)
+    deliveries = models.IntegerField(verbose_name='Entregas')
+    certificated = models.IntegerField(verbose_name='Certificado')
+    uncertified = models.IntegerField(verbose_name='Sin Certificar')
+    withdrawals = models.IntegerField(verbose_name='Retiros')
+    sales = models.IntegerField(verbose_name='Ventas')
+    settled = models.IntegerField(verbose_name='Liquidado')
+    not_settled = models.IntegerField(verbose_name='Sin Liquidar')
+    to_set = models.IntegerField(verbose_name='A Fijar')
+    balance = models.IntegerField(verbose_name='Saldo Neto')
+    trade_balance = models.FloatField(verbose_name='Saldo Comercial')
+
+    def __str__(self):
+        return f'{self.algoritmo_code} - {self.name} - {self.species} {self.harvest}'
+    class Meta:
+        verbose_name = 'Stock por Productor'
+        verbose_name_plural = 'Stock por Productor'
