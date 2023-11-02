@@ -5,7 +5,7 @@ import re
 
 from django.conf import settings
 
-from extranet.models import IncomeQuality, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte, TicketsAnalysis
+from extranet.models import IncomeQuality, Deliveries, Sales, SpeciesHarvest, Applied, CtaCte, TicketsAnalysis, Stock
 
 BATCH_SIZE = 10000
 
@@ -282,16 +282,25 @@ def importKilos():
                 Deliveries.objects.all().delete()
             if Sales.objects.exists():
                 Sales.objects.all().delete()
+            if Stock.objects.exists():
+                Stock.objects.all().delete()
             if SpeciesHarvest.objects.exists():
                 SpeciesHarvest.objects.all().delete()
             record_deliveries = []
             record_sales = []
             record_species = []
+
+            # Create a Set to store the clients ID's for the Stock calculations
+            clients = set()
+            stocks = dict()
+
             for line in file:
                 # Delete new line character
                 line = line.replace('\n', '').replace('\r', '')
                 if len(line) > 0:
                     data = re.split('\t', line)
+
+                    # Build Deliveries and Sales data
                     if data[2] == '1':
                         record_deliveries.append(
                             Deliveries(
@@ -375,9 +384,75 @@ def importKilos():
                                     tare = evalInt(data[50]),
                                 )
                             )
+                    
+                    # Build stocks by client
+                    client = evalInt(data[0])
+                    species = evalText(data[3])
+                    harvest = evalText(data[4])
+                    speciesharvest = evalText(data[3]) + evalText(data[4])
+                    key = str(client) + '-' + speciesharvest
+                    number_1116A = evalInt(data[24])
+                    net_weight = evalInt(data[49])
+                    clients.add(key)
+                    
+                    client_data = stocks.get(key)
+                    if not client_data:
+                        client_data = {
+                            'algoritmo_code': client,
+                            'name': evalText(data[1]),
+                            'species': species,
+                            'harvest': harvest,
+                            'speciesharvest': speciesharvest,
+                            'deliveries': 0,
+                            'certificated': 0,
+                            'uncertified': 0,
+                            'withdrawals': 0,
+                            'sales': 0,
+                            'settled': 0,
+                            'not_settled': 0,
+                            'to_set': 0,
+                            'balance': 0,
+                            'trade_balance': 0,
+                        }
+                        stocks[key] = client_data
+                    if data[2] == '1':
+                        stocks[key]['deliveries'] += net_weight
+                        if number_1116A == 0:
+                            stocks[key]['uncertified'] += net_weight
+                    if data[2] == '2':
+                        stocks[key]['sales'] += net_weight
+                        stocks[key]['settled'] += number_1116A
+                    if data[2] == '2B':
+                        stocks[key]['to_set'] += net_weight
+                    if data[2] == '3':
+                        stocks[key]['withdrawals'] += net_weight
 
+
+            # Create Deliveries and Sales
             Deliveries.objects.bulk_create(record_deliveries, BATCH_SIZE)
             Sales.objects.bulk_create(record_sales, BATCH_SIZE)
+
+            # Create Stocks
+            while len(clients) > 0:
+                key = clients.pop()
+                client_data = stocks[key]
+                Stock.objects.create(
+                    algoritmo_code = client_data['algoritmo_code'],
+                    name = client_data['name'],
+                    species = client_data['species'],
+                    harvest = client_data['harvest'],
+                    speciesharvest = client_data['speciesharvest'],
+                    deliveries = client_data['deliveries'],
+                    certificated = client_data['deliveries'] - client_data['uncertified'],
+                    uncertified = client_data['uncertified'],
+                    withdrawals = client_data['withdrawals'],
+                    sales = client_data['sales'],
+                    settled = client_data['settled'],
+                    not_settled = client_data['sales'] - client_data['settled'],
+                    to_set = client_data['to_set'],
+                    balance = client_data['deliveries'] - client_data['sales'] - client_data['withdrawals'],
+                    trade_balance = client_data['deliveries'] - client_data['sales'] - client_data['withdrawals'] - client_data['to_set']
+                )
 
             # Create speciesharvest table
             species_d = Deliveries.objects.values('algoritmo_code', 'species', 'harvest', 'speciesharvest', 'species_description').order_by('-harvest','species').distinct()
