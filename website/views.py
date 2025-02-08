@@ -1,5 +1,8 @@
 import json
 
+from itertools import groupby
+from operator import itemgetter
+
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView
 from django.views.defaults import page_not_found, server_error
@@ -16,6 +19,8 @@ from website.models import RainDetail
 from website.models import Careers
 
 from website.utils import DownloadCSVBaseClass
+
+
 
 
 def handler404(request, exception):
@@ -100,8 +105,14 @@ class HistoricRainView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['months'] = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
         # Filter City = 1 only por Arrecifes
-        rain = RainDetail.objects.filter(city=1).annotate(month=ExtractMonth('rain'), year=ExtractYear('rain')).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
-        context['rain'] = rain
+        all_months = list(range(1, 13))
+        grouped_rain_by_year = []
+        for key, group in groupby(rain, key=itemgetter('year')):
+            months = list(group)
+            existing_months = {month['month']: month for month in months}
+            complete_months = [{'month': m, 'year': key, 'mmsum': existing_months.get(m, {'mmsum': 0})['mmsum']} for m in all_months]
+            grouped_rain_by_year.append({'year': key, 'month': complete_months})
+        context['rain'] = grouped_rain_by_year
         return context
 
 
