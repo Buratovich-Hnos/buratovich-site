@@ -105,6 +105,7 @@ class HistoricRainView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['months'] = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
         # Filter City = 1 only por Arrecifes
+        rain = RainDetail.objects.filter(city=1).annotate(month=ExtractMonth('rain'), year=ExtractYear('rain')).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
         all_months = list(range(1, 13))
         grouped_rain_by_year = []
         for key, group in groupby(rain, key=itemgetter('year')):
