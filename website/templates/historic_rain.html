@@ -4,203 +4,195 @@
 {% load l10n %}
 {% load complete_tablecol %}
 {% load complete_tablerow %}
-{% load rain_average %}
+{% load rain_average%}
 {% load rain_total %}
-
-{% block title %}Buratovich Hnos. - Registro Historico de Lluvias{% endblock %}
-
+{% block title %}
+  Buratovich Hnos. - Registro Historico
+  de Lluvias
+{% endblock %}
 {% block language %}
-	{% include 'language.html' %}
-{% endblock %}
-
+  {% include 'language.html' %}
+{%endblock %}
 {% block path %}
-<div class="path maxwidth">
-	<div class="path-container">
-		{% if user.is_authenticated %}
-			<div class="hi">Bienvenido, <span class="customer-name">{{user.userinfo.company_name}}</span></div>
-		{% endif %}
-	</div>
-	<div class="path-container">
-		<div class="route"><a href="/">Home</a> <span class="chevron">></span> <span class="current">Historico de Lluvias</span></div>
-	</div>
-</div>
-{% endblock %}
+  <div class="path maxwidth">
+    <div class="path-container">
+      {% if user.is_authenticated %}
+        <div class="hi">
+          Bienvenido,
+          <span class="customer-name">{{user.userinfo.company_name}}</span>
+        </div>
+      {% endif %}
+    </div>
+    <div class="path-container">
+      <div class="route">
+        <a href="/">Home</a> <span class="chevron">></span>
+        <span class="current">Historico de Lluvias</span>
+      </div>
+    </div>
+  </div>
+{% endblock %} {% block content %}
+  <section id="historic-rain" class="maxwidth">
+    <h2>Registro Histórico de Lluvias en Arrecifes</h2>
 
+    <div class="export-data">
+      <button>
+        <a href="{% url 'download_rain' %}"
+        ><i class="fa fa-table" aria-hidden="true"></i> Exportar CSV</a
+          >
+        </button>
+      </div>
 
-{% block content %}
-<section id="historic-rain" class="maxwidth">
-	<h2>Registro Histórico de Lluvias en Arrecifes</h2>
+      <table class="data-table complete">
+        <thead>
+          <tr>
+            <th>AÑO</th>
+            <th>Ene</th>
+            <th>Feb</th>
+            <th>Mar</th>
+            <th>Abr</th>
+            <th>May</th>
+            <th>Jun</th>
+            <th>Jul</th>
+            <th>Ago</th>
+            <th>Sep</th>
+            <th>Oct</th>
+            <th>Nov</th>
+            <th>Dic</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for year in rain %}
+            <tr>
+              <td class="center">{{year.year}}</td>
+              {% for month in year.month %} 
+              {% if not month.empty%}
+                <td id="{{month.month}}">{{month.mmsum}}</td>
+              {% else %}
+                <td class="right" id="{{month.month}}"></td>
+              {%endif%}
 
-	<div class="export-data">
-		<button>
-			<a href="{% url 'download_rain' %}"><i class="fa fa-table" aria-hidden="true"></i> Exportar CSV</a>
-		</button>
-	</div>
+              {% endfor %} {% get_rain_total year.month as total %}
+              <td class="right total" id="total">
+                {{total|floatformat:2|intcomma }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
-	<table class="data-table complete">
-		<thead>
-			<tr>
-				<th>AÑO</th>
-				<th>Ene</th>
-				<th>Feb</th>
-				<th>Mar</th>
-				<th>Abr</th>
-				<th>May</th>
-				<th>Jun</th>
-				<th>Jul</th>
-				<th>Ago</th>
-				<th>Sep</th>
-				<th>Oct</th>
-				<th>Nov</th>
-				<th>Dic</th>
-				<th>Total</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% regroup rain by year as year_by_year %}
-			{% for year in year_by_year %}
-				<tr>
-					<td class="center">{{year.grouper|unlocalize}}</td>
-					{% regroup year.list by month as month_by_month %}
-					{% for month in month_by_month %}
-						{% for m in month.list %}
-							<td class="right">{{m.mmsum}}</td>
-						{% endfor %}
-					{% endfor %}
-					{% if year.list|length < 12 %}
-						{% complete_tablecol year.list|length 12 as cols %}
-						{{cols|safe}}
-					{% endif %}
-					{% get_rain_total year.list as total %}
-					<td class="right total">{{total|floatformat:2|intcomma}}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+      <table class="data-table partial">
+        <thead>
+          <tr>
+            <th>AÑO</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for year in rain %}
+            <tr>
+              <td class="center">{{year.year}}</td>
+              {% get_rain_total year.month as total %}
+              <td class="right total">{{total|floatformat:2|intcomma}}</td>
+              <td class="center">
+                <a href="#" class="show-detail">
+                  <i class="fa fa-search-plus" aria-hidden="true"></i> Detalle
+                </a>
+                <a href="#" class="hide-detail hide-btn">
+                  <i class="fa fa-search-minus" aria-hidden="true"></i> Detalle
+                </a>
+              </td>
+            </tr>
+            <tr class="detail">
+              <td colspan="12">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Ene</th>
+                      <th>Feb</th>
+                      <th>Mar</th>
+                      <th>Abr</th>
+                      <th>May</th>
+                      <th>Jun</th>
+                      <th>Jul</th>
+                      <th>Ago</th>
+                      <th>Sep</th>
+                      <th>Oct</th>
+                      <th>Nov</th>
+                      <th>Dic</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      {% for month in year.month %}
+                        {% if not month.empty%}
+                          <td class="right" id="{{month.month}}">{{month.mmsum}}</td>
+                        {% else %}
+                         <td id="{{month.month}}"></td>
+                        {%endif%}
+                      {% endfor %}
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
-	<table class="data-table partial">
-		<thead>
-			<tr>
-				<th>AÑO</th>
-				<th>Total</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% regroup rain by year as year_by_year %}
-			{% for year in year_by_year %}
-				<tr>
-					<td class="center">{{year.grouper|unlocalize}}</td>
-					{% get_rain_total year.list as total %}
-					<td class="right total">{{total|floatformat:2|intcomma}}</td>
-					<td class="center">
-						<a href="#" class="show-detail">
-							<i class="fa fa-search-plus" aria-hidden="true"></i> Detalle
-						</a>
-						<a href="#" class="hide-detail hide-btn">
-							<i class="fa fa-search-minus" aria-hidden="true"></i> Detalle
-						</a>
-					</td>
-				</tr>
-				<tr class="detail">
-					<td colspan="12">
-						<table class="data-table">
-							<thead>
-								<tr>
-									<th>Ene</th>
-									<th>Feb</th>
-									<th>Mar</th>
-									<th>Abr</th>
-									<th>May</th>
-									<th>Jun</th>
-									<th>Jul</th>
-									<th>Ago</th>
-									<th>Sep</th>
-									<th>Oct</th>
-									<th>Nov</th>
-									<th>Dic</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									{% regroup year.list by month as month_by_month %}
-									{% for month in month_by_month %}
-										{% for m in month.list %}
-											<td class="right">{{m.mmsum}}</td>
-										{% endfor %}
-									{% endfor %}
-									{% if year.list|length < 12 %}
-										{% complete_tablecol year.list|length 12 as cols %}
-										{{cols|safe}}
-									{% endif %}
-								</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<table class="data-table responsive">
-		<thead>
-			<tr>
-				<th>AÑO</th>
-				<th>Total</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% regroup rain by year as year_by_year %}
-			{% for year in year_by_year %}
-				<tr>
-					<td class="center">{{year.grouper|unlocalize}}</td>
-					{% get_rain_total year.list as total %}
-					<td class="right total">{{total|floatformat:2|intcomma}}</td>
-					<td class="center">
-						<a href="#" class="show-detail">
-							<i class="fa fa-search-plus" aria-hidden="true"></i> Detalle
-						</a>
-						<a href="#" class="hide-detail hide-btn">
-							<i class="fa fa-search-minus" aria-hidden="true"></i> Detalle
-						</a>
-					</td>
-				</tr>
-				<tr class="detail">
-					<td colspan="12">
-						<table class="data-table">
-							<thead>
-								<tr>
-									<th>Mes</th>
-									<th>mm</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% regroup year.list by month as month_by_month %}
-								{% for month in month_by_month %}
-									{% for m in month.list %}
-										<tr>
-											{% for mn in months %}
-												{% with index=forloop.counter %}
-												{% if index == m.month %}
-													<td>{{mn}}</td>
-													<td class="right">{{m.mmsum}}</td>
-												{% endif %}
-												{% endwith %}
-											{% endfor %}
-										</tr>
-									{% endfor %}
-								{% endfor %}
-								{% if year.list|length < 12 %}
-									{% complete_tablerow year.list|length 2 months as rows %}
-									{{rows|safe}}
-								{% endif %}
-							</tbody>
-						</table>
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</section>
+      <table class="data-table responsive">
+        <thead>
+          <tr>
+            <th>AÑO</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for year in rain %}
+            <tr>
+              <td class="center">{{year.year}}</td>
+              {% get_rain_total year.month as total %}
+              <td class="right total">{{total|floatformat:2|intcomma}}</td>
+              <td class="center">
+                <a href="#" class="show-detail">
+                  <i class="fa fa-search-plus" aria-hidden="true"></i> Detalle
+                </a>
+                <a href="#" class="hide-detail hide-btn">
+                  <i class="fa fa-search-minus" aria-hidden="true"></i> Detalle
+                </a>
+              </td>
+            </tr>
+            <tr class="detail">
+              <td colspan="12">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Mes</th>
+                      <th>mm</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for month in year.month %}
+                      <tr>
+                        {% with index=forloop.counter %} {% if index == month.month %}
+                          
+                          <td>{{month.month}}</td>
+                          {% if not month.empty%}
+                            <td class="right" id="{{month.month}}">{{month.mmsum}}</td>
+                          {% else %}
+                            <td id="{{month.month}}"></td>
+                          {%endif%}
+                        {% endif %} {% endwith %}
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
 {% endblock %}
