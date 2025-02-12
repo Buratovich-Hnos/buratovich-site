@@ -65,11 +65,16 @@
           {% for year in rain %}
             <tr>
               <td>{{year.year}}</td>
-              {% for month in year.month %} {%if month.mmsum != 0 %}
-                <td id="{{month.month}}">{{month.mmsum}}</td>
-              {% endif %} {%if month.mmsum == 0 %}
-                <td id="{{month.month}}"></td>
-              {% endif %} {% endfor %} {% get_rain_total year.month as total %}
+              {% for month in year.month %} 
+
+              {%if current_year == year.year and month.month > current_month  %}
+              <td id="{{month.month}}"></td>
+              {% else %}
+              <td id="{{month.month}}">{{month.mmsum}}</td>
+              {%endif%}
+
+              
+              {% endfor %} {% get_rain_total year.month as total %}
               <td class="right total" id="total">
                 {{total|floatformat:2|intcomma }}
               </td>
@@ -123,8 +128,12 @@
                   <tbody>
                     <tr>
                       {% for month in year.month %}
-                        <td class="right">{{month.mmsum}}</td>
-                      {% endfor %}
+                        {%if current_year == year.year and month.month > current_month  %}
+                          <td id="{{month.month}}"></td>
+                        {% else %}
+                          <td id="{{month.month}}">{{month.mmsum}}</td>
+                        {%endif%}
+                        {% endfor %}
                     </tr>
                   </tbody>
                 </table>
@@ -170,9 +179,13 @@
                     {% for month in year.month %}
                       <tr>
                         {% with index=forloop.counter %} {% if index == month.month %}
-
+                          
                           <td>{{month.month}}</td>
-                          <td class="right">{{month.mmsum}}</td>
+                          {%if current_year == year.year and month.month > current_month  %}
+                            <td id="{{month.month}}"></td>
+                          {% else %}
+                            <td id="{{month.month}}">{{month.mmsum}}</td>
+                          {%endif%}
                         {% endif %} {% endwith %}
                       </tr>
                     {% endfor %}
