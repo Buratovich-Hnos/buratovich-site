@@ -67,7 +67,7 @@
               <td class="center">{{year.year}}</td>
               {% for month in year.month %} 
               {% if not month.empty%}
-                <td id="{{month.month}}">{{month.mmsum}}</td>
+                <td class="right" id="{{month.month}}">{{month.mmsum}}</td>
               {% else %}
                 <td class="right" id="{{month.month}}"></td>
               {%endif%}
