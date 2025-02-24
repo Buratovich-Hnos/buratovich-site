@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(__name__)
+
 from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_save
@@ -42,9 +45,9 @@ def postSave_User(sender, instance, created, **kwargs):
             mail.content_subtype = 'html'
             mail.send()
         except BadHeaderError:
-            print('Invalid header found.')
+            logger.debug('Invalid header found.')
         except smtplib.SMTPException:
-            print('Error: Unable to send email')
+            logger.debug('Error: Unable to send email')
 
 
 # Signal to send before user creation

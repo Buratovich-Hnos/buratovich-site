@@ -239,15 +239,17 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
             'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'when': 'midnight',
+            'interval': 1,
         },
     },
     'loggers': {
         'django': {
             'handlers': ['file'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': True,
         },
     },
