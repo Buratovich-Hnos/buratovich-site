@@ -2,6 +2,7 @@ import json
 
 from itertools import groupby
 from operator import itemgetter
+from datetime import datetime
 
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView
@@ -108,12 +109,19 @@ class HistoricRainView(TemplateView):
         rain = RainDetail.objects.filter(city=1).annotate(month=ExtractMonth('rain'), year=ExtractYear('rain')).values('month', 'year').annotate(mmsum=Sum('mm')).order_by('-year', 'month')
         all_months = list(range(1, 13))
         grouped_rain_by_year = []
+
         for key, group in groupby(rain, key=itemgetter('year')):
             months = list(group)
             existing_months = {month['month']: month for month in months}
-            complete_months = [{'month': m, 'year': key, 'mmsum': existing_months.get(m, {'mmsum': 0})['mmsum']} for m in all_months]
+            complete_months = [{'month': m, 'year': key, 'mmsum': existing_months.get(m, {'mmsum':0.0})['mmsum'], 'empty': existing_months.get(m) is None} for m in all_months]
             grouped_rain_by_year.append({'year': key, 'month': complete_months})
+
         context['rain'] = grouped_rain_by_year
+        
+        
+        now = datetime.now()
+        context['current_year'] = now.year
+        context['current_month'] = now.month
         return context
 
 
