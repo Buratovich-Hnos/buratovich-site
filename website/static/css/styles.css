@@ -247,9 +247,11 @@ Author URL: http://luciano.im
 }
 .data-table tr:nth-child(odd) td {
   background: #ebebeb;
+  color: #4e5066;
 }
 .data-table tr:nth-child(odd):hover td {
   background: #4e5066;
+  color:white;
 }
 video::-webkit-media-controls {
   overflow: hidden !important;
